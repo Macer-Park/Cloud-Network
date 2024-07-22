@@ -103,8 +103,8 @@ Resources:
           sed -i "s/^PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
           sed -i "s/^#PermitRootLogin yes/PermitRootLogin yes/g" /etc/ssh/sshd_config
           service sshd restart
-          wget https://github.com/Macer-Park/macer.github.io/blob/4292b03d7b6767d7deb7bc3bdcc602b6220071b5/test.jpg
-          wget -P /usr/share/nginx/html/ hhttps://github.com/Macer-Park/macer.github.io/blob/4292b03d7b6767d7deb7bc3bdcc602b6220071b5/test.jpg
+          wget https://raw.githubusercontent.com/Macer-Park/macer.github.io/main/test.jpg
+          wget -P /usr/share/nginx/html/ https://raw.githubusercontent.com/Macer-Park/macer.github.io/main/test.jpg
           amazon-linux-extras install -y nginx1.12
           echo "<head><link rel='icon' href='data:;base64,iVBORw0KGgo='></head><h1>Macer CloudFront Test!!</h1><img src='test.jpg'>" > /usr/share/nginx/html/index.html
           systemctl start nginx
