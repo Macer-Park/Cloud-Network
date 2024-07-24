@@ -28,11 +28,11 @@ To get started with this repository, you will need to clone it to your local mac
 ### Installation
 1. Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/ans-c01-preparation.git
+    git clone https://github.com/Macer-Park/macer.github.io.git
     ```
 2. Navigate to the project directory:
     ```bash
-    cd ans-c01-preparation
+    cd macer.github.io
     ```
 3. Install the required dependencies:
     ```bash
