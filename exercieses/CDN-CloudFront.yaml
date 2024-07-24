@@ -1,0 +1,111 @@
+Parameters:
+  LatestAmiId:
+    Description: (DO NOT CHANGE)
+    Type: "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>"
+    Default: "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2"
+    AllowedValues:
+      - /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+
+Resources:
+  SaVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: SA-VPC
+
+  SaIGW:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: SA-IGW
+
+  SaIGWAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      InternetGatewayId: !Ref SaIGW
+      VpcId: !Ref SaVPC
+
+  SaPublicRT:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref SaVPC
+      Tags:
+        - Key: Name
+          Value: SA-Public-RT
+
+  SaDefaultPublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: SaIGWAttachment
+    Properties:
+      RouteTableId: !Ref SaPublicRT
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref SaIGW
+
+  SaPublicSN1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref SaVPC
+      AvailabilityZone: !Select [0, !GetAZs ""]
+      CidrBlock: 10.0.0.0/24
+      Tags:
+        - Key: Name
+          Value: SA-Public-SN-1
+
+  SaPublicSNRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref SaPublicRT
+      SubnetId: !Ref SaPublicSN1
+
+  WEBSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable HTTP access via port 80 and SSH access via port 22
+      VpcId: !Ref SaVPC
+      Tags:
+        - Key: Name
+          Value: WEBSG
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: "80"
+          ToPort: "80"
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: "22"
+          ToPort: "22"
+          CidrIp: 0.0.0.0/0
+
+  SaEC2:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: !Ref LatestAmiId
+      Tags:
+        - Key: Name
+          Value: SA-EC2
+      NetworkInterfaces:
+        - DeviceIndex: 0
+          SubnetId: !Ref SaPublicSN1
+          GroupSet:
+            - !Ref WEBSG
+          AssociatePublicIpAddress: true
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          (
+          echo "qwe123"
+          echo "qwe123"
+          ) | passwd --stdin root
+          sed -i "s/^PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
+          sed -i "s/^#PermitRootLogin yes/PermitRootLogin yes/g" /etc/ssh/sshd_config
+          service sshd restart
+          wget https://raw.githubusercontent.com/Macer-Park/macer.github.io/main/test.jpg
+          wget -P /usr/share/nginx/html/ https://raw.githubusercontent.com/Macer-Park/macer.github.io/main/test.jpg
+          amazon-linux-extras install -y nginx1.12
+          echo "<head><link rel='icon' href='data:;base64,iVBORw0KGgo='></head><h1>Macer CloudFront Test!!</h1><img src='test.jpg'>" > /usr/share/nginx/html/index.html
+          systemctl start nginx
+          systemctl enable nginx
