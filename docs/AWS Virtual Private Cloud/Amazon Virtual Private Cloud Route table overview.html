@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+    <html xmlns="http://www.w3.org/1999/xhtml" lang="ko-KR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>라우팅 테이블 구성 - Amazon Virtual Private Cloud</title><meta name="viewport" content="width=device-width,initial-scale=1" /><meta name="assets_root" content="/assets" /><meta name="target_state" content="VPC_Route_Tables" /><meta name="default_state" content="VPC_Route_Tables" /><link rel="icon" type="image/ico" href="/assets/images/favicon.ico" /><link rel="shortcut icon" type="image/ico" href="/assets/images/favicon.ico" /><link rel="canonical" href="https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/VPC_Route_Tables.html" /><meta name="description" content="네트워크 트래픽이 전달되는 위치를 제어하도록 라우팅 테이블을 구성합니다." /><meta name="deployment_region" content="IAD" /><meta name="product" content="Amazon Virtual Private Cloud" /><meta name="guide" content="사용 설명서" /><meta name="abstract" content="Amazon VPC를 사용하여 AWS 클라우드에서 논리적으로 격리된 영역인 가상 네트워크에서 AWS 리소스를 시작할 수 있습니다." /><meta name="guide-locale" content="ko_kr" /><meta name="tocs" content="toc-contents.json" /><link rel="canonical" href="https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/VPC_Route_Tables.html" /><link rel="alternative" href="https://docs.aws.amazon.com/id_id/vpc/latest/userguide/VPC_Route_Tables.html" hreflang="id-id" /><link rel="alternative" href="https://docs.aws.amazon.com/id_id/vpc/latest/userguide/VPC_Route_Tables.html" hreflang="id" /><link rel="alternative" href="https://docs.aws.amazon.com/de_de/vpc/latest/userguide/VPC_Route_Tables.html" hreflang="de-de" /><link rel="alternative" href="https://docs.aws.amazon.com/de_de/vpc/latest/userguide/VPC_Route_Tables.html" hreflang="de" /><link rel="alternative" href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html" hreflang="en-us" /><link rel="alternative" href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html" hreflang="en" /><link rel="alternative" href="https://docs.aws.amazon.com/es_es/vpc/latest/userguide/VPC_Route_Tables.html" hreflang="es-es" /><link rel="alternative" href="https://docs.aws.amazon.com/es_es/vpc/latest/userguide/VPC_Route_Tables.html" hreflang="es" /><link rel="alternative" href="https://docs.aws.amazon.com/fr_fr/vpc/latest/userguide/VPC_Route_Tables.html" hreflang="fr-fr" /><link rel="alternative" href="https://docs.aws.amazon.com/fr_fr/vpc/latest/userguide/VPC_Route_Tables.html" hreflang="fr" /><link rel="alternative" href="https://docs.aws.amazon.com/it_it/vpc/latest/userguide/VPC_Route_Tables.html" hreflang="it-it" /><link rel="alternative" href="https://docs.aws.amazon.com/it_it/vpc/latest/userguide/VPC_Route_Tables.html" hreflang="it" /><link rel="alternative" href="https://docs.aws.amazon.com/ja_jp/vpc/latest/userguide/VPC_Route_Tables.html" hreflang="ja-jp" /><link rel="alternative" href="https://docs.aws.amazon.com/ja_jp/vpc/latest/userguide/VPC_Route_Tables.html" hreflang="ja" /><link rel="alternative" href="https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/VPC_Route_Tables.html" hreflang="ko-kr" /><link rel="alternative" href="https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/VPC_Route_Tables.html" hreflang="ko" /><link rel="alternative" href="https://docs.aws.amazon.com/pt_br/vpc/latest/userguide/VPC_Route_Tables.html" hreflang="pt-br" /><link rel="alternative" href="https://docs.aws.amazon.com/pt_br/vpc/latest/userguide/VPC_Route_Tables.html" hreflang="pt" /><link rel="alternative" href="https://docs.aws.amazon.com/zh_cn/vpc/latest/userguide/VPC_Route_Tables.html" hreflang="zh-cn" /><link rel="alternative" href="https://docs.aws.amazon.com/zh_tw/vpc/latest/userguide/VPC_Route_Tables.html" hreflang="zh-tw" /><link rel="alternative" href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html" hreflang="x-default" /><meta name="feedback-item" content="VPC" /><meta name="this_doc_product" content="Amazon Virtual Private Cloud" /><meta name="this_doc_guide" content="사용 설명서" /><script defer="" src="/assets/r/vendor4.js?version=2021.12.02"></script><script defer="" src="/assets/r/vendor3.js?version=2021.12.02"></script><script defer="" src="/assets/r/vendor1.js?version=2021.12.02"></script><script defer="" src="/assets/r/awsdocs-common.js?version=2021.12.02"></script><script defer="" src="/assets/r/awsdocs-doc-page.js?version=2021.12.02"></script><link href="/assets/r/vendor4.css?version=2021.12.02" rel="stylesheet" /><link href="/assets/r/awsdocs-common.css?version=2021.12.02" rel="stylesheet" /><link href="/assets/r/awsdocs-doc-page.css?version=2021.12.02" rel="stylesheet" /><script async="" id="awsc-panorama-bundle" type="text/javascript" src="https://prod.pa.cdn.uis.awsstatic.com/panorama-nav-init.js" data-config="{'appEntity':'aws-documentation','region':'us-east-1','service':'vpc'}"></script><meta id="panorama-serviceSubSection" value="사용 설명서" /><meta id="panorama-serviceConsolePage" value="라우팅 테이블 구성" /></head><body class="awsdocs awsui"><div class="awsdocs-container"><awsdocs-header></awsdocs-header><awsui-app-layout id="app-layout" class="awsui-util-no-gutters" ng-controller="ContentController as $ctrl" header-selector="awsdocs-header" navigation-hide="false" navigation-width="$ctrl.navWidth" navigation-open="$ctrl.navOpen" navigation-change="$ctrl.onNavChange($event)" tools-hide="$ctrl.hideTools" tools-width="$ctrl.toolsWidth" tools-open="$ctrl.toolsOpen" tools-change="$ctrl.onToolsChange($event)"><div id="guide-toc" dom-region="navigation"><awsdocs-toc></awsdocs-toc></div><div id="main-column" dom-region="content" tabindex="-1"><awsdocs-view class="awsdocs-view"><div id="awsdocs-content"><head><title>라우팅 테이블 구성 - Amazon Virtual Private Cloud</title><meta name="pdf" content="vpc-ug.pdf#VPC_Route_Tables" /><meta name="rss" content="amazon-vpc-release-notes.rss" /><meta name="forums" content="http://forums.aws.amazon.com/forum.jspa?forumID=58" /><meta name="feedback" content="https://docs.aws.amazon.com/forms/aws-doc-feedback?hidden_service_name=VPC&amp;topic_url=https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/VPC_Route_Tables.html" /><meta name="feedback-yes" content="feedbackyes.html?topic_url=https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/VPC_Route_Tables.html" /><meta name="feedback-no" content="feedbackno.html?topic_url=https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/VPC_Route_Tables.html" /><meta name="keywords" content="VPC,Amazon VPC,network,라우팅 테이블,인터넷 게이트웨이,서브넷,NAT,라우팅,대상,destination" /><script type="application/ld+json">
+{
+    "@context" : "https://schema.org",
+    "@type" : "BreadcrumbList",
+    "itemListElement" : [
+      {
+        "@type" : "ListItem",
+        "position" : 1,
+        "name" : "AWS",
+        "item" : "https://aws.amazon.com"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 2,
+        "name" : "Amazon VPC",
+        "item" : "https://docs.aws.amazon.com/vpc/index.html"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 3,
+        "name" : "사용 설명서",
+        "item" : "https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 4,
+        "name" : "VPC의 서브넷",
+        "item" : "https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/configure-subnets.html"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 5,
+        "name" : "라우팅 테이블 구성",
+        "item" : "https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/configure-subnets.html"
+      }
+    ]
+}
+</script></head><body><div id="main"><div style="display: none"><a href="vpc-ug.pdf#VPC_Route_Tables" target="_blank" rel="noopener noreferrer" title="pdf-tooltip"></a></div><div id="breadcrumbs" class="breadcrumb"><a href="https://aws.amazon.com">AWS</a><a href="/index.html">aws-documentation</a><a href="/vpc/index.html">Amazon VPC</a><a href="what-is-amazon-vpc.html">사용 설명서</a></div><div id="page-toc-src"><a href="#route-tables-priority">라우팅 우선순위</a><a href="#disassociate-route-table-gateway">라우팅 테이블에서 게이트웨이 연결 해제</a></div><div id="main-content" class="awsui-util-container"><div id="main-col-body"><awsdocs-language-banner data-service="$ctrl.pageService"></awsdocs-language-banner><h1 class="topictitle" id="VPC_Route_Tables">라우팅 테이블 구성</h1><div class="awsdocs-page-header-container"><awsdocs-page-header></awsdocs-page-header><awsdocs-filter-selector id="awsdocs-filter-selector"></awsdocs-filter-selector></div><p><em>라우팅 테이블</em>에는 서브넷 또는 게이트웨이의 네트워크 트래픽이 전송되는 위치를 결정하는 <em>라우팅</em>이라는 규칙 세트가 포함되어 있습니다.</p><div class="highlights"><h6>내용</h6><ul><li><a href="./RouteTables.html">라우팅 테이블 개념</a></li><li><a href="./subnet-route-tables.html">서브넷 라우팅 테이블</a></li><li><a href="./gateway-route-tables.html">게이트웨이 라우팅 테이블</a></li><li><a href="#route-tables-priority">라우팅 우선순위</a></li><li><a href="./route-table-options.html">라우팅 옵션 예</a></li><li><a href="./WorkWithRouteTables.html">서브넷의 라우팅 테이블 변경</a></li><li><a href="./Route_Replacing_Main_Table.html">기본 라우팅 테이블 교체</a></li><li><a href="./associate-route-table-gateway.html">게이트웨이 라우팅 테이블을 사용하여 VPC로 들어오는 트래픽 제어</a></li><li><a href="#disassociate-route-table-gateway">라우팅 테이블에서 게이트웨이 연결 해제</a></li><li><a href="./replace-local-route-target.html">로컬 경로의 대상 교체 또는 복원</a></li><li><a href="./route-table-routes-troubleshoot.html">연결 문제 해결</a></li></ul></div>
+        <h2 id="route-tables-priority">라우팅 우선순위</h2>
+        <p>일반적으로 트래픽은 트래픽과 일치하는 가장 구체적인 경로를 사용하여 전달됩니다. 이를 가장 긴 접두사 일치라고 합니다. 라우팅 테이블에 겹치거나 일치하는 경로가 있는 경우 추가적인 규칙이 적용됩니다.</p>
+      <div class="highlights" id="inline-topiclist"><h6>내용</h6><ul><li><a href="#route-table-longest-prefix-match">가장 긴 접두사 일치</a></li><li><a href="#route-table-priority-propagated-routes">경로 우선 순위 및 전파 경로</a></li><li><a href="#route-priority-managed-prefix-list">라우팅 우선 순위 및 접두사 목록</a></li></ul></div>
+       
+          <h3 id="route-table-longest-prefix-match">가장 긴 접두사 일치</h3>
+          <p>IPv4 및 IPv6 주소 또는 CIDR 블록에 대한 라우팅은 서로 독립적입니다. IPv4 트래픽 또는 IPv6 트래픽과 일치하는 가장 구체적인 라우팅을 사용하여 트래픽 라우팅 방법을 결정합니다.</p>
+          <p>다음 예의 서브넷 라우팅 테이블에는 인터넷 게이트웨이를 가리키는 IPv4 인터넷 트래픽(<code class="code">0.0.0.0/0</code>)에 대한 경로와 피어링 연결(<code class="code">172.31.0.0/16</code>)을 가리키는 <code class="code">pcx-11223344556677889</code> IPv4 트래픽에 대한 경로가 있습니다. <code class="code">172.31.0.0/16</code> IP 주소 범위로 향하는 서브넷의 모든 트래픽은 피어링 연결을 사용합니다. 이 라우팅은 인터넷 게이트웨이에 대한 라우팅보다 더 구체적이기 때문입니다. VPC(<code class="code">10.0.0.0/16</code>) 내에서 대상으로 전송되는 트래픽은 <code class="code">local</code> 라우팅이 적용되며 따라서 VPC 내에서 라우팅됩니다. 서브넷으로부터의 다른 모든 트래픽은 인터넷 게이트웨이를 사용합니다.</p>
+          <div class="table-container"><div class="table-contents"><table id="w357aac15c19c13b7b7"><thead>
+                      <tr>
+                          <th>대상 주소</th>
+                          <th>대상</th>
+                      </tr>
+                  </thead>
+                      <tr>
+                          <td tabindex="-1">10.0.0.0/16</td>
+                          <td tabindex="-1">로컬</td>
+                      </tr>
+                      <tr>
+                          <td tabindex="-1">172.31.0.0/16</td>
+                          <td tabindex="-1">pcx-11223344556677889</td>
+                      </tr>
+                      <tr>
+                          <td tabindex="-1">0.0.0.0/0</td>
+                          <td tabindex="-1">igw-12345678901234567</td>
+                      </tr>
+                  </table></div></div>
+       
+       
+          <h3 id="route-table-priority-propagated-routes">경로 우선 순위 및 전파 경로</h3>
+          <p>가상 프라이빗 게이트웨이를 VPC에 연결하고 서브넷 라우팅 테이블에서 라우팅 전파를 활성화한 경우, Site-to-Site VPN 연결을 나타내는 라우팅은 라우팅 테이블에 전파된 라우팅으로 자동으로 나타납니다.</p>
+          <p>전파 경로의 대상이 정적 경로와 겹치는 경우 정적 경로가 우선 적용됩니다.</p>
+          <p>전파 경로의 대상이 정적 경로의 대상과 동일한 경우 대상이 다음 중 하나라면 정적 경로가 우선 적용됩니다.</p>
+          <div class="itemizedlist">
+               
+               
+               
+               
+               
+               
+               
+               
+          <ul class="itemizedlist"><li class="listitem">
+                  <p>인터넷 게이트웨이</p>
+              </li><li class="listitem">
+                  <p>NAT 게이트웨이</p>
+              </li><li class="listitem">
+                  <p>네트워크 인터페이스</p>
+              </li><li class="listitem">
+                  <p>인스턴스 ID</p>
+              </li><li class="listitem">
+                  <p>게이트웨이 VPC 엔드포인트</p>
+              </li><li class="listitem">
+                  <p>전송 게이트웨이</p>
+              </li><li class="listitem">
+                  <p>VPC 피어링 연결</p>
+              </li><li class="listitem">
+                  <p>Gateway Load Balancer 엔드포인트</p>
+              </li></ul></div>
+          <p>자세한 내용은 <em>AWS Site-to-Site VPN 사용 설명서</em>의 <a href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPNRoutingTypes.html#vpn-route-priority">라우팅 테이블 및 VPN 경로 우선 순위</a>를 참조하세요.</p>
+          <p>예를 들어 다음 라우팅 테이블에는 인터넷 게이트웨이에 대한 정적 경로와 가상 프라이빗 게이트웨이에 대한 전파 경로가 있습니다. 두 라우팅은 모두 대상 주소가 <code class="code">172.31.0.0/24</code>입니다. 인터넷 게이트웨이에 대한 정적 경로가 우선 적용되므로 대상이 <code class="code">172.31.0.0/24</code>인 모든 트래픽이 인터넷 게이트웨이로 라우팅됩니다.</p>
+          <div class="table-container"><div class="table-contents"><table id="w357aac15c19c13b9c15"><thead>
+                      <tr>
+                          <th>대상 주소</th>
+                          <th>대상</th>
+                          <th>전파</th>
+                      </tr>
+                  </thead>
+                      <tr>
+                          <td tabindex="-1">10.0.0.0/16</td>
+                          <td tabindex="-1">로컬</td>
+                          <td tabindex="-1">아니요</td>
+                      </tr>
+                      <tr>
+                          <td tabindex="-1">172.31.0.0/24</td>
+                          <td tabindex="-1">vgw-11223344556677889</td>
+                          <td tabindex="-1">예</td>
+                      </tr>
+                      <tr>
+                          <td tabindex="-1">172.31.0.0/24</td>
+                          <td tabindex="-1">igw-12345678901234567</td>
+                          <td tabindex="-1">아니요</td>
+                      </tr>
+                  </table></div></div>
+       
+       
+            <h3 id="route-priority-managed-prefix-list">라우팅 우선 순위 및 접두사 목록</h3>
+            <p>라우팅 테이블이 접두사 목록을 참조하는 경우 다음 규칙이 적용됩니다.</p>
+            <div class="itemizedlist">
+                 
+                 
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>라우팅 테이블에 접두사 목록이 있는 정적 경로와 겹치는 CIDR 블록 대상 정적 경로가 포함된 경우, CIDR 블록이 있는 정적 경로가 우선 적용됩니다.</p>
+                </li><li class="listitem">
+                    <p>라우팅 테이블에 접두사 목록을 참조하는 라우팅과 일치하는 전파된 라우팅이 포함된 경우 접두사 목록을 참조하는 라우팅이 먼저 적용됩니다. 겹치는 경로의 경우 전파된 경로, 정적 경로 또는 접두사 목록을 참조하는 경로인지와 관계없이 보다 구체적인 경로가 항상 우선합니다.</p>
+                </li><li class="listitem">
+                    <p>라우팅 테이블이 서로 다른 대상에 겹치는 CIDR 블록이 있는 여러 접두사 목록을 참조하는 경우 우선 적용할 라우팅을 임의로 선택합니다. 그 이후에는 동일한 라우팅이 항상 우선합니다.</p>
+                </li></ul></div>
+         
+     
+          <h2 id="disassociate-route-table-gateway">라우팅 테이블에서 게이트웨이 연결 해제</h2>
+          <p>라우팅 테이블에서 인터넷 게이트웨이 또는 가상 프라이빗 게이트웨이의 연결을 해제할 수 있습니다.</p>
+          <div class="procedure"><h6>콘솔을 사용하여 게이트웨이를 라우팅 테이블과 연결하려면</h6><ol><li> <p><a href="https://console.aws.amazon.com/vpc/" rel="noopener noreferrer" target="_blank"><span>https://console.aws.amazon.com/vpc/</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a>에서 Amazon VPC 콘솔을 엽니다.</p></li><li>
+                  <p>탐색 창에서 <b>라우팅 테이블(Route Tables)</b>를 선택한 후 라우팅 테이블을 선택합니다.</p>
+              </li><li>
+                  <p><b>엣지 연결(Edge associations)</b> 탭에서 <b>엣지 연결 편집(Edit edge associations)</b>을 선택합니다.</p>
+              </li><li>
+                  <p>게이트웨이의 확인란을 선택 취소합니다.</p>
+              </li><li>
+                  <p><b>Save changes</b>(변경 사항 저장)를 선택합니다.</p>
+              </li></ol></div>
+            <div class="itemizedlist">
+                <h6>명령줄을 사용하여 라우팅 테이블에서 게이트웨이를 연결 해제하려면</h6>
+                 
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p><a href="https://docs.aws.amazon.com/cli/latest/reference/ec2/disassociate-route-table.html">disassociate-route-table</a>(AWS CLI)</p>
+                </li><li class="listitem">
+                    <p><a href="https://docs.aws.amazon.com/powershell/latest/reference/items/Unregister-EC2RouteTable.html">Unregister-EC2RouteTable</a>(AWS Tools for Windows PowerShell)</p>
+                </li></ul></div>
+      <awsdocs-copyright class="copyright-print"></awsdocs-copyright><awsdocs-thumb-feedback right-edge="{{$ctrl.thumbFeedbackRightEdge}}"></awsdocs-thumb-feedback></div><noscript><div><div><div><div id="js_error_message"><p><img src="https://d1ge0kk1l5kms0.cloudfront.net/images/G/01/webservices/console/warning.png" alt="주의" /> <strong>javascript가 브라우저에서 비활성화되거나 사용이 불가합니다.</strong></p><p>AWS 설명서를 사용하려면 Javascript가 활성화되어야 합니다. 지침을 보려면 브라우저의 도움말 페이지를 참조하십시오.</p></div></div></div></div></noscript><div id="main-col-footer" class="awsui-util-font-size-0"><div id="doc-conventions"><a target="_top" href="/general/latest/gr/docconventions.html">문서 규칙</a></div><div class="prev-next"><div id="previous" class="prev-link" accesskey="p" href="./subnet-cidr-reservation.html">서브넷 CIDR 예약</div><div id="next" class="next-link" accesskey="n" href="./RouteTables.html">라우팅 테이블 개념</div></div></div><awsdocs-page-utilities></awsdocs-page-utilities></div><div id="quick-feedback-yes" style="display: none;"><div class="title">이 페이지의 내용이 도움이 되었습니까? - 예</div><div class="content"><p>칭찬해 주셔서 감사합니다!</p><p>잠깐 시간을 내어 좋았던 부분을 알려 주시면 더 열심히 만들어 보겠습니다.</p><p><awsui-button id="fblink" rel="noopener noreferrer" target="_blank" text="feedback-tell-us" click="linkClick($event)" href="https://docs.aws.amazon.com/forms/aws-doc-feedback?hidden_service_name=VPC&amp;topic_url=https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/VPC_Route_Tables.html"></awsui-button></p></div></div><div id="quick-feedback-no" style="display: none;"><div class="title">이 페이지의 내용이 도움이 되었습니까? - 아니요</div><div class="content"><p>이 페이지에 작업이 필요하다는 점을 알려 주셔서 감사합니다. 실망시켜 드려 죄송합니다.</p><p>잠깐 시간을 내어 설명서를 향상시킬 수 있는 방법에 대해 말씀해 주십시오.</p><p><awsui-button id="fblink" rel="noopener noreferrer" target="_blank" text="feedback-tell-us" click="linkClick($event)" href="https://docs.aws.amazon.com/forms/aws-doc-feedback?hidden_service_name=VPC&amp;topic_url=https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/VPC_Route_Tables.html"></awsui-button></p></div></div></div></body></div></awsdocs-view><div class="page-loading-indicator" id="page-loading-indicator"><awsui-spinner size="large"></awsui-spinner></div></div><div id="tools-panel" dom-region="tools"><awsdocs-tools-panel id="awsdocs-tools-panel"></awsdocs-tools-panel></div></awsui-app-layout><awsdocs-cookie-banner class="doc-cookie-banner"></awsdocs-cookie-banner></div></body></html>

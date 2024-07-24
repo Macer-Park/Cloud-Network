@@ -1,0 +1,1261 @@
+<!doctype html>
+<!--[if !IE]>
+<html class="no-js non-ie" lang="en-US"
+ xmlns:fb="http://ogp.me/ns/fb#"> <![endif]-->
+<!--[if IE 7 ]>
+<html class="no-js ie7" lang="en-US"
+ xmlns:fb="http://ogp.me/ns/fb#"> <![endif]-->
+<!--[if IE 8 ]>
+<html class="no-js ie8" lang="en-US"
+ xmlns:fb="http://ogp.me/ns/fb#"> <![endif]-->
+<!--[if IE 9 ]>
+<html class="no-js ie9" lang="en-US"
+ xmlns:fb="http://ogp.me/ns/fb#"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="en-US"
+ xmlns:fb="http://ogp.me/ns/fb#"> <!--<![endif]-->
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="">
+<link rel="profile" href="http://gmpg.org/xfn/11">
+
+<title>AWS NAT Gateway에서 NAT instance로 전환하기 | asbubam&#039;s blog on 2dal.com</title>
+<meta name='robots' content='max-image-preview:large' />
+
+<!-- The SEO Framework by Sybre Waaijer -->
+<meta name="description" content="2015년 12월 NAT Gateway가 출시 된 이후로 AWS에서 매니지드 NAT Gateway를 사용할 수 있게 되었다. (서울 리전은 2016년 6월에 출시) NAT Gateway가 출시되기 전에는 NAT instance (NAT용 AMI 를 통해 생성한 EC2 instance)를&#8230;" />
+<meta property="og:image" content="https://blog.2dal.com/wp-content/uploads/2018/12/billing_info_b.png" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="AWS NAT Gateway에서 NAT instance로 전환하기 | asbubam&#039;s blog on 2dal.com" />
+<meta property="og:description" content="2015년 12월 NAT Gateway가 출시 된 이후로 AWS에서 매니지드 NAT Gateway를 사용할 수 있게 되었다. (서울 리전은 2016년 6월에 출시) NAT Gateway가 출시되기 전에는 NAT instance (NAT용 AMI 를 통해 생성한 EC2 instance)를 사용했는데 instance 유형에 따라 대역폭이 제한되고 HA를&#8230;" />
+<meta property="og:url" content="https://blog.2dal.com/2018/12/31/nat-gateway-to-nat-instance/" />
+<meta property="og:site_name" content="asbubam&#039;s blog on 2dal.com" />
+<meta property="article:published_time" content="2018-12-31T14:19+00:00" />
+<meta property="article:modified_time" content="2019-01-22T14:25+00:00" />
+<meta property="og:updated_time" content="2019-01-22T14:25+00:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="AWS NAT Gateway에서 NAT instance로 전환하기 | asbubam&#039;s blog on 2dal.com" />
+<meta name="twitter:description" content="2015년 12월 NAT Gateway가 출시 된 이후로 AWS에서 매니지드 NAT Gateway를 사용할 수 있게 되었다. (서울 리전은 2016년 6월에 출시) NAT Gateway가 출시되기 전에는 NAT instance (NAT용 AMI 를 통해 생성한 EC2 instance)를 사용했는데 instance 유형에 따라 대역폭이 제한되고 HA를&#8230;" />
+<meta name="twitter:image" content="https://blog.2dal.com/wp-content/uploads/2018/12/billing_info_b.png" />
+<link rel="canonical" href="https://blog.2dal.com/2018/12/31/nat-gateway-to-nat-instance/" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://blog.2dal.com/","name":"asbubam&#039;s blog on 2dal.com"}},{"@type":"ListItem","position":2,"item":{"@id":"https://blog.2dal.com/category/infra/","name":"infra"}},{"@type":"ListItem","position":3,"item":{"@id":"https://blog.2dal.com/2018/12/31/nat-gateway-to-nat-instance/","name":"AWS NAT Gateway\uc5d0\uc11c NAT instance\ub85c \uc804\ud658\ud558\uae30"}}]}</script>
+<meta name="google-site-verification" content="rawRlqkEDhAGxMNAyw75fgeBv1Vk12qWQ_lSrxgG6qs" />
+<!-- / The SEO Framework by Sybre Waaijer | 10.15ms meta | 0.55ms boot -->
+
+<link rel='dns-prefetch' href='//secure.gravatar.com' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel='dns-prefetch' href='//v0.wordpress.com' />
+<link rel="alternate" type="application/rss+xml" title="asbubam&#039;s blog on 2dal.com &raquo; Feed" href="https://blog.2dal.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="asbubam&#039;s blog on 2dal.com &raquo; Comments Feed" href="https://blog.2dal.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="asbubam&#039;s blog on 2dal.com &raquo; AWS NAT Gateway에서 NAT instance로 전환하기 Comments Feed" href="https://blog.2dal.com/2018/12/31/nat-gateway-to-nat-instance/feed/" />
+		<!-- This site uses the Google Analytics by ExactMetrics plugin v7.11.0 - Using Analytics tracking - https://www.exactmetrics.com/ -->
+							<script
+				src="//www.googletagmanager.com/gtag/js?id=UA-109511635-1"  data-cfasync="false" data-wpfc-render="false" type="text/javascript" async></script>
+			<script data-cfasync="false" data-wpfc-render="false" type="text/javascript">
+				var em_version = '7.11.0';
+				var em_track_user = true;
+				var em_no_track_reason = '';
+				
+								var disableStrs = [
+															'ga-disable-UA-109511635-1',
+									];
+
+				/* Function to detect opted out users */
+				function __gtagTrackerIsOptedOut() {
+					for (var index = 0; index < disableStrs.length; index++) {
+						if (document.cookie.indexOf(disableStrs[index] + '=true') > -1) {
+							return true;
+						}
+					}
+
+					return false;
+				}
+
+				/* Disable tracking if the opt-out cookie exists. */
+				if (__gtagTrackerIsOptedOut()) {
+					for (var index = 0; index < disableStrs.length; index++) {
+						window[disableStrs[index]] = true;
+					}
+				}
+
+				/* Opt-out function */
+				function __gtagTrackerOptout() {
+					for (var index = 0; index < disableStrs.length; index++) {
+						document.cookie = disableStrs[index] + '=true; expires=Thu, 31 Dec 2099 23:59:59 UTC; path=/';
+						window[disableStrs[index]] = true;
+					}
+				}
+
+				if ('undefined' === typeof gaOptout) {
+					function gaOptout() {
+						__gtagTrackerOptout();
+					}
+				}
+								window.dataLayer = window.dataLayer || [];
+
+				window.ExactMetricsDualTracker = {
+					helpers: {},
+					trackers: {},
+				};
+				if (em_track_user) {
+					function __gtagDataLayer() {
+						dataLayer.push(arguments);
+					}
+
+					function __gtagTracker(type, name, parameters) {
+						if (!parameters) {
+							parameters = {};
+						}
+
+						if (parameters.send_to) {
+							__gtagDataLayer.apply(null, arguments);
+							return;
+						}
+
+						if (type === 'event') {
+							
+														parameters.send_to = exactmetrics_frontend.ua;
+							__gtagDataLayer(type, name, parameters);
+													} else {
+							__gtagDataLayer.apply(null, arguments);
+						}
+					}
+
+					__gtagTracker('js', new Date());
+					__gtagTracker('set', {
+						'developer_id.dNDMyYj': true,
+											});
+															__gtagTracker('config', 'UA-109511635-1', {"forceSSL":"true"} );
+										window.gtag = __gtagTracker;										(function () {
+						/* https://developers.google.com/analytics/devguides/collection/analyticsjs/ */
+						/* ga and __gaTracker compatibility shim. */
+						var noopfn = function () {
+							return null;
+						};
+						var newtracker = function () {
+							return new Tracker();
+						};
+						var Tracker = function () {
+							return null;
+						};
+						var p = Tracker.prototype;
+						p.get = noopfn;
+						p.set = noopfn;
+						p.send = function () {
+							var args = Array.prototype.slice.call(arguments);
+							args.unshift('send');
+							__gaTracker.apply(null, args);
+						};
+						var __gaTracker = function () {
+							var len = arguments.length;
+							if (len === 0) {
+								return;
+							}
+							var f = arguments[len - 1];
+							if (typeof f !== 'object' || f === null || typeof f.hitCallback !== 'function') {
+								if ('send' === arguments[0]) {
+									var hitConverted, hitObject = false, action;
+									if ('event' === arguments[1]) {
+										if ('undefined' !== typeof arguments[3]) {
+											hitObject = {
+												'eventAction': arguments[3],
+												'eventCategory': arguments[2],
+												'eventLabel': arguments[4],
+												'value': arguments[5] ? arguments[5] : 1,
+											}
+										}
+									}
+									if ('pageview' === arguments[1]) {
+										if ('undefined' !== typeof arguments[2]) {
+											hitObject = {
+												'eventAction': 'page_view',
+												'page_path': arguments[2],
+											}
+										}
+									}
+									if (typeof arguments[2] === 'object') {
+										hitObject = arguments[2];
+									}
+									if (typeof arguments[5] === 'object') {
+										Object.assign(hitObject, arguments[5]);
+									}
+									if ('undefined' !== typeof arguments[1].hitType) {
+										hitObject = arguments[1];
+										if ('pageview' === hitObject.hitType) {
+											hitObject.eventAction = 'page_view';
+										}
+									}
+									if (hitObject) {
+										action = 'timing' === arguments[1].hitType ? 'timing_complete' : hitObject.eventAction;
+										hitConverted = mapArgs(hitObject);
+										__gtagTracker('event', action, hitConverted);
+									}
+								}
+								return;
+							}
+
+							function mapArgs(args) {
+								var arg, hit = {};
+								var gaMap = {
+									'eventCategory': 'event_category',
+									'eventAction': 'event_action',
+									'eventLabel': 'event_label',
+									'eventValue': 'event_value',
+									'nonInteraction': 'non_interaction',
+									'timingCategory': 'event_category',
+									'timingVar': 'name',
+									'timingValue': 'value',
+									'timingLabel': 'event_label',
+									'page': 'page_path',
+									'location': 'page_location',
+									'title': 'page_title',
+								};
+								for (arg in args) {
+																		if (!(!args.hasOwnProperty(arg) || !gaMap.hasOwnProperty(arg))) {
+										hit[gaMap[arg]] = args[arg];
+									} else {
+										hit[arg] = args[arg];
+									}
+								}
+								return hit;
+							}
+
+							try {
+								f.hitCallback();
+							} catch (ex) {
+							}
+						};
+						__gaTracker.create = newtracker;
+						__gaTracker.getByName = newtracker;
+						__gaTracker.getAll = function () {
+							return [];
+						};
+						__gaTracker.remove = noopfn;
+						__gaTracker.loaded = true;
+						window['__gaTracker'] = __gaTracker;
+					})();
+									} else {
+										console.log("");
+					(function () {
+						function __gtagTracker() {
+							return null;
+						}
+
+						window['__gtagTracker'] = __gtagTracker;
+						window['gtag'] = __gtagTracker;
+					})();
+									}
+			</script>
+				<!-- / Google Analytics by ExactMetrics -->
+				<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/13.0.1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/13.0.1\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/blog.2dal.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=5.7.12"}};
+			!function(e,a,t){var n,r,o,i=a.createElement("canvas"),p=i.getContext&&i.getContext("2d");function s(e,t){var a=String.fromCharCode;p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,e),0,0);e=i.toDataURL();return p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,t),0,0),e===i.toDataURL()}function c(e){var t=a.createElement("script");t.src=e,t.defer=t.type="text/javascript",a.getElementsByTagName("head")[0].appendChild(t)}for(o=Array("flag","emoji"),t.supports={everything:!0,everythingExceptFlag:!0},r=0;r<o.length;r++)t.supports[o[r]]=function(e){if(!p||!p.fillText)return!1;switch(p.textBaseline="top",p.font="600 32px Arial",e){case"flag":return s([127987,65039,8205,9895,65039],[127987,65039,8203,9895,65039])?!1:!s([55356,56826,55356,56819],[55356,56826,8203,55356,56819])&&!s([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]);case"emoji":return!s([55357,56424,8205,55356,57212],[55357,56424,8203,55356,57212])}return!1}(o[r]),t.supports.everything=t.supports.everything&&t.supports[o[r]],"flag"!==o[r]&&(t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&t.supports[o[r]]);t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&!t.supports.flag,t.DOMReady=!1,t.readyCallback=function(){t.DOMReady=!0},t.supports.everything||(n=function(){t.readyCallback()},a.addEventListener?(a.addEventListener("DOMContentLoaded",n,!1),e.addEventListener("load",n,!1)):(e.attachEvent("onload",n),a.attachEvent("onreadystatechange",function(){"complete"===a.readyState&&t.readyCallback()})),(n=t.source||{}).concatemoji?c(n.concatemoji):n.wpemoji&&n.twemoji&&(c(n.twemoji),c(n.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='wp-block-library-css'  href='https://blog.2dal.com/wp-includes/css/dist/block-library/style.min.css?ver=5.7.12' type='text/css' media='all' />
+<style id='wp-block-library-inline-css' type='text/css'>
+.has-text-align-justify{text-align:justify;}
+</style>
+<link rel='stylesheet' id='fancybox-for-wp-css'  href='https://blog.2dal.com/wp-content/plugins/fancybox-for-wordpress/assets/css/fancybox.css?ver=1.3.4' type='text/css' media='all' />
+<link rel='stylesheet' id='sparkling-bootstrap-css'  href='https://blog.2dal.com/wp-content/themes/sparkling/assets/css/bootstrap.min.css?ver=5.7.12' type='text/css' media='all' />
+<link rel='stylesheet' id='sparkling-icons-css'  href='https://blog.2dal.com/wp-content/themes/sparkling/assets/css/fontawesome-all.min.css?ver=5.1.1.' type='text/css' media='all' />
+<link rel='stylesheet' id='sparkling-fonts-css'  href='//fonts.googleapis.com/css?family=Open+Sans%3A400italic%2C400%2C600%2C700%7CRoboto+Slab%3A400%2C300%2C700&#038;ver=5.7.12' type='text/css' media='all' />
+<link rel='stylesheet' id='sparkling-style-css'  href='https://blog.2dal.com/wp-content/themes/sparkling/style.css?ver=2.4.2' type='text/css' media='all' />
+<link rel='stylesheet' id='social-logos-css'  href='https://blog.2dal.com/wp-content/plugins/jetpack/_inc/social-logos/social-logos.min.css?ver=9.8.2' type='text/css' media='all' />
+<link rel='stylesheet' id='jetpack_css-css'  href='https://blog.2dal.com/wp-content/plugins/jetpack/css/jetpack.css?ver=9.8.2' type='text/css' media='all' />
+<script type='text/javascript' src='https://blog.2dal.com/wp-content/plugins/google-analytics-dashboard-for-wp/assets/js/frontend-gtag.min.js?ver=7.11.0' id='exactmetrics-frontend-script-js'></script>
+<script data-cfasync="false" data-wpfc-render="false" type="text/javascript" id='exactmetrics-frontend-script-js-extra'>/* <![CDATA[ */
+var exactmetrics_frontend = {"js_events_tracking":"true","download_extensions":"zip,mp3,mpeg,pdf,docx,pptx,xlsx,rar","inbound_paths":"[{\"path\":\"\\\/go\\\/\",\"label\":\"affiliate\"},{\"path\":\"\\\/recommend\\\/\",\"label\":\"affiliate\"}]","home_url":"https:\/\/blog.2dal.com","hash_tracking":"false","ua":"UA-109511635-1","v4_id":""};/* ]]> */
+</script>
+<script type='text/javascript' src='https://blog.2dal.com/wp-includes/js/jquery/jquery.min.js?ver=3.5.1' id='jquery-core-js'></script>
+<script type='text/javascript' src='https://blog.2dal.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.3.2' id='jquery-migrate-js'></script>
+<script type='text/javascript' src='https://blog.2dal.com/wp-content/plugins/fancybox-for-wordpress/assets/js/jquery.fancybox.js?ver=1.3.4' id='fancybox-for-wp-js'></script>
+<script type='text/javascript' src='https://blog.2dal.com/wp-content/themes/sparkling/assets/js/vendor/bootstrap.min.js?ver=5.7.12' id='sparkling-bootstrapjs-js'></script>
+<script type='text/javascript' src='https://blog.2dal.com/wp-content/themes/sparkling/assets/js/functions.js?ver=20180503' id='sparkling-functions-js'></script>
+<link rel="https://api.w.org/" href="https://blog.2dal.com/wp-json/" /><link rel="alternate" type="application/json" href="https://blog.2dal.com/wp-json/wp/v2/posts/876" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://blog.2dal.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://blog.2dal.com/wp-includes/wlwmanifest.xml" /> 
+<link rel="alternate" type="application/json+oembed" href="https://blog.2dal.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fblog.2dal.com%2F2018%2F12%2F31%2Fnat-gateway-to-nat-instance%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://blog.2dal.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fblog.2dal.com%2F2018%2F12%2F31%2Fnat-gateway-to-nat-instance%2F&#038;format=xml" />
+<meta property="fb:app_id" content="1664679873853471"/>
+<!-- Fancybox for WordPress v3.3.3 -->
+<style type="text/css">
+	.fancybox-slide--image .fancybox-content{background-color: #FFFFFF}div.fancybox-caption{display:none !important;}
+	
+	img.fancybox-image{border-width:10px;border-color:#FFFFFF;border-style:solid;}
+	div.fancybox-bg{background-color:rgba(102,102,102,0.3);opacity:1 !important;}div.fancybox-content{border-color:#FFFFFF}
+	div#fancybox-title{background-color:#FFFFFF}
+	div.fancybox-content{background-color:#FFFFFF}
+	div#fancybox-title-inside{color:#333333}
+	
+	
+	
+	div.fancybox-caption p.caption-title{display:inline-block}
+	div.fancybox-caption p.caption-title{font-size:14px}
+	div.fancybox-caption p.caption-title{color:#333333}
+	div.fancybox-caption {color:#333333}div.fancybox-caption p.caption-title {background:#fff; width:auto;padding:10px 30px;}div.fancybox-content p.caption-title{color:#333333;margin: 0;padding: 5px 0;}body.fancybox-active .fancybox-container .fancybox-stage .fancybox-content .fancybox-close-small{display:block;}
+</style><script type="text/javascript">
+	jQuery(function () {
+
+		var mobileOnly = false;
+		
+		if (mobileOnly) {
+			return;
+		}
+
+		jQuery.fn.getTitle = function () { // Copy the title of every IMG tag and add it to its parent A so that fancybox can show titles
+			var arr = jQuery("a[data-fancybox]");
+									jQuery.each(arr, function() {
+										var title = jQuery(this).children("img").attr("title");
+										 var caption = jQuery(this).next("figcaption").html();
+                                        if(caption && title){jQuery(this).attr("title",title+" " + caption)}else if(title){ jQuery(this).attr("title",title);}else if(caption){jQuery(this).attr("title",caption);}
+									});			}
+
+		// Supported file extensions
+
+				var thumbnails = jQuery("a:has(img)").not(".nolightbox").not('.envira-gallery-link').not('.ngg-simplelightbox').filter(function () {
+			return /\.(jpe?g|png|gif|mp4|webp|bmp|pdf)(\?[^/]*)*$/i.test(jQuery(this).attr('href'))
+		});
+		
+
+		// Add data-type iframe for links that are not images or videos.
+		var iframeLinks = jQuery('.fancyboxforwp').filter(function () {
+			return !/\.(jpe?g|png|gif|mp4|webp|bmp|pdf)(\?[^/]*)*$/i.test(jQuery(this).attr('href'))
+		}).filter(function () {
+			return !/vimeo|youtube/i.test(jQuery(this).attr('href'))
+		});
+		iframeLinks.attr({"data-type": "iframe"}).getTitle();
+
+				// Gallery All
+		thumbnails.addClass("fancyboxforwp").attr("data-fancybox", "gallery").getTitle();
+		iframeLinks.attr({"data-fancybox": "gallery"}).getTitle();
+
+		// Gallery type NONE
+		
+		// Call fancybox and apply it on any link with a rel atribute that starts with "fancybox", with the options set on the admin panel
+		jQuery("a.fancyboxforwp").fancyboxforwp({
+			loop: false,
+			smallBtn: true,
+			zoomOpacity: "auto",
+			animationEffect: "fade",
+			animationDuration: 500,
+			transitionEffect: "fade",
+			transitionDuration: "300",
+			overlayShow: true,
+			overlayOpacity: "0.3",
+			titleShow: true,
+			titlePosition: "inside",
+			keyboard: true,
+			showCloseButton: true,
+			arrows: true,
+			clickContent:false,
+			clickSlide: "close",
+			mobile: {
+				clickContent: function (current, event) {
+					return current.type === "image" ? "toggleControls" : false;
+				},
+				clickSlide: function (current, event) {
+					return current.type === "image" ? "close" : "close";
+				},
+			},
+			wheel: false,
+			toolbar: true,
+			preventCaptionOverlap: true,
+			onInit: function() { },			onDeactivate
+	: function() { },		beforeClose: function() { },			afterShow: function(instance) { jQuery( ".fancybox-image" ).on("click", function( ){ ( instance.isScaledDown() ) ? instance.scaleToActual() : instance.scaleToFit() }) },				afterClose: function() { },					caption : function( instance, item ) {var title ="";if("undefined" != typeof jQuery(this).context ){var title = jQuery(this).context.title;} else { var title = ("undefined" != typeof jQuery(this).attr("title")) ? jQuery(this).attr("title") : false;}var caption = jQuery(this).data('caption') || '';if ( item.type === 'image' && title.length ) {caption = (caption.length ? caption + '<br />' : '') + '<p class="caption-title">'+title+'</p>' ;}return caption;},
+		afterLoad : function( instance, current ) {current.$content.append('<div class=\"fancybox-custom-caption inside-caption\" style=\" position: absolute;left:0;right:0;color:#000;margin:0 auto;bottom:0;text-align:center;background-color:#FFFFFF \">' + current.opts.caption + '</div>');},
+			})
+		;
+
+			})
+</script>
+<!-- END Fancybox for WordPress -->
+<style type='text/css'>img#wpstats{display:none}</style>
+		<style type="text/css">.entry-content {font-family: Open Sans;}.entry-content {font-size:15px}</style><link rel="pingback" href="https://blog.2dal.com/xmlrpc.php"><style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>		<style type="text/css">
+				.navbar > .container .navbar-brand {
+			color: #dadada;
+		}
+		</style>
+				<style type="text/css" id="wp-custom-css">
+				/*
+You can add your own CSS here.
+
+Click the help icon above to learn more.
+*/
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    color: #444;
+    font-weight: 500;
+    font-family: 'Roboto Slab', serif;
+}
+
+.hljs {
+    display: block;
+    overflow-x: auto;
+    padding: 0.5em;
+    background: #f5f5f5;
+}
+
+pre {
+	background-color: #3f3f3f;
+}
+
+blockquote {
+	font-size: 15px;
+}
+
+blockquote {
+	border-left: 3px solid #DA4453;
+	font-size: 14px;
+}			</style>
+		
+</head>
+
+<body class="post-template-default single single-post postid-876 single-format-standard">
+	<a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+<div id="page" class="hfeed site">
+
+	<header id="masthead" class="site-header" role="banner">
+		<nav class="navbar navbar-default
+		" role="navigation">
+			<div class="container">
+				<div class="row">
+					<div class="site-navigation-inner col-sm-12">
+						<div class="navbar-header">
+
+
+														<div id="logo">
+															<p class="site-name">																		<a class="navbar-brand" href="https://blog.2dal.com/" title="asbubam&#039;s blog on 2dal.com" rel="home">asbubam&#039;s blog on 2dal.com</a>
+																</p>																													</div><!-- end of #logo -->
+
+							<button type="button" class="btn navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+						</div>
+
+
+
+						<div class="collapse navbar-collapse navbar-ex1-collapse"><ul id="menu-resume" class="nav navbar-nav"><li id="menu-item-41" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-41"><a href="https://github.com/asbubam/resume">asbubam</a></li>
+</ul></div>
+
+
+					</div>
+				</div>
+			</div>
+		</nav><!-- .site-navigation -->
+	</header><!-- #masthead -->
+
+	<div id="content" class="site-content">
+
+		<div class="top-section">
+								</div>
+
+		<div class="container main-content-area">
+						<div class="row side-pull-left">
+				<div class="main-content-inner col-sm-12 col-md-8">
+
+	<div id="primary" class="content-area">
+		<main id="main" class="site-main" role="main">
+
+		<article id="post-876" class="post-876 post type-post status-publish format-standard hentry category-aws category-infra category-terraform tag-aws tag-nat tag-terraform tag-vpc tag-28">
+		<div class="post-inner-content">
+		<header class="entry-header page-header">
+
+			<h1 class="entry-title ">AWS NAT Gateway에서 NAT instance로 전환하기</h1>
+
+			<div class="entry-meta">
+				<span class="posted-on"><i class="fa fa-calendar-alt"></i> <a href="https://blog.2dal.com/2018/12/31/nat-gateway-to-nat-instance/" rel="bookmark"><time class="entry-date published" datetime="2018-12-31T23:19:29+09:00">2018-12-31</time><time class="updated" datetime="2019-01-22T23:25:03+09:00">2019-01-22</time></a></span><span class="byline"> <i class="fa fa-user"></i> <span class="author vcard"><a class="url fn n" href="https://blog.2dal.com/author/asbubam/">asbubam</a></span></span>
+								<span class="cat-links"><i class="fa fa-folder-open"></i>
+				 <a href="https://blog.2dal.com/category/aws/" rel="category tag">AWS</a>, <a href="https://blog.2dal.com/category/infra/" rel="category tag">infra</a>, <a href="https://blog.2dal.com/category/terraform/" rel="category tag">terraform</a>				</span>
+								
+			</div><!-- .entry-meta -->
+		</header><!-- .entry-header -->
+
+		<div class="entry-content">
+			
+<div class="wp-block-jetpack-markdown"><p><a href="https://aws.amazon.com/ko/blogs/korea/new-managed-nat-network-address-translation-gateway-for-aws/">2015년 12월 NAT Gateway가 출시</a> 된 이후로 AWS에서 매니지드 NAT Gateway를 사용할 수 있게 되었다. (<a href="https://aws.amazon.com/ko/blogs/korea/amazon-vpc-nat-gateway-now-available-asia-pacific-seoul-region/">서울 리전은 2016년 6월에 출시</a>)</p>
+<blockquote>
+<p>NAT Gateway가 출시되기 전에는 NAT instance (NAT용 AMI 를 통해 생성한 EC2 instance)를 사용했는데
+instance 유형에 따라 대역폭이 제한되고 HA를 수동으로 구성해야하는 등 어려움이 있었다.</p>
+<p><a href="https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/vpc-nat-comparison.html">NAT 인스턴스 및 NAT 게이트웨이 비교</a> 페이지에서 좀 더 자세한 내용을 확인할 수 있다.</p>
+</blockquote>
+<p>회사에서도 NAT Gateway를 사용했었고 <a href="https://blog.2dal.com/2017/09/17/aws-vpc-network-with-terraform/">AWS VPC Network with Terraform</a> 등의 글에서 VPC를 설계할 때도 당연히 NAT Gateway를 사용했다. 이 때는 블로그 글을 쓰고나면 <strong>terraform destroy</strong>로 VPC를 내리곤 해서 <code>NAT Gateway의 비용에 대해서는 크게 생각하지 못했었다.</code></p>
+<p>올 여름 해커톤에 참가할 기회가 있어, 프로젝트의 서버를 배포하기 위해 신규 AWS 계정을 생성했고 <a href="https://blog.2dal.com/2017/10/28/aws-vpc-with-terraform-modules/">블로그에 공유했던 Terraform Module</a>을 사용해서 VPC를 구성했었다.</p>
+<p>시간이 지나 다음과 같은 Billing Information을 확인할 수 있었다.</p>
+<p><img src="https://blog.2dal.com/wp-content/uploads/2018/12/billing_info_b.png" alt="Billing Information">
+<a href="https://blog.2dal.com/wp-content/uploads/2018/12/billing_info_b.png">크게보기</a></p>
+<p>실제 NAT Gateway를 통해 전송된 데이터의 크기가 무척 작음에도 NAT Gateway의 비용이 상당했다.</p>
+<p>EC2 사용시간 대비 NAT 사용시간이 2배로 측정된 것은 Multi AZ 구성을 위해 ap-northeast-2a, ap-northeast-2c 리전에 각 1개씩 NAT Gateway를 올렸기 때문이다. 해당 수치는 약 17일간 서비스를 운영한 결과로 NAT Gateway 2개를 한달간 운영했을 때, 서울리전을 기준으로 계산해보면</p>
+<blockquote>
+<p>$0.059(시간당 사용 가격) * 24 * 31 * 2 = $87.792</p>
+</blockquote>
+<p>최소 사용량을 사용 시에도 <code>한달에 한화로 약 9만 8천원</code>을 사용하게 된다.<br>
+ref: <a href="https://aws.amazon.com/vpc/pricing/">Amazon VPC Pricing</a></p>
+<p><a href="https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/vpc-nat-comparison.html">NAT 인스턴스 및 NAT 게이트웨이 비교</a> 페이지에서 설명된 NAT Gateway의 고가용성, 스케일링 등의 장점은 NAT 인스턴스를 직접 운영하는 것에 비해 상당히 큰 장점이라고 생각되지만 <strong>개인 서비스를 운영하는데 NAT Gateway만 매달10만원(A zone에만 운영할 경우 5만원)에 가까운 비용을 지불하는 것은 쉽지 않다</strong>고 생각한다.</p>
+<h1>NAT instance로 전환을 결정</h1>
+<p>NAT Gateway의 출시 이전 방식인 NAT instance는 프러덕션 환경에서는 부족함이 있을 수 있지만, 개인 서버를 운영하는 데에는 크게 지장이 없을 것이라 판단하고 기존 생성되어 있는 NAT Gateway를 NAT instance로 전환하기로 결정했다.</p>
+<p>다행히 <a href="https://blog.2dal.com/2017/10/28/aws-vpc-with-terraform-modules/">AWS VPC with Terraform Modules</a> 에서 썼던 것처럼 VPC 설계 시 Terraform Module을 사용하여 적용하였으므로 기존 구성되어 있는 VPC의 Terraform코드를 일부 수정하여 NAT instance로 전환하고자 한다.</p>
+<blockquote>
+<p>Terraform의 장점은 여러가지가 있겠지만,  이렇게 이미 생성이 완료된 AWS Resource에 변경이 필요할 때도 유용한 것 같다. 여차하면 기존 형태로 다시 돌릴 수도 있고, 모듈로 구성한 경우 리소스의 전체 구조는 유지하면서 variables의 값만 바꿔서 테스트 후 적용해 볼 수도 있다.</p>
+</blockquote>
+<h1>기존 VPC 설계 확인</h1>
+<p>기존 VPC의 Terraform 코드는 다음과 같다.</p>
+<ul>
+<li>2dal-infrastructure/terraform/modules/vpc/dev_vpc.tf</li>
+</ul>
+<pre><code class="language-bash">module &quot;vpc&quot; {
+  source = &quot;github.com/asbubam/2dal-infrastructure/terraform/modules/vpc&quot;
+
+  name = &quot;dev&quot;
+  cidr = &quot;172.16.0.0/16&quot;
+
+  azs              = [&quot;ap-northeast-1a&quot;, &quot;ap-northeast-1c&quot;]
+  public_subnets   = [&quot;172.16.1.0/24&quot;, &quot;172.16.2.0/24&quot;]
+  private_subnets  = [&quot;172.16.101.0/24&quot;, &quot;172.16.102.0/24&quot;]
+  database_subnets = [&quot;172.16.201.0/24&quot;, &quot;172.16.202.0/24&quot;]
+
+  tags = {
+    &quot;TerraformManaged&quot; = &quot;true&quot;
+  }
+}
+
+module &quot;bastion&quot; {
+  source = &quot;github.com/asbubam/2dal-infrastructure/terraform/modules/bastion&quot;
+
+  name   = &quot;dev&quot;
+  vpc_id = &quot;${module.vpc.vpc_id}&quot;
+
+  ami                 = &quot;${data.aws_ami.amazon_linux.id}&quot;
+  availability_zone   = &quot;ap-northeast-1a&quot;
+  subnet_id           = &quot;${module.vpc.public_subnets_ids[0]}&quot;
+  ingress_cidr_blocks = &quot;${var.office_cidr_blocks}&quot;
+  keypair_name        = &quot;${var.keypair_name}&quot;
+
+  tags = {
+    &quot;TerraformManaged&quot; = &quot;true&quot;
+  }
+}
+</code></pre>
+<p><a href="https://blog.2dal.com/2017/10/28/aws-vpc-with-terraform-modules/">AWS VPC with Terraform Modules</a>에서 작성한 vpc, bastion 모듈을 사용했으며, 위와 같이 Terraform 코드를 작성하고 <code>terraform apply</code> 하면 다음과 같은 형태의 <strong>dev VPC</strong>가 생성된다.</p>
+<p><img src="https://blog.2dal.com/wp-content/uploads/2018/12/aws_vpc_b.png" alt="VPC architecture">
+<a href="https://blog.2dal.com/wp-content/uploads/2018/12/aws_vpc_b.png">크게보기</a></p>
+<p>bastion instance는 <strong>default type을 t2.nano</strong>로 설정했다. 이 <code>bastion instance를 NAT겸 bastion으로 사용</code>하면 비용을 절약할 수 있을 것 같다. NAT를 Multi-AZ 으로 구성하면 좋겠지만 비용에 최적화된 개인 용도의 VPC이므로 우선 A zone에만 NAT를 셋업하고, 이후 필요하면 C zone에도 NAT를 추가하기로 했다.</p>
+<p>변경 후의 VPC는 다음과 같은 형태가 된다. <s>루시드차트 도큐먼트 남겨놔서 천만다행…</s>
+<img src="https://blog.2dal.com/wp-content/uploads/2018/12/aws_vpc2_b.png" alt="VPC architecture2">
+<a href="https://blog.2dal.com/wp-content/uploads/2018/12/aws_vpc2_b.png">크게보기</a></p>
+<h1>vpc, bastion Terraform 모듈 병합</h1>
+<ul>
+<li><strong>cheap_vpc 모듈 생성</strong></li>
+</ul>
+<p>vpc 모듈은 다른 상황에서 NAT Gateway를 사용하는 구성으로 사용할 수도 있으니, vpc 모듈을 카피해서 cheap_vpc 라는 이름으로 카피해서 구성해보기로 한다. (이후에 두 모듈을 하나의 모듈로 합쳐서 NAT gateway or NAT instance를 선택할 수 있게도 구성할 수 있을 것 같다.)</p>
+<pre><code class="language-bash">$ cd 2dal-infastructure/terraform/modules
+$ cp -R vpc cheap_vpc
+</code></pre>
+<ul>
+<li><strong>bastion 모듈 내용 병합</strong></li>
+</ul>
+<p>bastion 모듈의 main.tf, output.tf, variable.tf의 내용을 cheap_vpc에 병합했다.</p>
+<pre><code class="language-bash">$ cd 2dal-infastructure/terraform/modules/cheap_vpc
+$ cat ../../modules/bastion/main.tf &gt;&gt; main.tf
+$ cat ../../modules/bastion/variables.tf &gt;&gt; variables.tf
+$ cat ../../modules/bastion/outputs.tf &gt;&gt; outputs.tf
+
+# 2개의 모듈에서 겹치는 variables(name, tags)를 정리하고...
+# bastion 모듈의 ${var.vpc_id} 를 ${aws_vpc.this.id} 로 변경
+</code></pre>
+<ul>
+<li><strong>모듈이 잘 병합되었는지 확인</strong></li>
+</ul>
+<pre><code class="language-bash">$ cd 2dal-infrastructure/terraform/common/vpc/
+$ vi dev_vpc.tf
+module &quot;vpc&quot; {
+  source = &quot;../../modules/cheap_vpc&quot;
+
+  name = &quot;dev&quot;
+  cidr = &quot;172.16.0.0/16&quot;
+
+  azs              = [&quot;ap-northeast-1a&quot;, &quot;ap-northeast-1c&quot;]
+  public_subnets   = [&quot;172.16.1.0/24&quot;, &quot;172.16.2.0/24&quot;]
+  private_subnets  = [&quot;172.16.101.0/24&quot;, &quot;172.16.102.0/24&quot;]
+  database_subnets = [&quot;172.16.201.0/24&quot;, &quot;172.16.202.0/24&quot;]
+
+  ami                 = &quot;${data.aws_ami.amazon_linux.id}&quot;
+  availability_zone   = &quot;ap-northeast-1a&quot;
+  subnet_id           = &quot;${module.vpc.public_subnets_ids[0]}&quot;
+  ingress_cidr_blocks = &quot;${var.office_cidr_blocks}&quot;
+  keypair_name        = &quot;${var.keypair_name}&quot;
+
+  tags = {
+    &quot;TerraformManaged&quot; = &quot;true&quot;
+  }
+}
+
+$ terraform init
+$ terraform plan
+...
+Plan: 28 to add, 0 to change, 0 to destroy.
+</code></pre>
+<h1>NAT Gateway를 NAT instance로 전환</h1>
+<p>NAT Gateway 관련 Terraform 코드를 제거하고, <a href="https://aws.amazon.com/ko/premiumsupport/knowledge-center/vpc-nat-instance/">VPC NAT 인스턴스</a> 의 가이드를 참고해서 Bastion instance를 NAT instance 용도로도 사용할 수 있도록 변경한다.</p>
+<pre><code class="language-bash">$ cd 2dal-infrastructure/terraform/modules/cheap_vpc/
+</code></pre>
+<h2>기존 NAT Gateway 정의 삭제</h2>
+<p>Terraform 코드에서 기존 NAT Gateway 관련 내용을 삭제한다.</p>
+<ul>
+<li><strong>2dal-infrastructure/terraform/modules/cheap_vpc/main.tf</strong></li>
+</ul>
+<pre><code class="language-bash"># main.tf
+# EIP for NAT gateway
+resource &quot;aws_eip&quot; &quot;nat&quot; {
+  count = &quot;${length(var.azs)}&quot;
+
+  vpc = true
+}
+
+# NAT gateway
+resource &quot;aws_nat_gateway&quot; &quot;this&quot; {
+  count = &quot;${length(var.azs)}&quot;
+
+  allocation_id = &quot;${aws_eip.nat.*.id[count.index]}&quot;
+  subnet_id     = &quot;${aws_subnet.public.*.id[count.index]}&quot;
+}
+</code></pre>
+<ul>
+<li><strong>2dal-infrastructure/terraform/modules/cheap_vpc/outputs.tf</strong></li>
+</ul>
+<pre><code class="language-bash"># NAT gateway
+output &quot;nat_ids&quot; {
+  description = &quot;NAT Gateway에 할당된 EIP ID 리스트&quot;
+  value       = [&quot;${aws_eip.nat.*.id}&quot;]
+}
+
+output &quot;nat_public_ips&quot; {
+  description = &quot;NAT Gateway에 할당된 EIP 리스트&quot;
+  value       = [&quot;${aws_eip.nat.*.public_ip}&quot;]
+}
+
+output &quot;natgw_ids&quot; {
+  description = &quot;NAT Gateway ID 리스트&quot;
+  value       = [&quot;${aws_nat_gateway.this.*.id}&quot;]
+}
+</code></pre>
+<h2>Bastion instance를 NAT instance로 세팅</h2>
+<ul>
+<li><strong>2dal-infrastructure/terraform/common/vpc/variables.tf  <code>AMI image를 NAT 전용 이미지로 변경</code></strong></li>
+</ul>
+<pre><code class="language-bash">data &quot;aws_ami&quot; &quot;amazon_linux&quot; {
+  most_recent = true
+  ...
+
+  filter {
+    name   = &quot;name&quot;
+    # 변경 전:
+    # values = [&quot;amzn-ami-hvm-*&quot;]
+
+    # 변경 후:
+    values = [&quot;amzn-ami-vpc-nat-hvm-*&quot;]
+  }
+
+  ...
+}
+</code></pre>
+<p><a href="https://aws.amazon.com/ko/premiumsupport/knowledge-center/vpc-nat-instance/">AWS VPC NAT instance 가이드</a>를 참고해서 AMI 이미지 검색 필터를 수정한다.</p>
+<ul>
+<li><strong>2dal-infrastructure/terraform/modules/cheap_vpc/main.tf &#8211; private route table 수정</strong></li>
+</ul>
+<pre><code class="language-bash"># private route table
+resource &quot;aws_route_table&quot; &quot;private&quot; {
+  count = &quot;${length(var.azs)}&quot;
+
+  vpc_id = &quot;${aws_vpc.this.id}&quot;
+
+  route {
+    cidr_block     = &quot;0.0.0.0/0&quot;
+    # 변경 전:
+    # nat_gateway_id = &quot;${aws_nat_gateway.this.*.id[count.index]}&quot;
+
+    # 변경 후:
+    instance_id    = &quot;${aws_instance.bastion.id}&quot;
+  }
+
+  tags = &quot;${merge(var.tags, map(&quot;Name&quot;, format(&quot;%s-private-%s&quot;, var.name, var.azs[count.index])))}&quot;
+}
+</code></pre>
+<ul>
+<li><strong>2dal-infrastructure/terraform/modules/cheap_vpc/main.tf &#8211; Bastion instance의 <code>소스/대상 확인</code> 비 활성화, default SG 추가</strong></li>
+</ul>
+<pre><code class="language-bash"># bastion EC2
+resource &quot;aws_instance&quot; &quot;bastion&quot; {
+  ami                    = &quot;${var.ami}&quot;
+  instance_type          = &quot;${var.instance_type}&quot;
+  availability_zone      = &quot;${var.availability_zone}&quot;
+  subnet_id              = &quot;${var.subnet_id}&quot;
+  key_name               = &quot;${var.keypair_name}&quot;
+
+  # 변경 전:
+  # vpc_security_group_ids = [&quot;${aws_security_group.bastion.id}&quot;]
+   
+  # 변경 후:
+  vpc_security_group_ids = [
+    &quot;${aws_security_group.bastion.id}&quot;,
+    &quot;${aws_default_security_group.dev_default.id}&quot;
+  ]
+
+  associate_public_ip_address = true
+  # 다음 항목을 추가
+  source_dest_check = false
+
+  tags = &quot;${merge(var.tags, map(&quot;Name&quot;, format(&quot;%s-bastion&quot;, var.name)))}&quot;
+}
+</code></pre>
+<p><code>NAT, VPN 등의 용도로 EC2 인스턴스를 사용할 경우에는 **소스/대상 확인기능을 비 활성화** 해야한다.</code>
+이 기능이 활성화 되면, EC2로 들어오는 트래픽의 Network Target이 해당 인스턴스일 경우만 허용하게 되기 때문에 NAT, VPN 등의 용도로 사용할 수 없게 된다.</p>
+<blockquote>
+<p>EC2 콘솔 인스턴스에서 인스턴스를 마우스 오른쪽 버튼으로 클릭하고 네트워킹 아래에서 소스/대상 확인 변경을 선택한 후 Disabled(비활성화)를 선택합니다.</p>
+<p>ref: <a href="https://aws.amazon.com/ko/premiumsupport/knowledge-center/vpc-nat-instance/">AWS NAT instance 가이드</a></p>
+<p>source_dest_check &#8211; (Optional) Controls if traffic is routed to the instance when the destination address does not match the instance. Used for NAT or VPNs. Defaults true.</p>
+<p>ref: <a href="https://www.terraform.io/docs/providers/aws/r/instance.html">AWS: aws_instance &#8211; Terraform by HashiCorp</a></p>
+</blockquote>
+<p>그리고, 기존에는 Bastion instance는 22번 SSH만 허용했으나 <code>dev vpc 의 default SG</code> 를 허용해서 NAT 요청을 동일 VPC 안에서 허용할 수 있게 한다.</p>
+<h1>Terraform plan</h1>
+<p>Terraform 코드가 올바르게 수정되었는지, 변경될 내용을 <code>terraform plan</code> 명령으로 미리 확인해 본다.</p>
+<pre><code class="language-bash">$ cd 2dal-infrastructure/terraform/common/vpc/
+$ terraform plan
+  ...
+  ~ module.vpc.aws_eip.bastion
+  - module.vpc.aws_eip.nat[0]
+  - module.vpc.aws_eip.nat[1]
+-/+ module.vpc.aws_instance.bastion (new resource required)
+      id:                                          &quot;i-0cd58b1a6b11418b0&quot; =&gt; &lt;computed&gt; (forces new resource)
+      ami:                                         &quot;ami-00a5245b4816c38e6&quot; =&gt; &quot;ami-03cf3903&quot; (forces new resource)
+      ...
+      source_dest_check:                           &quot;true&quot; =&gt; &quot;false&quot;
+      ...
+  - module.vpc.aws_nat_gateway.this[0]
+  - module.vpc.aws_nat_gateway.this[1]
+  ~ module.vpc.aws_route_table.private[0]
+      route.1778422370.cidr_block:                 &quot;0.0.0.0/0&quot; =&gt; &quot;&quot;
+      route.1778422370.nat_gateway_id:             &quot;nat-006f4f66e99d66ba6&quot; =&gt; &quot;&quot;
+      route.~3744414067.cidr_block:                &quot;&quot; =&gt; &quot;0.0.0.0/0&quot;
+      route.~3744414067.instance_id:               &quot;&quot; =&gt; &quot;${aws_instance.bastion.id}&quot;
+      ...
+  ~ module.vpc.aws_route_table.private[1]
+      route.909752400.cidr_block:                  &quot;0.0.0.0/0&quot; =&gt; &quot;&quot;
+      route.909752400.nat_gateway_id:              &quot;nat-0fb8e2c90ba15bf36&quot; =&gt; &quot;&quot;
+      route.~3744414067.cidr_block:                &quot;&quot; =&gt; &quot;0.0.0.0/0&quot;
+      route.~3744414067.instance_id:               &quot;&quot; =&gt; &quot;${aws_instance.bastion.id}&quot;
+      ...
+
+Plan: 1 to add, 3 to change, 5 to destroy.
+</code></pre>
+<p><strong>Terraform plan 의 결과</strong>를 보면</p>
+<ul>
+<li>bastion 인스턴스를 NAT 전용 instance로 재 생성하고 (source_dest_check 값은 false)</li>
+<li>NAT Gateway 관련 리소스를 삭제하고</li>
+<li>private subnet 에 연결된 0.0.0.0/0 으로의 route table을 NAT gateway에서 bastion instance의 id로 변경</li>
+</ul>
+<p>하는 것을 확인할 수 있다.</p>
+<h1>Terraform apply</h1>
+<p>변경사항을 <code>Terraform apply</code> 명령으로 적용한다.</p>
+<pre><code class="language-bash">$ terraform apply
+...
+Plan: 1 to add, 3 to change, 5 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+Apply complete! Resources: 1 added, 3 changed, 5 destroyed.
+</code></pre>
+<p><code>야호!</code></p>
+<h1>private EC2 instance에서 아웃바운드 요청 확인</h1>
+<pre><code class="language-bash"># private subnet 에 생성된 EC2 instance에 ssh 접속
+$ sudo curl ifconfig.co
+52.xxx.xxx.xxx
+</code></pre>
+<p><strong>private instance에서 bastion(NAT) instance를 통해 아웃바운드 인터넷 요청을 성공했다.</strong></p>
+<h1><code>NAT Gateway에서 NAT instance로 전환 끝!</code></h1>
+<hr>
+<h1>본인의 AWS 계정에도 동일하게 VPC를 만들고 싶다면…</h1>
+<p><a href="https://github.com/asbubam/2dal-infrastructure/tree/master/terraform/modules/cheap_vpc">GitHub</a> 에 위에서 설명한 <code>cheap_vpc</code>모듈을 조금 더 정리해서 올려놓았다.
+다음과 같이 새로운 VPC를 생성할 수 있다.</p>
+<ul>
+<li><strong>Terraform 설치 및,  Access key ID, Secret access key 세팅</strong></li>
+</ul>
+<p><a href="https://blog.2dal.com/2017/09/17/aws-vpc-network-with-terraform/">AWS VPC Network with Terraform</a> 글을 참고해 Terraform을 설치하고, <a href="https://direnv.net/">direnv</a> 등을 이용해 Access Key ID, Secret Access Key를 환경변수에 세팅한다.</p>
+<p>나는 tokyo 리전을 사용하기 때문에 <strong>ap-northeast-1</strong> 을 기준으로 작성했다.</p>
+<blockquote>
+<p>seoul 리전의 경우 region에 <strong>ap-northeast-2</strong> 을 azs(Availability Zones)에는 <strong>ap-northeast-2a, ap-northeast-2c</strong>를 입력하면 된다.</p>
+</blockquote>
+<ul>
+<li><strong>provider.tf 파일 생성</strong></li>
+</ul>
+<pre><code class="language-bash">provider &quot;aws&quot; {
+  region = &quot;ap-northeast-1&quot;
+}
+</code></pre>
+<ul>
+<li><strong>variables.tf 파일 생성</strong></li>
+</ul>
+<pre><code class="language-bash">data &quot;aws_ami&quot; &quot;amazon_linux_nat&quot; {
+  most_recent = true
+  owners      = [&quot;amazon&quot;]
+
+  filter {
+    name   = &quot;architecture&quot;
+    values = [&quot;x86_64&quot;]
+  }
+
+  filter {
+    name   = &quot;root-device-type&quot;
+    values = [&quot;ebs&quot;]
+  }
+
+  filter {
+    name   = &quot;name&quot;
+    values = [&quot;amzn-ami-vpc-nat-hvm-*&quot;]
+  }
+
+  filter {
+    name   = &quot;virtualization-type&quot;
+    values = [&quot;hvm&quot;]
+  }
+}
+
+variable &quot;office_cidr_blocks&quot; {
+  type = &quot;list&quot;
+
+  default = [
+    &quot;0.0.0.0/0&quot;,
+  ] # 이 값은 bastion에 접속을 허용할 IP를 넣어야 한다.
+}
+
+variable &quot;keypair_name&quot; {
+  default = &quot;2dal-dev&quot; # 이 값은 Bastion 및 private 인스턴스 접속에 사용할 aws key pair 이름을 입력한다.
+}
+</code></pre>
+<p><code>data.aws_ami.amaon_linux_nat</code> 는 가장 최근의 AWS 공식 NAT 이미지를 가져와서 사용할 수 있게 해준다.  이 값을 사용하지 않고 <a href="https://console.aws.amazon.com/ec2/v2/home#Images:visibility=public-images;search=amzn-ami-vpc-nat-hvm*;sort=desc:name">Amazon VPC NAT AMI 리스트</a>에서 특정 AMI id를 확인해서 아래 <strong>vpc.tf</strong> 파일에 입력해도 된다.</p>
+<ul>
+<li><strong>vpc.tf 파일 생성</strong></li>
+</ul>
+<pre><code class="language-bash">module &quot;vpc&quot; {
+  # GitHub으로 부터 cheap_vpc 모듈을 가져온다.
+  source = &quot;github.com/asbubam/2dal-infrastructure/terraform/modules/cheap_vpc&quot;
+
+  # vpc name 을 입력한다.
+  name = &quot;dev&quot;
+
+  # 사용할 VPC 대역을 입력한다.
+  cidr = &quot;172.16.0.0/16&quot; 
+
+  azs              = [&quot;ap-northeast-1a&quot;, &quot;ap-northeast-1c&quot;]
+  public_subnets   = [&quot;172.16.1.0/24&quot;, &quot;172.16.2.0/24&quot;]
+  private_subnets  = [&quot;172.16.101.0/24&quot;, &quot;172.16.102.0/24&quot;]
+  database_subnets = [&quot;172.16.201.0/24&quot;, &quot;172.16.202.0/24&quot;]
+
+  bastion_ami                 = &quot;${data.aws_ami.amazon_linux_nat.id}&quot;
+  bastion_availability_zone   = &quot;${module.vpc.azs[0]}&quot;
+  bastion_subnet_id           = &quot;${module.vpc.public_subnets_ids[0]}&quot;
+  bastion_ingress_cidr_blocks = &quot;${var.office_cidr_blocks}&quot;
+  bastion_keypair_name        = &quot;${var.keypair_name}&quot;
+
+  tags = {
+    &quot;TerraformManaged&quot; = &quot;true&quot;
+  }
+}
+</code></pre>
+<p>사용하는 IP CIDR 을 입력해서 파일을 완성한다.</p>
+<ul>
+<li><strong>terraform init</strong> 명령으로 provider와 module을 다운로드하고 테라폼을 사용할 준비를 한다.</li>
+</ul>
+<pre><code>$ terraform init
+Initializing modules...
+- module.vpc
+
+Initializing provider plugins...
+...
+Terraform has been successfully initialized!
+</code></pre>
+<ul>
+<li><strong>terraform plan</strong> 명령으로 생성 예정인 AWS 리소스를 확인한다.</li>
+</ul>
+<pre><code>$ terraform plan
+...
+Plan: 24 to add, 0 to change, 0 to destroy.
+</code></pre>
+<ul>
+<li><strong>terraform apply</strong> 명령으로 AWS 리소스를 생성한다.</li>
+</ul>
+<pre><code class="language-bash">$ terraform apply
+...
+Plan: 24 to add, 0 to change, 0 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+...
+Apply complete! Resources: 24 added, 0 changed, 0 destroyed.
+</code></pre>
+<p><code>VPC 생성 끝!</code></p>
+<p>다음과 같이 (cheap) VPC가 생성되었다.
+<img src="https://blog.2dal.com/wp-content/uploads/2018/12/aws_vpc2_b.png" alt="VPC architecture2">
+<a href="https://blog.2dal.com/wp-content/uploads/2018/12/aws_vpc2_b.png">크게보기</a></p>
+<ul>
+<li><strong>bastion에 접속해본다.</strong></li>
+</ul>
+<pre><code class="language-bash">$ ssh -i {key-pair 경로/key-pair 이름}.pem ec2-user@{AWS 콘솔에서 확인한 bastion EC2 instance ip}
+</code></pre>
+<hr>
+<h1>정리</h1>
+<p>기존에 Terraform 을 통해 생성한 VPC의 <strong>NAT Gateway를 NAT instance로 전환</strong>해 봤다.</p>
+<p>지난 여름부터 생각했던 일인데, 미루고 미루다 올해의 마지막 날 적용하게 됐다. 개인 계정으로 테스트를 하다보면 회사에서 사용할 때와 다르게 <s>내 돈이 빠져 나가기 때문에</s> 저렴한 비용으로 필요한 리소스를 운영하는 방법에 대해 고민해 볼 수 있어 좋은 것 같다.</p>
+<p>블로그 주제가 많이 밀렸는데 이제 네트워크도 정리되었으니 이 블로그를 시작으로 다시 꾸준히 블로그를 작성할 수 있으면 좋겠다. 올해 두번의 입사를 하게 되는 등, 개인사가 복잡했다. 항상 마음 한켠에 블로그가 있었는데 쓰고 있던 글을 완성하는 것이 쉽지 않았다.</p>
+<p>꾸준히 <a href="https://www.patreon.com/asbubam">Patreon</a> 을 통해 꾸준히 기부해 주셨던 기부자님들께 사과의 말씀을 전하고 싶다.
+<code>죄송합니다! 그리고 감사합니다!</code>
+밀린 글들은 다시 파이팅해서 올리겠다고 약속드린다.</p>
+<blockquote>
+<p>기부금을 환불받고자 하시는 분이 계시다면 patreon 메시지 혹은 asbubam at gmail dot com 으로 연락해 주세요!</p>
+</blockquote>
+<p>설명에 사용된 파일은 <a href="https://github.com/asbubam/2dal-infrastructure">GitHub &#8211; asbubam/2dal-infrastructure</a>에서 확인할 수 있다.</p>
+<h1>참고자료</h1>
+<ul>
+<li><a href="https://aws.amazon.com/ko/blogs/korea/new-managed-nat-network-address-translation-gateway-for-aws/">AWS 신규 NAT 게이트웨이 서비스 출시! | Amazon Web Services 한국 블로그</a></li>
+<li><a href="https://aws.amazon.com/ko/blogs/korea/amazon-vpc-nat-gateway-now-available-asia-pacific-seoul-region/">Amazon VPC NAT 게이트웨이 서울 리전 출시 | Amazon Web Services 한국 블로그</a></li>
+<li><a href="https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/vpc-nat-comparison.html">NAT 인스턴스 및 NAT 게이트웨이 비교 &#8211; Amazon Virtual Private Cloud</a></li>
+<li><a href="https://aws.amazon.com/ko/premiumsupport/knowledge-center/vpc-nat-instance/">AWS VPC NAT 인스턴스</a></li>
+<li><a href="https://www.terraform.io/docs/providers/aws/r/instance.html">AWS: aws_instance &#8211; Terraform by HashiCorp</a></li>
+</ul>
+</div>
+<div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow noopener noreferrer" data-shared="sharing-twitter-876" class="share-twitter sd-button share-icon" href="https://blog.2dal.com/2018/12/31/nat-gateway-to-nat-instance/?share=twitter" target="_blank" title="Click to share on Twitter"><span>Twitter</span></a></li><li class="share-facebook"><a rel="nofollow noopener noreferrer" data-shared="sharing-facebook-876" class="share-facebook sd-button share-icon" href="https://blog.2dal.com/2018/12/31/nat-gateway-to-nat-instance/?share=facebook" target="_blank" title="Click to share on Facebook"><span>Facebook</span></a></li><li class="share-end"></li></ul></div></div></div><!-- Facebook Comments Plugin for WordPress: http://peadig.com/wordpress-plugins/facebook-comments/ --><h3>Comments</h3><p><fb:comments-count href=https://blog.2dal.com/2018/12/31/nat-gateway-to-nat-instance/></fb:comments-count> comments</p><div class="fb-comments" data-href="https://blog.2dal.com/2018/12/31/nat-gateway-to-nat-instance/" data-numposts="5" data-width="100%" data-colorscheme="light"></div>					</div><!-- .entry-content -->
+
+		<footer class="entry-meta">
+
+					  <!-- tags -->
+		  <div class="tagcloud">
+
+				<a href="https://blog.2dal.com/tag/aws/">AWS</a> <a href="https://blog.2dal.com/tag/nat/">NAT</a> <a href="https://blog.2dal.com/tag/terraform/">Terraform</a> <a href="https://blog.2dal.com/tag/vpc/">VPC</a> <a href="https://blog.2dal.com/tag/%ed%85%8c%eb%9d%bc%ed%8f%bc/">테라폼</a> 
+		  </div>
+		  <!-- end tags -->
+			
+		</footer><!-- .entry-meta -->
+	</div>
+
+	
+</article><!-- #post-## -->
+
+<div id="comments" class="comments-area">
+
+			<h2 class="comments-title">
+			2 thoughts to &ldquo;AWS NAT Gateway에서 NAT instance로 전환하기&rdquo;		</h2>
+
+		
+		<ol class="comment-list">
+					<li id="comment-36" class="pingback even thread-even depth-1">
+			<div class="comment-body">
+				Pingback: <a href='http://devblog.selfhow.com/2019/01/01/asbubams-blog-aws-nat-gateway%ec%97%90%ec%84%9c-nat-instance%eb%a1%9c-%ec%a0%84%ed%99%98%ed%95%98%ea%b8%b0/' rel='external nofollow ugc' class='url'>[asbubam&#039;s blog] AWS NAT Gateway에서 NAT instance로 전환하기 - DEVBLOG - 개발자 메타블로그</a> 			</div>
+		</li><!-- #comment-## -->
+		<li id="comment-45" class="pingback odd alt thread-odd thread-alt depth-1">
+			<div class="comment-body">
+				Pingback: <a href='https://blog.2dal.com/2019/04/24/kubernetes-03-kubernetes-cluster-on-aws-with-kops/' rel='external nofollow ugc' class='url'>Kubernetes 03 &#8211; Kubernetes Cluster on AWS with kops | asbubam&#039;s blog</a> 			</div>
+		</li><!-- #comment-## -->
+		</ol><!-- .comment-list -->
+
+		
+		<p class="no-comments">Comments are closed.</p>
+	
+</div><!-- #comments -->
+
+	<nav class="navigation post-navigation" role="navigation" aria-label="Posts">
+		<h2 class="screen-reader-text">Post navigation</h2>
+		<div class="nav-links"><div class="nav-previous"><a href="https://blog.2dal.com/2018/04/30/kubernetes-02-replicaset/" rel="prev"><i class="fa fa-chevron-left"></i> <span class="post-title">Kubernetes 02 &#8211; ReplicaSet</span></a></div><div class="nav-next"><a href="https://blog.2dal.com/2019/04/24/kubernetes-03-kubernetes-cluster-on-aws-with-kops/" rel="next"><span class="post-title">Kubernetes 03 &#8211; Kubernetes Cluster on AWS with kops <i class="fa fa-chevron-right"></i></span></a></div></div>
+	</nav>
+		</main><!-- #main -->
+	</div><!-- #primary -->
+
+</div><!-- close .main-content-inner -->
+<div id="secondary" class="widget-area col-sm-12 col-md-4" role="complementary">
+	<div class="well">
+				<aside id="search-2" class="widget widget_search">
+<form role="search" method="get" class="form-search" action="https://blog.2dal.com/">
+  <div class="input-group">
+	  <label class="screen-reader-text" for="s">Search for:</label>
+	<input type="text" class="form-control search-query" placeholder="Search&hellip;" value="" name="s" title="Search for:" />
+	<span class="input-group-btn">
+	  <button type="submit" class="btn btn-default" name="submit" id="searchsubmit" value="Search"><span class="glyphicon glyphicon-search"></span></button>
+	</span>
+  </div>
+</form>
+</aside>
+		<aside id="recent-posts-2" class="widget widget_recent_entries">
+		<h3 class="widget-title">Recent Posts</h3>
+		<ul>
+											<li>
+					<a href="https://blog.2dal.com/2023/01/01/2022%eb%85%84-%ed%9a%8c%ea%b3%a0/">2022년 회고</a>
+									</li>
+											<li>
+					<a href="https://blog.2dal.com/2021/12/29/2021%eb%85%84-%ed%9a%8c%ea%b3%a0/">2021년 회고</a>
+									</li>
+											<li>
+					<a href="https://blog.2dal.com/2020/04/01/%eb%b9%a0%eb%a5%b4%ea%b3%a0-%ec%a0%95%ed%99%95%ed%95%98%ea%b2%8c-%eb%8b%b5%eb%b3%80%ec%9d%84-%eb%b0%9b%ec%9d%84-%ec%88%98-%ec%9e%88%eb%8a%94-%ec%a7%88%eb%ac%b8%ed%95%98%eb%8a%94-%eb%b2%95/">빠르고 정확하게 답변을 받을 수 있는 질문하는 법</a>
+									</li>
+											<li>
+					<a href="https://blog.2dal.com/2019/04/24/kubernetes-03-kubernetes-cluster-on-aws-with-kops/">Kubernetes 03 &#8211; Kubernetes Cluster on AWS with kops</a>
+									</li>
+											<li>
+					<a href="https://blog.2dal.com/2018/12/31/nat-gateway-to-nat-instance/" aria-current="page">AWS NAT Gateway에서 NAT instance로 전환하기</a>
+									</li>
+											<li>
+					<a href="https://blog.2dal.com/2018/04/30/kubernetes-02-replicaset/">Kubernetes 02 &#8211; ReplicaSet</a>
+									</li>
+											<li>
+					<a href="https://blog.2dal.com/2018/03/28/kubernetes-01-pod/">Kubernetes 01 &#8211; Pod</a>
+									</li>
+											<li>
+					<a href="https://blog.2dal.com/2018/02/28/kubernetes-intro/">Kubernetes Intro</a>
+									</li>
+											<li>
+					<a href="https://blog.2dal.com/2017/12/26/circleci-%ec%97%90%ec%84%9c-terraform-fmt-%ec%88%98%ed%96%89%ed%95%98%ea%b8%b0/">CircleCI 에서 Terraform fmt 수행하기</a>
+									</li>
+											<li>
+					<a href="https://blog.2dal.com/2017/10/29/aws-bastion-with-terraform-modules/">AWS Bastion with Terraform Modules</a>
+									</li>
+											<li>
+					<a href="https://blog.2dal.com/2017/10/28/aws-vpc-with-terraform-modules/">AWS VPC with Terraform Modules</a>
+									</li>
+											<li>
+					<a href="https://blog.2dal.com/2017/09/17/aws-vpc-network-with-terraform/">AWS VPC Network with Terraform</a>
+									</li>
+											<li>
+					<a href="https://blog.2dal.com/2017/09/12/aws-vpc-basic/">AWS VPC basic</a>
+									</li>
+											<li>
+					<a href="https://blog.2dal.com/2017/03/27/docker-and-oom-killer/">Docker and OOM(Out Of Memory) Killer</a>
+									</li>
+											<li>
+					<a href="https://blog.2dal.com/2017/03/07/kubernetes/">Kubernetes</a>
+									</li>
+					</ul>
+
+		</aside><aside id="recent-comments-2" class="widget widget_recent_comments"><h3 class="widget-title">Recent Comments</h3><ul id="recentcomments"><li class="recentcomments"><span class="comment-author-link"><a href='http://devblog.selfhow.com/2019/04/25/asbubams-blog-kubernetes-03-kubernetes-cluster-on-aws-with-kops/' rel='external nofollow ugc' class='url'>[asbubam&#039;s blog] Kubernetes 03 – Kubernetes Cluster on AWS with kops - DEVBLOG - 개발자 메타블로그</a></span> on <a href="https://blog.2dal.com/2019/04/24/kubernetes-03-kubernetes-cluster-on-aws-with-kops/#comment-47">Kubernetes 03 &#8211; Kubernetes Cluster on AWS with kops</a></li><li class="recentcomments"><span class="comment-author-link"><a href='https://blog.2dal.com/2019/04/24/kubernetes-03-kubernetes-cluster-on-aws-with-kops/' rel='external nofollow ugc' class='url'>Kubernetes 03 &#8211; Kubernetes Cluster on AWS with kops | asbubam&#039;s blog</a></span> on <a href="https://blog.2dal.com/2017/09/17/aws-vpc-network-with-terraform/#comment-46">AWS VPC Network with Terraform</a></li><li class="recentcomments"><span class="comment-author-link"><a href='https://blog.2dal.com/2019/04/24/kubernetes-03-kubernetes-cluster-on-aws-with-kops/' rel='external nofollow ugc' class='url'>Kubernetes 03 &#8211; Kubernetes Cluster on AWS with kops | asbubam&#039;s blog</a></span> on <a href="https://blog.2dal.com/2018/12/31/nat-gateway-to-nat-instance/#comment-45">AWS NAT Gateway에서 NAT instance로 전환하기</a></li></ul></aside><aside id="archives-2" class="widget widget_archive"><h3 class="widget-title">Archives</h3>
+			<ul>
+					<li><a href='https://blog.2dal.com/2023/01/'>January 2023</a></li>
+	<li><a href='https://blog.2dal.com/2021/12/'>December 2021</a></li>
+	<li><a href='https://blog.2dal.com/2020/04/'>April 2020</a></li>
+	<li><a href='https://blog.2dal.com/2019/04/'>April 2019</a></li>
+	<li><a href='https://blog.2dal.com/2018/12/'>December 2018</a></li>
+	<li><a href='https://blog.2dal.com/2018/04/'>April 2018</a></li>
+	<li><a href='https://blog.2dal.com/2018/03/'>March 2018</a></li>
+	<li><a href='https://blog.2dal.com/2018/02/'>February 2018</a></li>
+	<li><a href='https://blog.2dal.com/2017/12/'>December 2017</a></li>
+	<li><a href='https://blog.2dal.com/2017/10/'>October 2017</a></li>
+	<li><a href='https://blog.2dal.com/2017/09/'>September 2017</a></li>
+	<li><a href='https://blog.2dal.com/2017/03/'>March 2017</a></li>
+			</ul>
+
+			</aside><aside id="categories-2" class="widget widget_categories"><h3 class="widget-title">Categories</h3>
+			<ul>
+					<li class="cat-item cat-item-11"><a href="https://blog.2dal.com/category/aws/">AWS</a>
+</li>
+	<li class="cat-item cat-item-9"><a href="https://blog.2dal.com/category/docker/">docker</a>
+</li>
+	<li class="cat-item cat-item-10"><a href="https://blog.2dal.com/category/infra/">infra</a>
+</li>
+	<li class="cat-item cat-item-23"><a href="https://blog.2dal.com/category/kops/">kops</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="https://blog.2dal.com/category/kubernetes/">kubernetes</a>
+</li>
+	<li class="cat-item cat-item-32"><a href="https://blog.2dal.com/category/review/">review</a>
+</li>
+	<li class="cat-item cat-item-16"><a href="https://blog.2dal.com/category/terraform/">terraform</a>
+</li>
+	<li class="cat-item cat-item-6"><a href="https://blog.2dal.com/category/tips/">tips</a>
+</li>
+	<li class="cat-item cat-item-1"><a href="https://blog.2dal.com/category/uncategorized/">Uncategorized</a>
+</li>
+			</ul>
+
+			</aside><aside id="meta-2" class="widget widget_meta"><h3 class="widget-title">Meta</h3>
+		<ul>
+						<li><a href="https://blog.2dal.com/wp-login.php">Log in</a></li>
+			<li><a href="https://blog.2dal.com/feed/">Entries feed</a></li>
+			<li><a href="https://blog.2dal.com/comments/feed/">Comments feed</a></li>
+
+			<li><a href="https://wordpress.org/">WordPress.org</a></li>
+		</ul>
+
+		</aside>	</div>
+</div><!-- #secondary -->
+		</div><!-- close .row -->
+	</div><!-- close .container -->
+</div><!-- close .site-content -->
+
+	<div id="footer-area">
+		<div class="container footer-inner">
+			<div class="row">
+				
+				</div>
+		</div>
+
+		<footer id="colophon" class="site-footer" role="contentinfo">
+			<div class="site-info container">
+				<div class="row">
+										<nav role="navigation" class="col-md-6">
+											</nav>
+					<div class="copyright col-md-6">
+						sparkling						Theme by <a href="http://colorlib.com/" target="_blank" rel="nofollow noopener">Colorlib</a> Powered by <a href="http://wordpress.org/" target="_blank">WordPress</a>					</div>
+				</div>
+			</div><!-- .site-info -->
+			<div class="scroll-to-top"><i class="fa fa-angle-up"></i></div><!-- .scroll-to-top -->
+		</footer><!-- #colophon -->
+	</div>
+</div><!-- #page -->
+
+		<script type="text/javascript">
+		  jQuery(document).ready(function ($) {
+			if ($(window).width() >= 767) {
+			  $('.navbar-nav > li.menu-item > a').click(function () {
+				if ($(this).attr('target') !== '_blank') {
+				  window.location = $(this).attr('href')
+				}
+			  })
+			}
+		  })
+		</script>
+	
+	<script type="text/javascript">
+		window.WPCOM_sharing_counts = {"https:\/\/blog.2dal.com\/2018\/12\/31\/nat-gateway-to-nat-instance\/":876};
+	</script>
+				<link rel='stylesheet' id='hljstheme-css'  href='https://blog.2dal.com/wp-content/plugins/wp-code-highlightjs/styles/zenburn.css?ver=0.6.2' type='text/css' media='all' />
+<script type='text/javascript' src='https://blog.2dal.com/wp-content/themes/sparkling/assets/js/skip-link-focus-fix.min.js?ver=20140222' id='sparkling-skip-link-focus-fix-js'></script>
+<script type='text/javascript' src='https://blog.2dal.com/wp-includes/js/wp-embed.min.js?ver=5.7.12' id='wp-embed-js'></script>
+<script type='text/javascript' src='https://blog.2dal.com/wp-content/plugins/wp-code-highlightjs/highlight.common.pack.js?ver=0.6.2' id='hljs-js'></script>
+<script type='text/javascript' id='sharing-js-js-extra'>
+/* <![CDATA[ */
+var sharing_js_options = {"lang":"en","counts":"1","is_stats_active":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://blog.2dal.com/wp-content/plugins/jetpack/_inc/build/sharedaddy/sharing.min.js?ver=9.8.2' id='sharing-js-js'></script>
+<script type='text/javascript' id='sharing-js-js-after'>
+var windowOpen;
+			( function () {
+				function matches( el, sel ) {
+					return !! (
+						el.matches && el.matches( sel ) ||
+						el.msMatchesSelector && el.msMatchesSelector( sel )
+					);
+				}
+
+				document.body.addEventListener( 'click', function ( event ) {
+					if ( ! event.target ) {
+						return;
+					}
+
+					var el;
+					if ( matches( event.target, 'a.share-twitter' ) ) {
+						el = event.target;
+					} else if ( event.target.parentNode && matches( event.target.parentNode, 'a.share-twitter' ) ) {
+						el = event.target.parentNode;
+					}
+
+					if ( el ) {
+						event.preventDefault();
+
+						// If there's another sharing window open, close it.
+						if ( typeof windowOpen !== 'undefined' ) {
+							windowOpen.close();
+						}
+						windowOpen = window.open( el.getAttribute( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+						return false;
+					}
+				} );
+			} )();
+var windowOpen;
+			( function () {
+				function matches( el, sel ) {
+					return !! (
+						el.matches && el.matches( sel ) ||
+						el.msMatchesSelector && el.msMatchesSelector( sel )
+					);
+				}
+
+				document.body.addEventListener( 'click', function ( event ) {
+					if ( ! event.target ) {
+						return;
+					}
+
+					var el;
+					if ( matches( event.target, 'a.share-facebook' ) ) {
+						el = event.target;
+					} else if ( event.target.parentNode && matches( event.target.parentNode, 'a.share-facebook' ) ) {
+						el = event.target.parentNode;
+					}
+
+					if ( el ) {
+						event.preventDefault();
+
+						// If there's another sharing window open, close it.
+						if ( typeof windowOpen !== 'undefined' ) {
+							windowOpen.close();
+						}
+						windowOpen = window.open( el.getAttribute( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+						return false;
+					}
+				} );
+			} )();
+</script>
+    <style>code.hljs { /*margin: 5px;*/ }</style>
+    <script type="text/javascript">
+    (function($, window) {
+        var init_fn_flag = false;
+        var init_fn = (function() {
+            if (init_fn_flag)
+                return;
+            init_fn_flag = true;
+             hljs.configure({"tabReplace":"    "});
+            $('pre code').each(function(i, block) {
+                hljs.highlightBlock(block);
+            });
+        });
+        $(document).ready(init_fn);
+        $(window).on("load", init_fn);
+    })(jQuery, window);
+    </script>
+<!-- Facebook Comments Plugin for WordPress: http://peadig.com/wordpress-plugins/facebook-comments/ -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=1664679873853471&version=v2.3";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<script src='https://stats.wp.com/e-202430.js' defer></script>
+<script>
+	_stq = window._stq || [];
+	_stq.push([ 'view', {v:'ext',j:'1:9.8.2',blog:'114514939',post:'876',tz:'9',srv:'blog.2dal.com'} ]);
+	_stq.push([ 'clickTrackerInit', '114514939', '876' ]);
+</script>
+
+</body>
+</html>

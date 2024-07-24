@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="en-US" class="no-js aws-lng-en_US" xmlns="http://www.w3.org/1999/xhtml" data-aws-assets="https://a0.awsstatic.com" data-js-version="1.0.678" data-css-version="1.0.538" data-static-assets="https://a0.awsstatic.com" prefix="og: https://ogp.me/ns#">
+ <head> 
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"> 
+  <title>Amazon VPC for On-Premises Network Engineers – Part 2 | AWS Partner Network (APN) Blog</title> 
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: https://a0.awsstatic.com https://prod.us-east-1.ui.gcr-chat.marketing.aws.dev; connect-src 'self' *.akamaized.net *.googlevideo.com/videoplayback https://*.analytics.console.aws.a2z.com https://*.prod.chc-features.uxplatform.aws.dev https://112-tzm-766.mktoresp.com https://112-tzm-766.mktoutil.com https://a0.awsstatic.com https://a0.p.awsstatic.com https://a1.awsstatic.com https://amazonwebservices.d2.sc.omtrdc.net https://amazonwebservicesinc.tt.omtrdc.net https://api-v2.builderprofile.aws.dev https://api.regional-table.region-services.aws.a2z.com https://api.us-west-2.prod.pricing.aws.a2z.com https://auth.aws.amazon.com/ https://aws.amazon.com/p/sf/ https://aws.demdex.net https://b0.p.awsstatic.com https://c0.b0.p.awsstatic.com https://calculator.aws https://chat.us-east-1.prod.mrc-sunrise.marketing.aws.dev https://chatbot-api.us-east-1.prod.mrc-sunrise.marketing.aws.dev https://cm.everesttech.net https://d-90676d7478.awsapps.com https://d0.awsstatic.com https://d1.awsstatic.com https://d1fgizr415o1r6.cloudfront.net https://d2c.aws.amazon.com https://d3borx6sfvnesb.cloudfront.net https://dftu77xade0tc.cloudfront.net https://dpm.demdex.net https://fls-na.amazon.com https://i18n-string.us-west-2.prod.pricing.aws.a2z.com https://infra-api.us-east-1.prod.mrc-sunrise.marketing.aws.dev https://livechat-api.us-east-1.prod.mrc-sunrise.marketing.aws.dev https://oidc.us-east-1.amazonaws.com https://pricing-table.us-west-2.prod.site.p.awsstatic.com https://prod-api.cosmic.aws.dev https://prod-us-west-2.csp-report.marketing.aws.dev https://prod-us-west-2.csp-report.marketing.aws.dev/submit https://prod.log.shortbread.aws.dev https://prod.tools.shortbread.aws.dev https://prod.us-east-1.api.gcr-chat.marketing.aws.dev https://prod.us-east-1.rest-bot.gcr-chat.marketing.aws.dev https://prod.us-east-1.ui.gcr-chat.marketing.aws.dev https://prod2.clientlogger.cn-northwest-1.marketplace.aws.a2z.org.cn https://public.lotus.awt.aws.a2z.com https://s0.awsstatic.com https://s3.amazonaws.com/aws-messaging-pricing-information/ https://s3.amazonaws.com/public-pricing-agc/ https://spot-bid-advisor.s3.amazonaws.com https://t0.m.awsstatic.com https://token.us-west-2.prod.site.p.awsstatic.com https://view-stage.us-west-2.prod.pricing.aws.a2z.com https://view-staging.us-east-1.prod.plc1-prod.pricing.aws.a2z.com https://vs.aws.amazon.com https://webchat-aws.clink.cn https://www.youtube-nocookie.com https://www.youtube.com wss://*.transport.connect.us-east-1.amazonaws.com wss://prod.us-east-1.wss-bot.gcr-chat.marketing.aws.dev wss://webchat-aws.clink.cn; font-src 'self' data: https://a0.awsstatic.com https://f0.awsstatic.com https://fonts.gstatic.com https://prod.us-east-1.ui.gcr-chat.marketing.aws.dev; frame-src 'self' https://aws.demdex.net https://c0.b0.p.awsstatic.com https://calculator.aws https://commenting.awsblogs.com https://conversational-experience-worker.widget.console.aws.amazon.com/lotus/isolatedIFrame https://dpm.demdex.net https://player.vimeo.com https://pricing-table.us-west-2.prod.site.p.awsstatic.com https://token.us-west-2.prod.site.p.awsstatic.com https://www.youtube-nocookie.com https://www.youtube.com; img-src 'self' data: https://*.vidyard.com https://*.ytimg.com https://a0.awsstatic.com https://amazonwebservices.d2.sc.omtrdc.net https://avatars.builderprofile.aws.dev https://aws-clink2-resource.s3.cn-northwest-1.amazonaws.com.cn https://aws-quickstart.s3.amazonaws.com https://aws.amazon.com https://aws.demdex.net https://awsmedia.s3.amazonaws.com https://chat.us-east-1.prod.mrc-sunrise.marketing.aws.dev https://cm.everesttech.net https://d1.awsstatic.com https://d1d1et6laiqoh9.cloudfront.net https://d2908q01vomqb2.cloudfront.net https://d2c.aws.amazon.com https://d2cpw7vd6a2efr.cloudfront.net https://d36cz9buwru1tt.cloudfront.net https://docs.aws.amazon.com https://dpm.demdex.net https://fls-na.amazon.com https://google.ca https://google.co.in https://google.co.jp https://google.co.th https://google.co.uk https://google.com https://google.com.ar https://google.com.au https://google.com.br https://google.com.hk https://google.com.mx https://google.com.tr https://google.com.tw https://google.de https://google.es https://google.fr https://google.it https://google.nl https://google.pl https://google.ru https://img.youtube.com https://marketingplatform.google.com https://media.amazonwebservices.com https://p.adsymptotic.com https://pages.awscloud.com https://prod.cosmic.aws.dev https://prod.us-east-1.ui.gcr-chat.marketing.aws.dev https://s3.amazonaws.com/aws-quickstart/ https://s3.cn-north-1.amazonaws.com.cn/awschinablog/ https://s3.cn-north-1.amazonaws.com.cn/images-bjs/ https://ssl-static.libsyn.com https://static-cdn.jtvnw.net https://webchat-aws.clink.cn https://www.google.com https://www.linkedin.com https://yt3.ggpht.com; media-src 'self' https://*.libsyn.com https://a0.awsstatic.com https://anchor.fm https://awsmedia.s3.amazonaws.com https://awspodcastsiberiaent.s3.eu-west-3.amazonaws.com https://chat.us-east-1.prod.mrc-sunrise.marketing.aws.dev https://chtbl.com https://content.production.cdn.art19.com https://d1.awsstatic.com https://d1hemuljm71t2j.cloudfront.net https://d1le29qyzha1u4.cloudfront.net https://d1oqpvwii7b6rh.cloudfront.net https://d1vo51ubqkiilx.cloudfront.net https://d1yyh5dhdgifnx.cloudfront.net https://d2908q01vomqb2.cloudfront.net https://d2a6igt6jhaluh.cloudfront.net https://d3ctxlq1ktw2nl.cloudfront.net https://d3h2ozso0dirfl.cloudfront.net https://dgen8gghn3u86.cloudfront.net https://dk261l6wntthl.cloudfront.net https://download.stormacq.com/aws/podcast/ https://dts.podtrac.com https://media.amazonwebservices.com https://mktg-apac.s3-ap-southeast-1.amazonaws.com https://rss.art19.com https://s3-ap-northeast-1.amazonaws.com/aws-china-media/ https://www.buzzsprout.com; object-src 'none'; script-src 'nonce-I6NVe9JS7xAgedAoH4MojXMOD+nyUa0WGYnX0Mj25CU=' 'self' https://*.cdn.console.awsstatic.com/ https://*.cdn.uis.awsstatic.com/ https://a.b.cdn.console.awsstatic.com https://a0.awsstatic.com https://amazonwebservicesinc.tt.omtrdc.net https://cdn.builderprofile.aws.dev https://chat.us-east-1.prod.mrc-sunrise.marketing.aws.dev https://d2c.aws.amazon.com https://googleads.g.doubleclick.net https://loader.us-east-1.prod.mrc-sunrise.marketing.aws.dev https://prod.cosmic.aws.dev https://prod.us-east-1.ui.gcr-chat.marketing.aws.dev https://spot-price.s3.amazonaws.com https://static.doubleclick.net https://t0.m.awsstatic.com https://website.spot.ec2.aws.a2z.com https://www.google.com https://www.gstatic.com https://www.youtube.com/iframe_api https://www.youtube.com/s/player/; style-src 'self' 'unsafe-inline' https://a0.awsstatic.com https://prod.us-east-1.ui.gcr-chat.marketing.aws.dev; report-uri https://prod-us-west-2.csp-report.marketing.aws.dev/submit" data-report-uri="https://prod-us-west-2.csp-report.marketing.aws.dev/submit"> 
+  <script src="https://a0.awsstatic.com/libra/1.0.582/csp/csp-report.js"></script> 
+  <meta name="robots" content="max-image-preview:large"> 
+  <link rel="dns-prefetch" href="//a0.awsstatic.com"> 
+  <style id="global-styles-inline-css" type="text/css">
+body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--duotone--dark-grayscale: url('#wp-duotone-dark-grayscale');--wp--preset--duotone--grayscale: url('#wp-duotone-grayscale');--wp--preset--duotone--purple-yellow: url('#wp-duotone-purple-yellow');--wp--preset--duotone--blue-red: url('#wp-duotone-blue-red');--wp--preset--duotone--midnight: url('#wp-duotone-midnight');--wp--preset--duotone--magenta-yellow: url('#wp-duotone-magenta-yellow');--wp--preset--duotone--purple-green: url('#wp-duotone-purple-green');--wp--preset--duotone--blue-orange: url('#wp-duotone-blue-orange');--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+</style> 
+  <link rel="canonical" href="https://aws.amazon.com/blogs/apn/amazon-vpc-for-on-premises-network-engineers-part-two/"> 
+  <meta property="og:locale" content="en_US"> 
+  <meta property="og:site_name" content="Amazon Web Services"> 
+  <meta property="og:title" content="Amazon VPC for On-Premises Network Engineers – Part 2 | Amazon Web Services"> 
+  <meta property="og:type" content="article"> 
+  <meta property="og:url" content="https://aws.amazon.com/blogs/apn/amazon-vpc-for-on-premises-network-engineers-part-two/"> 
+  <meta property="og:description" content="Editor’s note: This is the&nbsp;second of a popular two-part series by Nick Matthews. Read Part&nbsp;1 >> By Nick Matthews, Partner Solutions Architect, CCIE #23560 In the previous post on Amazon Virtual Private Cloud (Amazon VPC), we covered the basic anatomy of a VPC and the different ways to connect a VPC to the outside world. […]"> 
+  <meta property="og:image" content="https://d2908q01vomqb2.cloudfront.net/77de68daecd823babbb58edb1c8e14d7106e83bb/2018/01/03/Migration.jpg"> 
+  <meta property="og:image:width" content="1024"> 
+  <meta property="og:image:height" content="512"> 
+  <meta property="og:updated_time" content="2021-06-15T12:14:49-07:00"> 
+  <meta property="article:publisher" content="https://www.facebook.com/amazonwebservices"> 
+  <meta property="article:section" content="Amazon VPC"> 
+  <meta property="article:tag" content="Amazon VPC"> 
+  <meta property="article:tag" content="AWS Partner Network"> 
+  <meta property="article:tag" content="Best Practices"> 
+  <meta property="article:tag" content="Compute"> 
+  <meta property="article:tag" content="Networking &amp; Content Delivery"> 
+  <meta property="article:tag" content="Amazon EC2"> 
+  <meta property="article:tag" content="Amazon S3"> 
+  <meta property="article:tag" content="Amazon VPC"> 
+  <meta property="article:tag" content="AWS Availability Zones"> 
+  <meta property="article:tag" content="AWS CloudFormation"> 
+  <meta property="article:tag" content="AWS Direct Connect"> 
+  <meta property="article:tag" content="AWS Partner Solutions Architects (SA)"> 
+  <meta property="article:tag" content="AWS Services Partners"> 
+  <meta property="article:tag" content="Networking"> 
+  <meta property="article:tag" content="Partners with AWS Qualified Offerings"> 
+  <meta property="article:tag" content="Virtual Private Cloud"> 
+  <meta property="article:tag" content="VPC Endpoints"> 
+  <meta property="article:tag" content="VPC Flow Logs"> 
+  <meta property="article:tag" content="VPC Peering"> 
+  <meta property="article:published_time" content="2016-04-24T23:40:28-07:00"> 
+  <meta property="article:modified_time" content="2021-06-15T12:14:49-07:00"> 
+  <meta name="twitter:card" content="summary_large_image"> 
+  <meta name="twitter:site" content="@awscloud"> 
+  <meta name="twitter:domain" content="https://aws.amazon.com/blogs/"> 
+  <meta name="twitter:title" content="Amazon VPC for On-Premises Network Engineers – Part 2 | Amazon Web Services"> 
+  <meta name="twitter:description" content="Editor’s note: This is the&nbsp;second of a popular two-part series by Nick Matthews. Read Part&nbsp;1 >> By Nick Matthews, Partner Solutions Architect, CCIE #23560 In the previous post on Amazon Virtual Private Cloud (Amazon VPC), we covered the basic anatomy of a VPC and the different ways to connect a VPC to the outside world. […]"> 
+  <meta name="twitter:image" content="https://d2908q01vomqb2.cloudfront.net/77de68daecd823babbb58edb1c8e14d7106e83bb/2018/01/03/Migration.jpg"> 
+  <link rel="icon" type="image/ico" href="https://a0.awsstatic.com/main/images/site/fav/favicon.ico"> 
+  <link rel="shortcut icon" type="image/ico" href="https://a0.awsstatic.com/main/images/site/fav/favicon.ico"> 
+  <link rel="apple-touch-icon" sizes="57x57" href="https://a0.awsstatic.com/main/images/site/touch-icon-iphone-114-smile.png"> 
+  <link rel="apple-touch-icon" sizes="72x72" href="https://a0.awsstatic.com/main/images/site/touch-icon-ipad-144-smile.png"> 
+  <link rel="apple-touch-icon" sizes="114x114" href="https://a0.awsstatic.com/main/images/site/touch-icon-iphone-114-smile.png"> 
+  <link rel="apple-touch-icon" sizes="144x144" href="https://a0.awsstatic.com/main/images/site/touch-icon-ipad-144-smile.png"> 
+  <link rel="home" type="application/rss+xml" title="RSS 2.0 Feed" href="https://aws.amazon.com/blogs/apn/feed/"> 
+  <meta name="robots" content="index, follow"> 
+  <link rel="stylesheet" href="https://a0.awsstatic.com/libra-css/css/1.0.496/style-awsm.css"> 
+  <link rel="stylesheet" href="https://a0.awsstatic.com/aws-blog/1.0.76/css/blog.css"> 
+  <script type="application/json" id="aws-page-settings">
+    {"blogPageTitle":"Amazon VPC for On-Premises Network Engineers &#8211; Part 2","currentLanguage":"en-US","libraCSSPath":"https:\/\/a0.awsstatic.com\/libra-css\/css\/1.0.496","requireBaseUrl":"https:\/\/a0.awsstatic.com","requirePackages":[{"name":"libra","location":"libra\/1.0.582"}],"requirePaths":{"aws-blog":"https:\/\/a0.awsstatic.com\/aws-blog\/1.0.76\/js","directories":"https:\/\/a0.awsstatic.com\/libra\/1.0.582\/directories","librastandardlib":"https:\/\/a0.awsstatic.com\/libra\/1.0.582\/librastandardlib","scripts":"https:\/\/a0.awsstatic.com\/libra\/1.0.582\/v1-polyfills\/scripts"},"supportedLanguages":["ar","de","en","es","fr","id","it","jp","ko","pt","ru","th","tr","vi","cn","tw"],"currentStage":"Prod"}  </script> 
+  <script src="https://a0.awsstatic.com/aws-blog/1.0.76/js/blog-head.js"></script> 
+  <script src="https://a0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"></script> 
+  <script type="application/json" id="target-mediator">
+    {"supportedLanguages":["ar","de","en","es","fr","id","it","jp","ko","pt","ru","th","tr","vi","cn","tw"],"pageLanguage":"en","customParams":{"category0":"Amazon VPC","category1":"AWS Partner Network","category2":"Best Practices","category3":"Compute","category4":"Networking &amp; Content Delivery"}}  </script> 
+  <script src="https://a0.awsstatic.com/target/1.0.122/aws-target-mediator.js"></script> 
+  <noscript> 
+   <style>.js-mbox { visibility: visible; }</style> 
+  </noscript> 
+ </head> 
+ <body class="awsm aws-blogs-page aws-blogs-page-type-single"> 
+  <script id="awsc-panorama-bundle" src="https://prod.pa.cdn.uis.awsstatic.com/panorama-nav-init.js" data-config="{&quot;appEntity&quot;:&quot;aws-marketing&quot;,&quot;region&quot;:&quot;us-west-1&quot;,&quot;service&quot;:&quot;blogs-site&quot;}" async="true"></script> 
+  <a id="aws-page-skip-to-main" class="lb-sr-only lb-sr-only-focusable lb-bold lb-skip-el" href="#aws-page-content-main"> Skip to Main Content</a> 
+  <header id="aws-page-header" class="awsm m-page-header lb-with-mobile-subrow" role="banner"> 
+   <div id="m-nav" class="m-nav" role="navigation" aria-label="Global Navigation"> 
+    <div class="m-nav-header lb-clearfix" data-menu-url="https://s0.awsstatic.com/en_US/nav/v3/panel-content/desktop/index.html"> 
+     <div class="m-nav-logo"> 
+      <div class="lb-bg-logo aws-amazon_web_services_smile-header-desktop-en"> 
+       <a href="https://aws.amazon.com/?nc2=h_lg"><span>Click here to return to Amazon Web Services homepage</span></a> 
+      </div> 
+     </div> 
+     <nav class="m-nav-secondary-links" style="min-width: 620px" aria-label="Secondary Global Navigation"> 
+      <a href="https://aws.amazon.com/about-aws/?nc2=h_header">About AWS</a> 
+      <a href="https://aws.amazon.com/contact-us/?nc2=h_header">Contact Us</a> 
+      <a class="lb-txt-none lb-tiny-iblock lb-txt-13 lb-txt lb-has-trigger-indicator" href="#" data-mbox-ignore="true" data-lb-popover-trigger="popover-support-selector" role="button" aria-expanded="false" aria-label="Explore support options" id="popover-popover-support-selector-trigger" aria-controls="popover-support-selector" aria-haspopup="true"> Support&nbsp; <i class="icon-caret-down lb-trigger-mount"></i></a> 
+      <a id="m-nav-language-selector" class="lb-tiny-iblock lb-txt lb-has-trigger-indicator" href="#" data-lb-popover-trigger="popover-language-selector" data-language="en" aria-label="Set site language" role="button" aria-controls="popover-language-selector" aria-expanded="false" aria-haspopup="true">English&nbsp;<i class="icon-caret-down lb-trigger-mount"></i></a> 
+      <a class="lb-tiny-iblock lb-txt lb-has-trigger-indicator" href="#" data-lb-popover-trigger="popover-my-account" aria-label="Access account options" role="button" aria-controls="popover-my-account" aria-expanded="false" aria-haspopup="true">My Account&nbsp;<i class="icon-caret-down lb-trigger-mount"></i></a> 
+      <div class="m-nav-cta-btn"> 
+       <div class="lb-mbox js-mbox" data-lb-comp="mbox" data-lb-comp-ignore="true" data-mbox="en_header_nav_cta"> 
+        <div class="lb-data-attr-wrapper data-attr-wrapper" data-da-type="so" data-da-so-type="viewport" data-da-so-language="en" data-da-so-category="monitoring" data-da-so-name="nav-buttons" data-da-so-version="sign-up-sign-in-all" data-da-so-url="nav"> 
+         <div class="data-attr-wrapper lb-tiny-iblock lb-none-pad lb-box" data-da-type="so" data-da-so-type="viewport" data-da-so-language="en" data-da-so-category="monitoring" data-da-so-name="nav-buttons" data-da-so-version="prospect-sign-in" data-da-so-url="all"> 
+          <a class="lb-txt-none lb-tiny-iblock lb-txt-13 lb-txt" style="padding-top:8px; padding-right:13px;" href="https://console.aws.amazon.com/console/home?nc2=h_ct&amp;src=header-signin"> Sign In</a> 
+         </div> 
+         <div class="data-attr-wrapper lb-tiny-iblock lb-none-v-margin lb-btn" data-da-type="so" data-da-so-type="viewport" data-da-so-language="en" data-da-so-category="monitoring" data-da-so-name="nav-buttons" data-da-so-version="prospect-signup" data-da-so-url="all"> 
+          <a class="lb-btn-p-primary" href="https://portal.aws.amazon.com/gp/aws/developer/registration/index.html?nc2=h_ct&amp;src=header_signup" data-trk-params="{&quot;trkOverrideWithQs&quot;:true}" role="button"> <span> Create an AWS Account</span> </a> 
+         </div> 
+        </div> 
+       </div> 
+      </div> 
+     </nav> 
+     <div class="m-nav-primary-group"> 
+      <nav class="m-nav-primary-links" aria-label="Primary Global Navigation"> 
+       <i class="m-nav-angle-left-icon" aria-hidden="true"></i> 
+       <ul> 
+        <li aria-expanded="false"><span><a href="https://aws.amazon.com/products/?nc2=h_ql_prod" data-panel="m-nav-panel-products">Products</a></span></li> 
+        <li aria-expanded="false"><span><a href="https://aws.amazon.com/solutions/?nc2=h_ql_sol" data-panel="m-nav-panel-solutions">Solutions</a></span></li> 
+        <li aria-expanded="false"><span><a href="https://aws.amazon.com/pricing/?nc2=h_ql_pr" data-panel="m-nav-panel-pricing">Pricing</a></span></li> 
+        <li aria-expanded="false"><span><a href="https://aws.amazon.com/documentation-overview/?nc2=h_ql_doc_do" data-panel="m-nav-panel-documentation">Documentation</a></span></li> 
+        <li aria-expanded="false"><span><a href="https://aws.amazon.com/getting-started/?nc2=h_ql_le" data-panel="m-nav-panel-learn">Learn</a></span></li> 
+        <li aria-expanded="false"><span><a href="https://aws.amazon.com/partners/?nc2=h_ql_pn" data-panel="m-nav-panel-partner">Partner Network</a></span></li> 
+        <li aria-expanded="false"><span><a href="https://aws.amazon.com/marketplace/?nc2=h_ql_mp" data-panel="m-nav-panel-marketplace">AWS Marketplace</a></span></li> 
+        <li aria-expanded="false"><span><a href="https://aws.amazon.com/customer-enablement/?nc2=h_ql_ce" data-panel="m-nav-panel-customer">Customer Enablement</a></span></li> 
+        <li aria-expanded="false"><span><a href="https://aws.amazon.com/events/?nc2=h_ql_ev" data-panel="m-nav-panel-events">Events</a></span></li> 
+        <li aria-expanded="false"><span><a href="https://aws.amazon.com/contact-us/?nc2=h_ql_exm" data-panel="m-nav-panel-more">Explore More </a></span></li> 
+       </ul> 
+       <div class="m-nav-icon-group"> 
+        <i class="m-nav-angle-right-icon" aria-hidden="true"></i> 
+        <i class="m-nav-search-icon" tabindex="0" role="button" aria-expanded="false" aria-label="Search"></i> 
+       </div> 
+      </nav> 
+      <div id="m-nav-desktop-search" class="m-nav-search"> 
+       <form action="https://aws.amazon.com/search/" role="search"> 
+        <div class="m-typeahead" data-directory-id="typeahead-suggestions" data-lb-comp="typeahead"> 
+         <input class="m-nav-search-field" placeholder="Search" autocomplete="off" spellcheck="false" dir="auto" type="text" name="searchQuery"> 
+        </div> 
+       </form> 
+       <i class="m-nav-close-icon" role="button" aria-label="Close"></i> 
+      </div> 
+     </div> 
+    </div> 
+    <div class="lb-popover lb-popover-aui lb-popover-tiny" data-lb-comp="popover" data-id="popover-language-selector" id="popover-language-selector" aria-modal="false" aria-labelledby="popover-popover-language-selector-trigger" data-action="hover" data-position="top"> 
+     <a class="lb-popover-close" role="button" tabindex="0" aria-label="Close" title="Close"> <span class="lb-sr-only">Close</span> </a> 
+     <div class="lb-grid lb-row lb-row-max-large lb-snap"> 
+      <div class="lb-col lb-tiny-24 lb-mid-12"> 
+       <ul class="lb-txt-none lb-ul lb-list-style-none lb-tiny-ul-block"> 
+        <li lang="ar-SA" translate="no" data-language="ar"><a href="https://aws.amazon.com/ar/?nc1=h_ls">عربي</a></li> 
+        <li lang="id-ID" translate="no" data-language="id"><a href="https://aws.amazon.com/id/?nc1=h_ls">Bahasa Indonesia</a></li> 
+        <li lang="de-DE" translate="no" data-language="de"><a href="https://aws.amazon.com/de/?nc1=h_ls">Deutsch</a></li> 
+        <li lang="en-US" translate="no" data-language="en"><a href="https://aws.amazon.com/?nc1=h_ls">English</a></li> 
+        <li lang="es-ES" translate="no" data-language="es"><a href="https://aws.amazon.com/es/?nc1=h_ls">Español</a></li> 
+        <li lang="fr-FR" translate="no" data-language="fr"><a href="https://aws.amazon.com/fr/?nc1=h_ls">Français</a></li> 
+        <li lang="it-IT" translate="no" data-language="it"><a href="https://aws.amazon.com/it/?nc1=h_ls">Italiano</a></li> 
+        <li lang="pt-BR" translate="no" data-language="pt"><a href="https://aws.amazon.com/pt/?nc1=h_ls">Português</a></li> 
+       </ul> 
+      </div> 
+      <div class="lb-col lb-tiny-24 lb-mid-12"> 
+       <ul class="lb-txt-none lb-ul lb-list-style-none lb-tiny-ul-block"> 
+        <li lang="vi-VN" translate="no" data-language="vi"><a href="https://aws.amazon.com/vi/?nc1=f_ls">Tiếng Việt</a></li> 
+        <li lang="tr-TR" translate="no" data-language="tr"><a href="https://aws.amazon.com/tr/?nc1=h_ls">Türkçe</a></li> 
+        <li lang="ru-RU" translate="no" data-language="ru"><a href="https://aws.amazon.com/ru/?nc1=h_ls">Ρусский</a></li> 
+        <li lang="th-TH" translate="no" data-language="th"><a href="https://aws.amazon.com/th/?nc1=f_ls">ไทย</a></li> 
+        <li lang="ja-JP" translate="no" data-language="jp"><a href="https://aws.amazon.com/jp/?nc1=h_ls">日本語</a></li> 
+        <li lang="ko-KR" translate="no" data-language="ko"><a href="https://aws.amazon.com/ko/?nc1=h_ls">한국어</a></li> 
+        <li lang="zh-CN" translate="no" data-language="cn"><a href="https://aws.amazon.com/cn/?nc1=h_ls">中文 (简体)</a></li> 
+        <li lang="zh-TW" translate="no" data-language="tw"><a href="https://aws.amazon.com/tw/?nc1=h_ls">中文 (繁體)</a></li> 
+       </ul> 
+      </div> 
+     </div> 
+    </div> 
+    <div class="lb-popover lb-popover-aui lb-popover-tiny" data-lb-comp="popover" data-id="popover-my-account" id="popover-my-account" aria-modal="false" aria-labelledby="popover-popover-my-account-trigger" data-action="hover" data-position="top"> 
+     <a class="lb-popover-close" role="button" tabindex="0" aria-label="Close" title="Close"> <span class="lb-sr-only">Close</span> </a> 
+     <ul class="lb-txt-none lb-ul lb-list-style-none lb-tiny-ul-block"> 
+      <li class="m-no-auth" data-myaws-auth-only="true"><a href="https://aws.amazon.com/profile/?nc2=h_m_mc">My Profile</a></li> 
+      <li class="m-no-auth" data-myaws-auth-only="true"><a href="https://auth.aws.amazon.com/sign-out/?nc2=h_m_mc">Sign out of AWS Builder ID</a></li> 
+      <li><a href="https://console.aws.amazon.com/?nc2=h_m_mc">AWS Management Console</a></li> 
+      <li><a href="https://console.aws.amazon.com/billing/home#/account?nc2=h_m_ma">Account Settings</a></li> 
+      <li><a href="https://console.aws.amazon.com/billing/home?nc2=h_m_bc">Billing &amp; Cost Management</a></li> 
+      <li><a href="https://console.aws.amazon.com/iam/home?nc2=h_m_sc#security_credential">Security Credentials</a></li> 
+      <li><a href="https://phd.aws.amazon.com/?nc2=h_m_sc">AWS Personal Health Dashboard</a></li> 
+     </ul> 
+    </div> 
+    <div class="lb-popover lb-popover-aui lb-popover-tiny" data-lb-comp="popover" data-id="popover-support-selector" id="popover-support-selector" aria-modal="false" aria-labelledby="popover-popover-support-selector-trigger" data-action="hover" data-position="top"> 
+     <a class="lb-popover-close" role="button" tabindex="0" aria-label="Close" title="Close"> <span class="lb-sr-only">Close</span> </a> 
+     <ul class="lb-txt-none lb-ul lb-list-style-none lb-tiny-ul-block"> 
+      <li><a href="https://console.aws.amazon.com/support/home/?nc2=h_ql_cu">Support Center</a></li> 
+      <li><a href="https://iq.aws.amazon.com/?utm=mkt.nav">Expert Help</a></li> 
+      <li><a href="https://repost.aws/knowledge-center/?nc2=h_m_ma">Knowledge Center</a></li> 
+      <li><a href="https://aws.amazon.com/premiumsupport/?nc2=h_m_bc">AWS Support Overview</a></li> 
+      <li><a href="https://repost.aws/">AWS re:Post</a></li> 
+     </ul> 
+    </div> 
+    <script type="text/x-handlebars-template" data-hbs-template-path="nav-desktop/suggestions" data-hbs-context="{&quot;pricingText&quot;:&quot;Pricing&quot;,&quot;documentationText&quot;:&quot;Documentation&quot;,&quot;calculatorText&quot;:&quot;Calculator&quot;}"></script> 
+    <script type="text/x-handlebars-template" data-hbs-template-path="nav-desktop/products-head" data-hbs-context="{&quot;productsText&quot;:&quot;Products&quot;}"></script> 
+    <script type="text/x-handlebars-template" data-hbs-template-path="nav-desktop/keypages-head" data-hbs-context="{&quot;relatedPagesText&quot;:&quot;Related Pages&quot;}"></script> 
+    <script type="text/x-handlebars-template" data-hbs-template-path="nav-desktop/tutorials-head" data-hbs-context="{&quot;tutorialsText&quot;:&quot;Tutorials&quot;}"></script> 
+    <script type="text/x-handlebars-template" data-hbs-template-path="nav-desktop/blogs-head" data-hbs-context="{&quot;blogsText&quot;:&quot;Blogs&quot;}"></script> 
+    <script type="text/x-handlebars-template" data-hbs-template-path="nav-desktop/see-all" data-hbs-context="{&quot;resultsText&quot;:&quot;See more results for&quot;}"></script> 
+   </div> 
+   <div id="m-nav-mobile" class="m-nav-mobile" role="navigation" aria-label="Global Navigation for Mobile"> 
+    <div id="m-nav-mobile-header" class="m-nav-mobile-header m-nav-mobile-with-sub-row" data-menu-url="https://s0.awsstatic.com/en_US/nav/v3/panel-content/mobile/index.html"> 
+     <div class="lb-bg-logo aws-amazon_web_services_smile-header-mobile-en"> 
+      <a href="https://aws.amazon.com/?nc2=h_lg"><span>Click here to return to Amazon Web Services homepage</span></a> 
+     </div> 
+     <div class="m-nav-mobile-button-group"> 
+      <i class="m-nav-mobile-button icon-search" tabindex="0" role="button" aria-expanded="false" aria-label="Search"></i> 
+      <i class="m-nav-mobile-button icon-reorder" tabindex="0" role="button" aria-expanded="false" aria-label="Menu"></i> 
+     </div> 
+     <div id="m-nav-mobile-sub-row" class="m-nav-mobile-sub-row"> 
+      <div class="data-attr-wrapper lb-btn" data-da-type="so" data-da-so-category="monitoring" data-da-so-language="en" data-da-so-name="global-mobile-sticky-cta-buttons" data-da-so-type="viewport" data-da-so-version="get-started-for-free-cta" data-da-so-url="all"> 
+       <a class="lb-btn-p-primary" href="https://portal.aws.amazon.com/gp/aws/developer/registration/index.html?nc2=h_mobile" role="button"> <span> Get Started for Free</span> </a> 
+      </div> 
+      <div class="data-attr-wrapper lb-btn" data-da-type="so" data-da-so-category="monitoring" data-da-so-language="en" data-da-so-name="global-mobile-sticky-cta-buttons" data-da-so-type="viewport" data-da-so-version="contact-us"> 
+       <a class="lb-btn-p" href="https://aws.amazon.com/contact-us/?nc2=h_mobile" role="button"> <span> Contact Us</span> </a> 
+      </div> 
+     </div> 
+    </div> 
+    <div id="m-nav-mobile-search" class="m-nav-mobile-search"> 
+     <form action="https://aws.amazon.com/search" role="search"> 
+      <div class="m-typeahead"> 
+       <input class="m-nav-search-field" placeholder="Search" autocomplete="off" spellcheck="false" dir="auto" type="text" name="searchQuery"> 
+      </div> 
+     </form> 
+    </div> 
+    <nav id="m-nav-trimdown" aria-label="Condensed Global Navigation for Mobile"> 
+     <ul class="m-nav-mobile-menu-group"> 
+      <li> <a href="https://aws.amazon.com/products/?nc2=h_mo">Products</a> </li> 
+      <li> <a href="https://aws.amazon.com/solutions/?nc2=h_mo">Solutions</a> </li> 
+      <li> <a href="https://aws.amazon.com/pricing/?nc2=h_mo">Pricing</a> </li> 
+      <li> <a href="https://aws.amazon.com/what-is-aws/?nc2=h_mo">Introduction to AWS</a> </li> 
+      <li> <a href="https://aws.amazon.com/getting-started/?nc2=h_mo">Getting Started</a> </li> 
+      <li> <a href="https://aws.amazon.com/documentation-overview/?nc2=h_mo">Documentation</a> </li> 
+      <li> <a href="https://aws.amazon.com/training/?nc2=h_mo">Training and Certification</a> </li> 
+      <li> <a href="https://aws.amazon.com/developer/?nc2=h_mo">Developer Center</a> </li> 
+      <li> <a href="https://aws.amazon.com/solutions/case-studies/?nc2=h_mo">Customer Success</a> </li> 
+      <li> <a href="https://aws.amazon.com/partners/?nc2=h_mo">Partner Network</a> </li> 
+      <li> <a href="https://aws.amazon.com/marketplace/?nc2=h_mo">AWS Marketplace</a> </li> 
+      <li> <a href="https://console.aws.amazon.com/support/home?nc2=h_ql_cu">Support</a> </li> 
+      <li> <a href="https://repost.aws/">AWS re:Post</a> </li> 
+      <li> <a href="https://console.aws.amazon.com/console/home">Log into Console</a> </li> 
+      <li> <a href="https://aws.amazon.com/console/mobile/">Download the Mobile App</a> </li> 
+     </ul> 
+    </nav> 
+   </div> 
+  </header> 
+  <div class="awsm"> 
+   <div class="lb-blog-nav" data-lb-comp="aws-blog:blog-nav" data-lb-sticky-header="true"> 
+    <div class="lb-row lb-row-max-xlarge lb-snap"> 
+     <div class="lb-blog-nav-content"> 
+      <div class="lb-blog-nav-links"> 
+       <a class="lb-txt-none lb-txt" href="/blogs" data-trk-params="{&quot;trkOverrideWithQs&quot;:true}"> AWS Blog Home</a> 
+       <a class="lb-txt-none lb-txt lb-has-trigger-indicator" href="#" data-mbox-ignore="true" data-lb-popover-trigger="blog-category" role="button" aria-expanded="false" aria-label="Select blog category" id="popover-blog-category-trigger" aria-controls="blog-category" aria-haspopup="true" data-trk-params="{&quot;trkOverrideWithQs&quot;:true}"> Blogs&nbsp; <i class="icon-caret-down lb-trigger-mount"></i></a> 
+       <a class="lb-txt-none lb-txt lb-has-trigger-indicator" href="#" data-mbox-ignore="true" data-lb-popover-trigger="blog-editions" role="button" aria-expanded="false" aria-label="Select blog language" id="popover-blog-editions-trigger" aria-controls="blog-editions" aria-haspopup="true" data-trk-params="{&quot;trkOverrideWithQs&quot;:true}"> Editions&nbsp; <i class="icon-caret-down lb-trigger-mount"></i></a> 
+      </div> 
+     </div> 
+    </div> 
+   </div> 
+   <div class="lb-popover lb-popover-aui lb-popover-xlarge" data-lb-comp="popover" data-id="blog-category" id="blog-category" aria-modal="false" aria-labelledby="popover-blog-category-trigger" data-action="hover" data-position="top"> 
+    <a class="lb-popover-close" role="button" tabindex="0" aria-label="Close" title="Close"> <span class="lb-sr-only">Close</span> </a> 
+    <div class="lb-none-pad lb-none-v-margin lb-grid lb-row lb-row-max-large lb-snap"> 
+     <div class="lb-col lb-tiny-24 lb-mid-12"> 
+      <div class="lb-none-pad lb-none-v-margin lb-box"> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/architecture/"> Architecture</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/mt/" data-trk-params="{&quot;trkOverrideWithQs&quot;:true}"> AWS Cloud Operations &amp; Migrations</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/gametech/" data-trk-params="{&quot;trkOverrideWithQs&quot;:true}"> AWS for Games</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/aws-insights/"> AWS Insights</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/awsmarketplace/"> AWS Marketplace</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/aws/"> AWS News</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/apn/"> AWS Partner Network</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/smb/"> AWS Smart Business</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/big-data/"> Big Data</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/business-intelligence/"> Business Intelligence</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/business-productivity/"> Business Productivity</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/enterprise-strategy/" data-trk-params="{&quot;trkOverrideWithQs&quot;:true}"> Cloud Enterprise Strategy</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/aws-cloud-financial-management/"> Cloud Financial Management</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/compute/"> Compute</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/contact-center/"> Contact Center</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/containers/"> Containers</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/database/"> Database</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/desktop-and-application-streaming/"> Desktop &amp; Application Streaming</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/developer/" data-trk-params="{&quot;trkOverrideWithQs&quot;:true}"> Developer Tools</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/devops/"> DevOps</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/mobile/"> Front-End Web &amp; Mobile</a> 
+      </div> 
+     </div> 
+     <div class="lb-col lb-tiny-24 lb-mid-12"> 
+      <div class="lb-none-pad lb-none-v-margin lb-box"> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/hpc/"> HPC</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/ibm-redhat/"> IBM and Red Hat</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/industries/"> Industries</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/infrastructure-and-automation/"> Integration &amp; Automation</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/iot/"> Internet of Things</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/machine-learning/"> Machine Learning</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/media/"> Media</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/messaging-and-targeting/"> Messaging &amp; Targeting</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/modernizing-with-aws/"> Microsoft Workloads on AWS</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/dotnet/"> .NET on AWS</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/networking-and-content-delivery/"> Networking &amp; Content Delivery</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/opensource/"> Open Source</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/publicsector/"> Public Sector</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/quantum-computing/" data-trk-params="{&quot;trkOverrideWithQs&quot;:true}"> Quantum Computing</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/robotics/"> Robotics</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/awsforsap/"> SAP</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/security/blogs/" data-trk-params="{&quot;trkOverrideWithQs&quot;:true}"> Security</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/spatial/"> Spatial Computing</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/startups/"> Startups</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/storage/"> Storage</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/supply-chain/"> Supply Chain &amp; Logistics</a> 
+       <a class="lb-txt-none lb-txt" href="https://aws.amazon.com/blogs/training-and-certification/"> Training &amp; Certification</a> 
+      </div> 
+     </div> 
+    </div> 
+   </div> 
+   <div class="lb-popover lb-popover-aui lb-popover-tiny" data-lb-comp="popover" data-id="blog-editions" id="blog-editions" aria-modal="false" aria-labelledby="popover-blog-editions-trigger" data-action="hover" data-position="top"> 
+    <a class="lb-popover-close" role="button" tabindex="0" aria-label="Close" title="Close"> <span class="lb-sr-only">Close</span> </a> 
+    <ul class="lb-txt-none lb-none-v-margin lb-ul lb-list-style-none lb-li-micro-v-margin lb-tiny-ul-block"> 
+     <li translate="no" lang="zh-CN"><a href="https://aws.amazon.com/cn/blogs/china/">中国版</a></li> 
+     <li translate="no" lang="ja-JP"><a href="https://aws.amazon.com/jp/blogs/news/">日本版</a></li> 
+     <li translate="no" lang="ko-KR"><a href="https://aws.amazon.com/ko/blogs/korea/">한국 에디션</a></li> 
+     <li translate="no" lang="ko-KR"><a href="https://aws.amazon.com/ko/blogs/tech/">기술 블로그</a></li> 
+     <li translate="no" lang="id-ID"><a href="https://aws.amazon.com/id/blogs/indonesia/">Edisi Bahasa Indonesia</a></li> 
+     <li translate="no" lang="tr-TR"><a href="https://aws.amazon.com/th/blogs/thailand/">AWS Thai Blog</a></li> 
+     <li translate="no" lang="fr-FR"><a href="https://aws.amazon.com/fr/blogs/france/">Édition Française</a></li> 
+     <li translate="no" lang="de-DE"><a href="https://aws.amazon.com/de/blogs/germany/">Deutsche Edition</a></li> 
+     <li translate="no" lang="pt-BR"><a href="https://aws.amazon.com/pt/blogs/aws-brasil/">Edição em Português</a></li> 
+     <li translate="no" lang="es-ES"><a href="https://aws.amazon.com/es/blogs/aws-spanish/">Edición en Español</a></li> 
+     <li translate="no" lang="ru-RU"><a href="https://aws.amazon.com/ru/blogs/rus/">Версия на русском</a></li> 
+     <li translate="no" lang="tr-TR"><a href="https://aws.amazon.com/tr/blogs/turkey/">Türkçe Sürüm</a></li> 
+    </ul> 
+   </div> 
+  </div> 
+  <div id="aws-page-content" class="aws-blog-has-related-posts lb-page-content lb-page-with-sticky-subnav blog-page" data-page-alert-target="true"> 
+   <div class="aws-blog-content lb-row lb-row-max-large lb-snap lb-gutter-mid"> 
+    <main class="lb-col lb-tiny-24 lb-mid-16" role="main" id="aws-page-content-main" tabindex="-1"> 
+     <h2 class="lb-h5 blog-title"><a href="https://aws.amazon.com/blogs/apn/">AWS Partner Network (APN) Blog</a></h2> 
+     <article class="blog-post" vocab="https://schema.org/" typeof="TechArticle"> 
+      <meta property="inLanguage" content="en-US"> 
+      <meta property="image" content="https://d2908q01vomqb2.cloudfront.net/77de68daecd823babbb58edb1c8e14d7106e83bb/2018/01/03/Migration.jpg"> 
+      <h1 class="lb-h2 blog-post-title" property="name headline">Amazon VPC for On-Premises Network Engineers – Part 2</h1> 
+      <footer class="blog-post-meta" data-lb-comp="aws-blog:share-dialog">
+        by 
+       <span property="author" typeof="Person"><span property="name">Nick Matthews</span></span> | on 
+       <time property="datePublished" datetime="2016-04-24T23:40:28-07:00">24 APR 2016</time> | in 
+       <span class="blog-post-categories"><a href="https://aws.amazon.com/blogs/apn/category/compute/amazon-vpc/" title="View all posts in Amazon VPC"><span property="articleSection">Amazon VPC</span></a>, <a href="https://aws.amazon.com/blogs/apn/category/aws-partner-network/" title="View all posts in AWS Partner Network"><span property="articleSection">AWS Partner Network</span></a>, <a href="https://aws.amazon.com/blogs/apn/category/post-types/best-practices/" title="View all posts in Best Practices"><span property="articleSection">Best Practices</span></a>, <a href="https://aws.amazon.com/blogs/apn/category/compute/" title="View all posts in Compute"><span property="articleSection">Compute</span></a>, <a href="https://aws.amazon.com/blogs/apn/category/networking-content-delivery/" title="View all posts in Networking &amp; Content Delivery"><span property="articleSection">Networking &amp; Content Delivery</span></a></span> | 
+       <a href="https://aws.amazon.com/blogs/apn/amazon-vpc-for-on-premises-network-engineers-part-two/" property="url">Permalink</a> | 
+       <a href="https://aws.amazon.com/blogs/apn/amazon-vpc-for-on-premises-network-engineers-part-two/#Comments"><i class="icon-comment"></i> Comments</a> | 
+       <a href="#" role="button" data-share-dialog-toggle><span class="span icon-share"></span>&nbsp;Share</a> 
+       <div class="blog-share-dialog" data-share-dialog style="display: none;"> 
+        <ul> 
+         <li> <a class="lb-txt" href="https://www.facebook.com/sharer/sharer.php?u=https://aws.amazon.com/blogs/apn/amazon-vpc-for-on-premises-network-engineers-part-two/" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook"><span class="icon-facebook-square"></span></a> </li> 
+         <li> <a class="lb-txt" href="https://twitter.com/intent/tweet/?text=Amazon%20VPC%20for%20On-Premises%20Network%20Engineers%20-%20Part%202&amp;via=awscloud&amp;url=https://aws.amazon.com/blogs/apn/amazon-vpc-for-on-premises-network-engineers-part-two/" target="_blank" rel="noopener noreferrer" aria-label="Share on Twitter"><span class="icon-twitter-square"></span></a> </li> 
+         <li> <a class="lb-txt" href="https://www.linkedin.com/shareArticle?mini=true&amp;title=Amazon%20VPC%20for%20On-Premises%20Network%20Engineers%20-%20Part%202&amp;source=Amazon%20Web%20Services&amp;url=https://aws.amazon.com/blogs/apn/amazon-vpc-for-on-premises-network-engineers-part-two/" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn"><span class="icon-linkedin-square"></span></a> </li> 
+         <li> <a class="lb-txt" href="mailto:?subject=Amazon%20VPC%20for%20On-Premises%20Network%20Engineers%20-%20Part%202&amp;body=Amazon%20VPC%20for%20On-Premises%20Network%20Engineers%20-%20Part%202%0A%0Ahttps://aws.amazon.com/blogs/apn/amazon-vpc-for-on-premises-network-engineers-part-two/" target="_blank" rel="noopener noreferrer" aria-label="Share on Email"><span class="icon-envelope-square"></span></a> </li> 
+         <li class="blog-share-dialog-url"><input type="text" value="https://aws.amazon.com/blogs/apn/amazon-vpc-for-on-premises-network-engineers-part-two/" title="Link to Amazon VPC for On-Premises Network Engineers – Part 2" readonly data-share-dialog-url></li> 
+        </ul> 
+       </div> 
+      </footer> 
+      <section class="blog-post-content lb-rtxt" property="articleBody"> 
+       <p><span style="color: #ff0000">Editor’s note: This is the&nbsp;second of a popular two-part series by Nick Matthews.</span> <a href="https://aws.amazon.com/blogs/apn/amazon-vpc-for-on-premises-network-engineers-part-one/"><span style="color: #993300">Read Part&nbsp;1 &gt;&gt;</span></a></p> 
+       <p><em>By Nick Matthews, Partner Solutions Architect, CCIE #23560</em></p> 
+       <p><a href="https://aws.amazon.com/blogs/apn/amazon-vpc-for-on-premises-network-engineers-part-one/" target="_blank" rel="noopener noreferrer">In the previous post</a> on Amazon Virtual Private Cloud (Amazon VPC), we covered the basic anatomy of a VPC and the different ways to connect a VPC to the outside world. In this post, we’ll explain advanced VPC concepts in a way that we hope you’ll be able to relate to as a network engineer.</p> 
+       <h2>Creating a New VPC</h2> 
+       <p>Let’s build a VPC from scratch. There are <a href="http://docs.aws.amazon.com/AmazonVPC/latest/GettingStartedGuide/getting-started-create-vpc.html" target="_blank" rel="noopener noreferrer">detailed instructions here</a>. Briefly, here are the steps:</p> 
+       <ol> 
+        <li><a href="http://docs.aws.amazon.com/AmazonVPC/latest/GettingStartedGuide/getting-started-create-vpc.html" target="_blank" rel="noopener noreferrer">Create a new VPC</a>. When configuring the VPC, choose a CIDR range within the RFC 1918 addresses that won’t overlap with on-premises addresses or existing VPCs. 
+         <ul> 
+          <li>If there’s an overlap, you might need to look at doing a one-way or two-way Network Address Translation (NAT). You might want to consider NAT options on the <a href="https://aws.amazon.com/marketplace">AWS Marketplace</a> to assist with this, such as solutions from Check Point, Cisco, Fortinet, Palo Alto Networks, and Sophos.</li> 
+         </ul> </li> 
+        <li>Determine your subnet segmentation strategy, keeping in mind the number of Availability Zones (2+), network ACLs, what type of routing is required, and how workloads will be divided (dev/prod, by team, by security level, etc.). To start, group subnets as either private or public, and group by security requirements. The goal is to have enough subnets for availability that are large enough to handle growth, but not so large that it’s difficult to create non-overlapping subnets with the rest of your address space. Remember that “private” and “public” are just descriptions for subnets―they are the same components but just configured differently, and they can be changed later.</li> 
+        <li>Determine your subnet sizing strategy, keeping in mind growth and elasticity of services, how large the VPC is, the five addresses the VPC uses in each subnet, and addresses for services, including Elastic Load Balancing. Remember that there are no broadcasts, so broadcast storms aren’t relevant any longer.</li> 
+        <li>Create the subnets and spread them across Availability Zones.</li> 
+        <li>Determine the external connectivity, and attach the Internet gateway, virtual private gateway, and/or NAT gateway to the VPC.</li> 
+        <li>Create route tables. Consider the NAT gateway Availability Zone requirements and subnet security requirements for routing.</li> 
+        <li>Add route table entries to the Internet gateway, virtual private gateway, or NAT gateway.</li> 
+        <li>Associate the route table to the subnets.</li> 
+        <li>Create any pre-approved security groups instances should use.</li> 
+       </ol> 
+       <p>It’s beneficial to follow these manual steps a few times to understand the components, but for accuracy and automation, we recommend that you use AWS CloudFormation to manage network configuration.</p> 
+       <p>CloudFormation makes it easy to spin up, spin down, and make changes to networks by using JSON to organize the configuration. Read more <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html" target="_blank" rel="noopener noreferrer">in</a> the <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/" target="_blank" rel="noopener noreferrer">AWS CloudFormation documentation</a>, and check out <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/sample-templates-services-us-west-2.html#d0e127632" target="_blank" rel="noopener noreferrer">these sample VPC templates</a>.</p> 
+       <h2><strong>Connecting to the WAN – AWS Direct Connect</strong></h2> 
+       <p>If you want to connect the AWS network into your existing WAN architecture, it’s important to understand how to use AWS Direct Connect.</p> 
+       <p><a href="https://d2908q01vomqb2.cloudfront.net/77de68daecd823babbb58edb1c8e14d7106e83bb/2021/06/15/VPC-Network-Engineers-Part-2-1.png"><img class="aligncenter size-full wp-image-25100" src="https://d2908q01vomqb2.cloudfront.net/77de68daecd823babbb58edb1c8e14d7106e83bb/2021/06/15/VPC-Network-Engineers-Part-2-1.png" alt="VPC-Network-Engineers-Part-2-1" width="957" height="599"></a></p> 
+       <p style="text-align: center"><em>Figure 1 – AWS Direct Connect architecture with both a public and private virtual interface.</em></p> 
+       <p><strong>AWS Direct Connect: </strong>This service allows you to physically connect into the AWS network to connect to your AWS services. Direct Connect locations are public datacenters that have AWS operated private backbone connectivity to AWS regions.</p> 
+       <p>In these locations, you can connect into the Direct Connect routers to extend your network into AWS. There are Direct Connect points of presence in every region, and each point of presence has one or more routers with 1/10G ports you can request.</p> 
+       <p>Direct Connect allows for private communication over a dedicated line, and can provide additional security, performance, and privacy. It can also bridge the network architecture gap between on-premises networks and AWS. <a href="https://aws.amazon.com/directconnect/partners/" target="_blank" rel="noopener noreferrer">Check out our Direct Connect partners.</a></p> 
+       <p>The requirements for Direct Connect connectivity are:</p> 
+       <ul> 
+        <li>A Border Gateway Protocol (BGP) peering session per virtual interface</li> 
+        <li>A unique VLAN per virtual interface</li> 
+        <li>An Ethernet connection (1/10G SMF, 1000BASE-LX/10GBASE-LR)</li> 
+        <li>A virtual gateway in the VPC for which you want connectivity</li> 
+       </ul> 
+       <p>These requirements offer a good deal of flexibility for connectivity options to your WAN. A simple scenario for an MPLS WAN would be to add a MPLS router to the facility where you want to use Direct Connect. To the rest of the MPLS network, this would look like another branch.</p> 
+       <p>The next step is to acquire an interconnect from your router in the DX location to the DX router, which a number of <a href="https://aws.amazon.com/directconnect/partners/" target="_blank" rel="noopener noreferrer">Direct Connect Partners</a> can supply.</p> 
+       <p>If you have a Layer 2 WAN (like VPLS), then you can do the BGP peering in a different location.</p> 
+       <p><strong>Virtual interface: </strong>A virtual interface is like a subinterface on a router in a virtual routing and forwarding (VRF) table, with a route in the VRF toward a specific location. This location could be a single VPC, or the collection of public AWS services such as Amazon S3, Amazon DynamoDB, and more.</p> 
+       <p>Virtual interfaces can be private or public. A single Direct Connect connection can contain many virtual interfaces, each with their own VLAN, which only has local significance because all connectivity is routed.</p> 
+       <p><em>Private virtual interfaces</em> are used to route a Direct Connect connection to a specific VPC. On the AWS Direct Connect router, a VLAN is used to define the subinterface and has its own BGP peering session. The private interface is mapped to a VPC-enabling private connectivity. The destination VPC can be in another account. A private IP address and private BGP ASN can be used.</p> 
+       <p><em>Public virtual interfaces</em> allow for direct routing into AWS’s public services. Connections would originate somewhere outside AWS, come in through the WAN connection in the Direct Connect location, through the Direct Connect router, and then over AWS’s backbone to the correct public service.</p> 
+       <p><a href="https://d2908q01vomqb2.cloudfront.net/77de68daecd823babbb58edb1c8e14d7106e83bb/2021/06/15/VPC-Network-Engineers-Part-2-2.png"><img loading="lazy" class="aligncenter size-full wp-image-25101" src="https://d2908q01vomqb2.cloudfront.net/77de68daecd823babbb58edb1c8e14d7106e83bb/2021/06/15/VPC-Network-Engineers-Part-2-2.png" alt="VPC-Network-Engineers-Part-2-2" width="866" height="580"></a></p> 
+       <p style="text-align: center"><em>Figure 2 – Public virtual interfaces advertise the addresses for public services in all US Regions.</em></p> 
+       <p>In the United States, public services from every region are advertised over this connection.&nbsp; For example, this would allow a public virtual interface in a Direct Connect location in N. Virginia to connect to Amazon Simple Storage Service (Amazon S3) buckets hosted in the N. California Region using the AWS backbone instead of the Internet.</p> 
+       <p>Public virtual interfaces should be treated and secured like any other Internet-facing service, and require a public /30 address to be assigned and advertised. If a public ASN is used, it must be owned by the customer; otherwise, a private ASN can be used.</p> 
+       <p><strong>Network-to-Network Interface (NNI): </strong>Not everyone wants a dedicated router or 1G connection into AWS.&nbsp; <a href="https://aws.amazon.com/directconnect/partners/" target="_blank" rel="noopener noreferrer">AWS Direct Connect Partners</a> can provide you with varying connection options. A NNI allows a partner to manage the connection and router, and to offer speeds under 1G (50, 100, 200 , 300, 400 , 500 Mbps).</p> 
+       <p><strong>Hosted virtual interfaces</strong> are virtual interfaces offered by APN partners that host NNI connections. They can be public or private, and offer speeds under 1G (50, 100, 200, 300, 400, 500 Mbps).</p> 
+       <h2>Advanced Networking and Features</h2> 
+       <p>So far, we’ve discussed general use cases for a VPC. Let’s dive into some of the more advanced topics and features.</p> 
+       <p><strong>VPC peering:</strong> VPC peering enables two VPCs in the same AWS Region to communicate with each other. It’s similar to having a group of subnets share routing reachability with each other―almost like putting a static route on each side of a network that was otherwise partitioned.</p> 
+       <p>Peering simply enables network connectivity between two VPCs to be possible. Any actual reachability is enabled with configuration of route tables, security groups, and network ACLs.</p> 
+       <p>VPC peering allows instances to directly communicate with one another while residing in two different VPCs, even across accounts. Peering is established when one side initiates a request and the other VPC accepts.</p> 
+       <p>Peering adds an option in the routing table to point routes towards the new VPC peering connection. Each subnet that needs connectivity across the peering connection will need a route in the associated routing table.</p> 
+       <p><a href="https://d2908q01vomqb2.cloudfront.net/77de68daecd823babbb58edb1c8e14d7106e83bb/2021/06/15/VPC-Network-Engineers-Part-2-3.png"><img loading="lazy" class="aligncenter size-full wp-image-25102" src="https://d2908q01vomqb2.cloudfront.net/77de68daecd823babbb58edb1c8e14d7106e83bb/2021/06/15/VPC-Network-Engineers-Part-2-3.png" alt="VPC-Network-Engineers-Part-2-3" width="866" height="873"></a></p> 
+       <p style="text-align: center"><em>Figure 3 – A route entry is added in the 10.0.1.0/24 and 11.0.1.0/24 subnets for a VPC peering connection. For the 10.0.2.0/24 and 11.0.2.0/24 subnets to have connectivity, they would need a route entry as well.</em></p> 
+       <p>In Figure 3, a VPC peering connection has been established between VPC 10.0.0.0/16 and 11.0.0.0/16. To enable subnet 10.0.1.0/24 to communicate with 11.0.1.0/24, a route has been added to each routing table for the respective VPC’s CIDR range. In this example the full CIDR /16 was used, but for more specific routing between the two subnets the /24 range could be used as well.</p> 
+       <p>There are a few things to keep in mind when using VPC peering: transitive routing, VPC limits, and CIDR overlap. First, as detailed in the “Routing and Switching” section in <a href="https://aws.amazon.com/blogs/apn/amazon-vpc-for-on-premises-network-engineers-part-one/" target="_blank" rel="noopener noreferrer">part one of this blog post</a>, traffic can’t come from outside a VPC and leave the VPC. You can use instances that act as routers or proxies to enable these flows.</p> 
+       <p>Furthermore, peering operates only when there are no CIDR conflicts. This could impact your subnet and CIDR design, and using less common (not 10.0.0.0/16 or 172.16.0.0/16!) CIDR ranges reduces this risk. When assessing VPC peering as a connectivity feature, check that the <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Appendix_Limits.html" target="_blank" rel="noopener noreferrer">VPC limits</a> meet your requirements. For example, the VPC peering limit is 50 peering connections by default, with 125 as the hard limit.</p> 
+       <p><a href="https://d2908q01vomqb2.cloudfront.net/77de68daecd823babbb58edb1c8e14d7106e83bb/2021/06/15/VPC-Network-Engineers-Part-2-4.png"><img loading="lazy" class="aligncenter size-full wp-image-25103" src="https://d2908q01vomqb2.cloudfront.net/77de68daecd823babbb58edb1c8e14d7106e83bb/2021/06/15/VPC-Network-Engineers-Part-2-4.png" alt="VPC-Network-Engineers-Part-2-4" width="733" height="491"></a></p> 
+       <p style="text-align: center"><em>Figure 4 – Route table for two subnets, allowing Instance A and C to reach the S3 endpoint.</em></p> 
+       <p><strong>Amazon S3 endpoint:</strong> There are AWS services that were originally designed to be consumed over the Internet, like Amazon S3. Amazon S3 allows users to store and retrieve objects, and can have high bandwidth requirements for large or commonly accessed files.</p> 
+       <p>Before S3 endpoints were introduced, an instance in a private VPC needed a way to access the Internet for S3 files.&nbsp; You could route requests through a proxy, but the proxy could be a performance and availability bottleneck. This posed a problem for network administrators who wanted to limit Internet access and provide high bandwidth for instances.</p> 
+       <p>With S3 endpoints, you can create a private route in your VPC that allows you to route traffic directly to and from S3 in your VPC. Think of this as adding a collection of /32 routes for all the live S3 IP addresses you want to use, which is called a <em>prefix list</em> (pl-xxxxxxx) in AWS.</p> 
+       <p>The prefix list in Figure 4 points to an endpoint (vpce-xxxxxxxx) that corresponds to the service―in this case, S3.&nbsp; This allows you to forward traffic within a private VPC without any bandwidth or availability bottlenecks.</p> 
+       <p>S3 was the first AWS service with endpoints, and AWS is constantly evaluating endpoints for other services. For more detailed information, check out the <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/vpc-endpoints.html" target="_blank" rel="noopener noreferrer">VPC Endpoints documentation</a>.</p> 
+       <p><a href="https://d2908q01vomqb2.cloudfront.net/77de68daecd823babbb58edb1c8e14d7106e83bb/2021/06/15/VPC-Network-Engineers-Part-2-5.png"><img loading="lazy" class="aligncenter size-full wp-image-25104" src="https://d2908q01vomqb2.cloudfront.net/77de68daecd823babbb58edb1c8e14d7106e83bb/2021/06/15/VPC-Network-Engineers-Part-2-5.png" alt="VPC-Network-Engineers-Part-2-5" width="774" height="629"></a></p> 
+       <p style="text-align: center"><em>Figure 5 – A single Elastic IP address is assigned to one instance, and is used to forward traffic. The second instance monitors the first instance, and, if failure is detected, makes an API call to move the Elastic IP address to itself. Session traffic is dropped unless the instances are doing state synchronization.</em></p> 
+       <p><strong>Virtual IP: </strong>A virtual IP is a building block of on-premises networks that allows a single IP address to be present on multiple systems at once. An elastic network interface (ENI) that moves between two or more instances is similar to a virtual IP. This is also called a <em>floating ENI</em>, and is one way to emulate a virtual IP. There are a few differences between an ENI and a virtual IP:</p> 
+       <ul> 
+        <li>The time to move an ENI is not constant, and may take several seconds.</li> 
+        <li>We recommend that you use an external monitoring system to do health checks on the instances that are using the shared ENI, though systems can also monitor themselves, similar to Virtual Router Redundancy Protocol (VRRP) and Hot Standby Router Protocol (HSRP).</li> 
+        <li>The private address of an ENI is specific to a subnet, and thus to an Availability Zone.</li> 
+        <li>Simply moving the IP address doesn’t mean that all instances will have the same TCP state. Use synchronization features (like clustering) to keep TCP state between instances.</li> 
+        <li>You can choose to associate an Elastic IP address between a set of secondary ENIs or move an ENI with associated IP addresses to another machine. In other words, you can move the address or you can move the interface. The interface (ENI) is specific to the subnet, and the IP (Elastic IP) is specific to the region. If you move an Elastic IP address between Availability Zones or subnets, the public address will remain the same and the private address will change.</li> 
+       </ul> 
+       <p><strong>VPC Flow Logs: </strong>VPC Flow Logs are similar to scheduled NetFlow/sFlow/IPFIX reports. Flow logs collect the source and destination IP, source and destination ports, protocol, packet counts, and ALLOW or DENY action for a particular VPC, subnet, or ENI. They are currently collected and sent as a report every 10 minutes.</p> 
+       <p><strong>Enhanced networking:</strong> Enhanced networking is available on particular instance types to enable faster network performance when there is operating system support. This feature can reduce network latency, CPU overhead, and enable more efficient network packet processing. For more information, see the <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking.html" target="_blank" rel="noopener noreferrer">Amazon EC2 documentation</a>.</p> 
+       <p><strong>Limits: </strong>When designing VPC networks, we recommend that you review the <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Appendix_Limits.html" target="_blank" rel="noopener noreferrer">VPC limits</a> to determine whether your network design fits the capabilities of the VPC. The documentation specifies which limits you can raise by contacting support, and which limits you can’t change.</p> 
+       <p>For example, VPC peering may solve many of your problems, but if you need more than 125 peering connections it may affect your design. As another example, if your subnet and CIDR blocks are highly fragmented, you will want to find a way to get it under the 100 routes that can be propagated into a VPC.</p> 
+       <h2>Wrapping Up</h2> 
+       <p>There are many ways to build your network on AWS. In this post, I’ve explained common building blocks to understand as you build a VPC, how these components work, and how they relate to concepts in the traditional networking world. If you’re hungry for more details, check out these additional resources:</p> 
+       <ul> 
+        <li>VPC Best Practices: <a href="https://www.youtube.com/watch?v=ykmqjgLdmL4" target="_blank" rel="noopener noreferrer">Video</a></li> 
+        <li>Direct Connect Redundancy Design: <a href="https://www.youtube.com/watch?v=_JgNnmOfxLE" target="_blank" rel="noopener noreferrer">Video</a></li> 
+        <li>Another Day, Another Billion Packets: <a href="https://www.youtube.com/watch?v=3qln2u1Vr2E" target="_blank" rel="noopener noreferrer">Video</a></li> 
+        <li><a href="https://aws.amazon.com/documentation/vpc/" target="_blank" rel="noopener noreferrer">AWS Amazon VPC Documentation</a></li> 
+       </ul> 
+       <p>In the comments section, please tell us what you would like to hear more about. We’re always interested in hearing about network problems we can help you solve.</p> 
+       <!-- '"` --> 
+      </section> 
+      <footer> 
+       <div class="blog-tag-list">
+         TAGS: 
+        <span property="keywords"><a href="https://aws.amazon.com/blogs/apn/tag/amazon-ec2/" rel="tag">Amazon EC2</a>, <a href="https://aws.amazon.com/blogs/apn/tag/amazon-s3/" rel="tag">Amazon S3</a>, <a href="https://aws.amazon.com/blogs/apn/tag/amazon-vpc/" rel="tag">Amazon VPC</a>, <a href="https://aws.amazon.com/blogs/apn/tag/aws-availability-zones/" rel="tag">AWS Availability Zones</a>, <a href="https://aws.amazon.com/blogs/apn/tag/aws-cloudformation/" rel="tag">AWS CloudFormation</a>, <a href="https://aws.amazon.com/blogs/apn/tag/aws-direct-connect/" rel="tag">AWS Direct Connect</a>, <a href="https://aws.amazon.com/blogs/apn/tag/aws-partner-solutions-architects/" rel="tag">AWS Partner Solutions Architects (SA)</a>, <a href="https://aws.amazon.com/blogs/apn/tag/apn-consulting-partners/" rel="tag">AWS Services Partners</a>, <a href="https://aws.amazon.com/blogs/apn/tag/networking/" rel="tag">Networking</a>, <a href="https://aws.amazon.com/blogs/apn/tag/apn-technology-partners/" rel="tag">Partners with AWS Qualified Offerings</a>, <a href="https://aws.amazon.com/blogs/apn/tag/virtual-private-cloud/" rel="tag">Virtual Private Cloud</a>, <a href="https://aws.amazon.com/blogs/apn/tag/vpc-endpoints/" rel="tag">VPC Endpoints</a>, <a href="https://aws.amazon.com/blogs/apn/tag/vpc-flow-logs/" rel="tag">VPC Flow Logs</a>, <a href="https://aws.amazon.com/blogs/apn/tag/vpc-peering/" rel="tag">VPC Peering</a></span> 
+       </div> 
+      </footer> 
+      <aside class="blog-comments"> 
+       <h2 id="Comments">Comments</h2> 
+       <div class="blog-commenting" data-lb-comp="aws-blog:commenting" data-comment-url="https://commenting.awsblogs.com/embed-1.0.html?disqus_shortname=aws-apn-blog&amp;disqus_identifier=2028&amp;disqus_title=Amazon+VPC+for+On-Premises+Network+Engineers+%26%238211%3B+Part+2&amp;disqus_url=https://aws.amazon.com/blogs/apn/amazon-vpc-for-on-premises-network-engineers-part-two/" data-sandbox-attr="allow-forms allow-scripts allow-popups allow-same-origin" data-origin="https://commenting.awsblogs.com"> 
+        <p><a href="https://commenting.awsblogs.com/embed-1.0.html?disqus_shortname=aws-apn-blog&amp;disqus_identifier=2028&amp;disqus_title=Amazon+VPC+for+On-Premises+Network+Engineers+%26%238211%3B+Part+2&amp;disqus_url=https://aws.amazon.com/blogs/apn/amazon-vpc-for-on-premises-network-engineers-part-two/" property="discussionUrl">View Comments</a></p> 
+       </div> 
+      </aside> 
+      <div class="js-mbox" data-mbox="en_blog_post_comments"></div> 
+     </article> 
+    </main> 
+    <div class="blog-sidebar lb-col lb-tiny-24 lb-mid-8"> 
+     <div class="awsm"> 
+      <div class="lb-box" style="padding-left:30px;"> 
+       <h3 id="Resources" class="lb-txt-none lb-h3 lb-title" style="margin-top:30px;"> Resources</h3> 
+       <div class="data-attr-wrapper lb-none-pad lb-none-v-margin lb-box" data-da-type="ha" data-da-channel="ha" data-da-language="en" data-da-placement="blog-sb-resources" data-da-campaign="acq_awsblogsb" data-da-content="apn-resources" data-da-trk="blog_initial"> 
+        <ul class="lb-txt-none lb-none-v-margin lb-ul lb-list-style-none lb-li-none-v-margin lb-tiny-ul-block"> 
+         <li><a href="https://aws.amazon.com/partners/success/">AWS Partner and Customer Case Studies</a></li> 
+         <li><a href="https://aws.amazon.com/partners/partner-success/">AWS Partner Network Case Studies</a></li> 
+         <li><a href="https://aws.amazon.com/partners/work-with-partners/">Why Work with AWS Partners</a></li> 
+         <li><a href="https://aws.amazon.com/partners/">Join the AWS Partner Network</a></li> 
+         <li><a href="https://aws.amazon.com/partners/apn-portal">Partner Central Login</a></li> 
+         <li><a href="https://aws.amazon.com/partners/training">AWS Training for Partners</a></li> 
+         <li><a href="https://aws.amazon.com/partners/marketing/sponsorships">AWS Sponsorship Opportunities</a></li> 
+        </ul> 
+       </div> 
+       <div class="lb-grid lb-row lb-row-max-large lb-snap"> 
+        <div class="lb-col lb-tiny-24 lb-mid-8"> 
+         <hr class="lb-divider"> 
+        </div> 
+        <div class="lb-col lb-tiny-24 lb-mid-8"> 
+        </div> 
+        <div class="lb-col lb-tiny-24 lb-mid-8"> 
+        </div> 
+       </div> 
+       <h3 id="Follow" class="lb-txt-none lb-h3 lb-title"> Follow</h3> 
+       <div class="data-attr-wrapper lb-none-pad lb-none-v-margin lb-box" data-da-type="ha" data-da-channel="ha" data-da-language="en" data-da-placement="blog-sb-social" data-da-campaign="acq_awsblogsb" data-da-content="apn-social" data-da-trk="blog_initial"> 
+        <ul class="lb-txt-none lb-none-v-margin lb-ul lb-list-style-none lb-li-none-v-margin lb-tiny-ul-block"> 
+         <li><a href="https://www.linkedin.com/showcase/aws-partners/"><i class="icon-linkedin-square"></i> &nbsp;AWS Partners LinkedIn</a></li> 
+         <li><a href="https://twitter.com/aws_partners"><i class="icon-twitter-square"></i> &nbsp;AWS Partners Twitter</a></li> 
+         <li><a href="https://www.youtube.com/c/AWSPartnerNetwork"><i class="icon-youtube-square"></i> &nbsp;AWS Partners YouTube</a></li> 
+         <li><a href="https://partners.awscloud.com/communication-preferences.html"><i class="icon-envelope-square"></i> &nbsp;AWS Email Updates</a></li> 
+         <li><a href="https://aws.amazon.com/blogs/apn/feed"><i class="icon-rss-square"></i> &nbsp;APN Blog RSS Feed</a></li> 
+        </ul> 
+       </div> 
+      </div> 
+     </div> 
+     <div class="js-mbox" data-mbox="en_blog_post_sidebar"></div> 
+    </div> 
+   </div> 
+  </div> 
+  <div class="awsm"> 
+   <footer id="aws-page-footer" class="m-page-footer" role="contentinfo"> 
+    <div class="data-attr-wrapper lb-none-v-margin lb-xb-grid-wrap" style="background-color:#242F3E;" data-da-type="so" data-da-so-type="viewport" data-da-so-language="en" data-da-so-category="monitoring" data-da-so-name="footer" data-da-so-version="a"> 
+     <div class="lb-xb-grid lb-row-max-large lb-snap lb-tiny-xb-1 lb-small-xb-3 lb-large-xb-5"> 
+      <div class="lb-xbcol"> 
+       <div class="data-attr-wrapper lb-small-hide lb-btn" data-da-type="so" data-da-so-type="viewport" data-da-so-language="en" data-da-so-category="monitoring" data-da-so-name="footer_buttons" data-da-so-url="all" data-da-so-version="footer_signin-mobile-default"> 
+        <a class="lb-btn-p-primary" href="https://console.aws.amazon.com/console/home?nc1=f_ct&amp;src=footer-signin-mobile" role="button"> <span> Sign In to the Console</span> </a> 
+       </div> 
+       <h3 class="lb-txt-none lb-txt-white lb-tiny-v-margin lb-h3 lb-title"> Learn About AWS</h3> 
+       <ul class="lb-txt-white lb-ul lb-list-style-none lb-li-micro-v-margin lb-tiny-ul-block" style="margin-bottom:0px;"> 
+        <li><a href="https://aws.amazon.com/what-is-aws/?nc1=f_cc" target="_blank" rel="noopener noreferrer">What Is AWS?</a></li> 
+        <li><a href="https://aws.amazon.com/what-is-cloud-computing/?nc1=f_cc" target="_blank" rel="noopener noreferrer">What Is Cloud Computing?</a></li> 
+        <li><a href="https://aws.amazon.com/accessibility/?nc1=f_cc" target="_blank" rel="noopener noreferrer">AWS Accessibility</a></li> 
+        <li><a href="https://aws.amazon.com/diversity-inclusion/?nc1=f_cc" target="_blank" rel="noopener noreferrer">AWS Inclusion, Diversity &amp; Equity</a></li> 
+        <li><a href="https://aws.amazon.com/devops/what-is-devops/?nc1=f_cc" target="_blank" rel="noopener noreferrer">What Is DevOps?</a></li> 
+        <li><a href="https://aws.amazon.com/containers/?nc1=f_cc" target="_blank" rel="noopener noreferrer">What Is a Container?</a></li> 
+        <li><a href="https://aws.amazon.com/what-is/data-lake/?nc1=f_cc" target="_blank" rel="noopener noreferrer">What Is a Data Lake?</a></li> 
+        <li><a href="https://aws.amazon.com/what-is/generative-ai/?nc1=f_cc" target="_blank" rel="noopener noreferrer">What is Generative AI?</a></li> 
+        <li><a href="https://aws.amazon.com/security/?nc1=f_cc" target="_blank" rel="noopener noreferrer">AWS Cloud Security</a></li> 
+        <li><a href="https://aws.amazon.com/new/?nc1=f_cc" target="_blank" rel="noopener noreferrer">What's New</a></li> 
+        <li><a href="https://aws.amazon.com/blogs/?nc1=f_cc" target="_blank" rel="noopener noreferrer">Blogs</a></li> 
+        <li><a href="https://press.aboutamazon.com/press-releases/aws" target="_blank" rel="noopener noreferrer" title="Press Releases">Press Releases</a></li> 
+       </ul> 
+      </div> 
+      <div class="lb-xbcol"> 
+       <h3 class="lb-txt-none lb-txt-white lb-tiny-v-margin lb-h3 lb-title"> Resources for AWS</h3> 
+       <ul class="lb-txt-white lb-ul lb-list-style-none lb-li-micro-v-margin lb-tiny-ul-block" style="margin-bottom:0px;"> 
+        <li><a href="https://aws.amazon.com/getting-started/?nc1=f_cc" target="_blank" rel="noopener noreferrer">Getting Started</a></li> 
+        <li><a href="https://aws.amazon.com/training/?nc1=f_cc" target="_blank" rel="noopener noreferrer">Training and Certification</a></li> 
+        <li><a href="https://aws.amazon.com/solutions/?nc1=f_cc" target="_blank" rel="noopener noreferrer">AWS Solutions Library</a></li> 
+        <li><a href="https://aws.amazon.com/architecture/?nc1=f_cc" target="_blank" rel="noopener noreferrer">Architecture Center</a></li> 
+        <li><a href="https://aws.amazon.com/faqs/?nc1=f_dr" target="_blank" rel="noopener noreferrer">Product and Technical FAQs</a></li> 
+        <li><a href="https://aws.amazon.com/resources/analyst-reports/?nc1=f_cc" target="_blank" rel="noopener noreferrer">Analyst Reports</a></li> 
+        <li><a href="https://aws.amazon.com/partners/work-with-partners/?nc1=f_dr" target="_blank" rel="noopener noreferrer">AWS Partners</a></li> 
+       </ul> 
+      </div> 
+      <div class="lb-xbcol"> 
+       <h3 class="lb-txt-none lb-txt-white lb-tiny-v-margin lb-h3 lb-title"> Developers on AWS</h3> 
+       <ul class="lb-txt-white lb-ul lb-list-style-none lb-li-micro-v-margin lb-tiny-ul-block" style="margin-bottom:0px;"> 
+        <li><a href="https://aws.amazon.com/developer/?nc1=f_dr" target="_blank" rel="noopener noreferrer">Developer Center</a></li> 
+        <li><a href="https://aws.amazon.com/developer/tools/?nc1=f_dr" target="_blank" rel="noopener noreferrer">SDKs &amp; Tools</a></li> 
+        <li><a href="https://aws.amazon.com/developer/language/net/?nc1=f_dr" target="_blank" rel="noopener noreferrer">.NET on AWS</a></li> 
+        <li><a href="https://aws.amazon.com/developer/language/python/?nc1=f_dr" target="_blank" rel="noopener noreferrer">Python on AWS</a></li> 
+        <li><a href="https://aws.amazon.com/developer/language/java/?nc1=f_dr" target="_blank" rel="noopener noreferrer">Java on AWS</a></li> 
+        <li><a href="https://aws.amazon.com/developer/language/php/?nc1=f_cc" target="_blank" rel="noopener noreferrer">PHP on AWS</a></li> 
+        <li><a href="https://aws.amazon.com/developer/language/javascript/?nc1=f_dr" target="_blank" rel="noopener noreferrer">JavaScript on AWS</a></li> 
+       </ul> 
+      </div> 
+      <div class="lb-xbcol"> 
+       <h3 class="lb-txt-none lb-txt-white lb-tiny-v-margin lb-h3 lb-title"> Help</h3> 
+       <ul class="lb-txt-white lb-ul lb-list-style-none lb-li-micro-v-margin lb-tiny-ul-block" style="margin-bottom:0px;"> 
+        <li><a href="https://aws.amazon.com/contact-us/?nc1=f_m" target="_blank" rel="noopener noreferrer">Contact Us</a></li> 
+        <li><a href="https://iq.aws.amazon.com/?utm=mkt.foot/?nc1=f_m" target="_blank" rel="noopener noreferrer">Get Expert Help</a></li> 
+        <li><a href="https://console.aws.amazon.com/support/home/?nc1=f_dr" target="_blank" rel="noopener noreferrer">File a Support Ticket</a></li> 
+        <li><a href="https://repost.aws/?nc1=f_dr" target="_blank" rel="noopener noreferrer">AWS re:Post</a></li> 
+        <li><a href="https://repost.aws/knowledge-center/?nc1=f_dr" target="_blank" rel="noopener noreferrer">Knowledge Center</a></li> 
+        <li><a href="https://aws.amazon.com/premiumsupport/?nc1=f_dr" target="_blank" rel="noopener noreferrer">AWS Support Overview</a></li> 
+        <li><a href="https://aws.amazon.com/legal/?nc1=f_cc" target="_blank" rel="noopener noreferrer">Legal</a></li> 
+        <li><a href="https://aws.amazon.com/careers/">AWS Careers</a></li> 
+       </ul> 
+       <div class="lb-mbox js-mbox" data-lb-comp="mbox" data-lb-comp-ignore="true" data-mbox="en_footer-v3_addl-help"> 
+       </div> 
+      </div> 
+      <div class="lb-xbcol"> 
+       <div class="lb-mbox js-mbox" data-lb-comp="mbox" data-lb-comp-ignore="true" data-mbox="en_footer-v3_cta"> 
+        <div class="data-attr-wrapper lb-tiny-hide lb-small-show lb-btn" data-da-type="so" data-da-so-type="viewport" data-da-so-language="en" data-da-so-category="monitoring" data-da-so-name="footer_buttons" data-da-so-url="all" data-da-so-version="footer_signup-default"> 
+         <a class="lb-btn-p-primary" href="https://portal.aws.amazon.com/gp/aws/developer/registration/index.html?nc1=f_ct&amp;src=default" role="button"> <span> Create an AWS Account</span> </a> 
+        </div> 
+       </div> 
+       <div class="lb-xb-grid-wrap" style="padding-left:0px; margin-top:20px; margin-bottom:0px;"> 
+        <div class="lb-xb-grid lb-row-max-large lb-xb-equal-height lb-snap lb-gutter-collapse lb-vgutter-collapse lb-tiny-xb-4"> 
+         <div class="lb-xbcol"> 
+          <a class="lb-txt-none lb-txt-white lb-none-pad lb-txt" style="padding-left:0px; padding-right:5px;" href="https://twitter.com/awscloud" target="_blank" rel="noopener noreferrer" title="Twitter"> <i class="icon-twitter"></i></a> 
+         </div> 
+         <div class="lb-xbcol"> 
+          <a class="lb-txt-none lb-txt-white lb-none-pad lb-none-v-margin lb-txt" style="padding-right:5px;" href="https://www.facebook.com/amazonwebservices" target="_blank" rel="noopener noreferrer" title="Facebook"> <i class="icon-facebook"></i></a> 
+         </div> 
+         <div class="lb-xbcol"> 
+          <a class="lb-txt-none lb-txt-white lb-none-pad lb-txt" style="padding-right:5px;" href="https://www.linkedin.com/company/amazon-web-services/" target="_blank" rel="noopener noreferrer" title="Linkedin"> <i class="icon-linkedin"></i></a> 
+         </div> 
+         <div class="lb-xbcol"> 
+          <a class="lb-txt-none lb-txt-white lb-none-pad lb-txt" style="padding-right:5px;" href="https://www.instagram.com/amazonwebservices/" target="_blank" rel="noopener noreferrer" title="Instagram"> <i class="icon-instagram"></i></a> 
+         </div> 
+        </div> 
+       </div> 
+       <div class="lb-xb-grid-wrap" style="padding-left:0px; margin-top:10px;"> 
+        <div class="lb-xb-grid lb-row-max-large lb-xb-equal-height lb-snap lb-gutter-collapse lb-vgutter-collapse lb-tiny-xb-4"> 
+         <div class="lb-xbcol"> 
+          <a class="lb-txt-none lb-txt-white lb-none-pad lb-txt" style="padding-right:5px;" href="https://www.twitch.tv/aws" target="_blank" rel="noopener noreferrer" title="Twitch"> <i class="icon-twitch"></i></a> 
+         </div> 
+         <div class="lb-xbcol"> 
+          <a class="lb-txt-none lb-txt-white lb-none-pad lb-txt" style="padding-right:5px;" href="https://www.youtube.com/user/AmazonWebServices/Cloud/" target="_blank" rel="noopener noreferrer" title="YouTube"> <i class="icon-youtube"></i></a> 
+         </div> 
+         <div class="lb-xbcol"> 
+          <a class="lb-txt-none lb-txt-white lb-none-pad lb-txt" style="padding-right:5px;" href="https://aws.amazon.com/podcasts/" target="_blank" rel="noopener noreferrer" title="Podcast"> <i class="icon-podcast"></i></a> 
+         </div> 
+         <div class="lb-xbcol"> 
+          <a class="lb-txt-none lb-txt-white lb-none-pad lb-txt" style="padding-right:5px;" href="https://pages.awscloud.com/communication-preferences?trk=homepage" target="_blank" rel="noopener noreferrer" title="Email"> <i class="icon-envelope-o"></i></a> 
+         </div> 
+        </div> 
+       </div> 
+       <div class="lb-txt-normal lb-txt-white lb-txt-14 lb-rtxt" style="color:#eaeded; margin-top:0px;"> 
+        <div>
+          Amazon is an Equal Opportunity Employer: 
+         <i> Minority / Women / Disability / Veteran / Gender Identity / Sexual Orientation / Age.</i> 
+        </div> 
+       </div> 
+      </div> 
+     </div> 
+    </div> 
+    <div class="lb-none-pad lb-none-v-margin lb-xb-grid-wrap" style="background-color:#242F3E;"> 
+     <div class="lb-xb-grid lb-row-max-large lb-snap lb-tiny-xb-1"> 
+      <div class="lb-xbcol"> 
+       <ul class="lb-txt-white lb-tiny-iblock lb-none-v-margin lb-ul lb-list-style-none lb-li-micro-v-margin lb-tiny-ul-iblock"> 
+        <li class="lb-txt-bold">Language</li> 
+        <li data-language="ar" lang="ar-SA" translate="no"><a href="https://aws.amazon.com/ar/?nc1=h_ls">عربي</a></li> 
+        <li data-language="id" lang="id-ID" translate="no"><a href="https://aws.amazon.com/id/?nc1=h_ls">Bahasa Indonesia</a></li> 
+        <li data-language="de" lang="de-DE" translate="no"><a href="https://aws.amazon.com/de/?nc1=h_ls">Deutsch</a></li> 
+        <li data-language="en" lang="en-US" translate="no"><a href="https://aws.amazon.com/?nc1=h_ls">English</a></li> 
+        <li data-language="es" lang="es-ES" translate="no"><a href="https://aws.amazon.com/es/?nc1=h_ls">Español</a></li> 
+        <li data-language="fr" lang="fr-FR" translate="no"><a href="https://aws.amazon.com/fr/?nc1=h_ls">Français</a></li> 
+        <li data-language="it" lang="it-IT" translate="no"><a href="https://aws.amazon.com/it/?nc1=h_ls">Italiano</a></li> 
+        <li data-language="pt" lang="pt-BR" translate="no"><a href="https://aws.amazon.com/pt/?nc1=h_ls">Português</a></li> 
+        <li data-language="vi" lang="vi-VN" translate="no"><a href="https://aws.amazon.com/vi/?nc1=f_ls">Tiếng Việt</a></li> 
+        <li data-language="tr" lang="tr-TR" translate="no"><a href="https://aws.amazon.com/tr/?nc1=h_ls">Türkçe</a></li> 
+        <li data-language="ru" lang="ru-RU" translate="no"><a href="https://aws.amazon.com/ru/?nc1=h_ls">Ρусский</a></li> 
+        <li data-language="th" lang="th-TH" translate="no"><a href="https://aws.amazon.com/th/?nc1=f_ls">ไทย</a></li> 
+        <li data-language="jp" lang="ja-JP" translate="no"><a href="https://aws.amazon.com/jp/?nc1=h_ls">日本語</a></li> 
+        <li data-language="ko" lang="ko-KR" translate="no"><a href="https://aws.amazon.com/ko/?nc1=h_ls">한국어</a></li> 
+        <li data-language="cn" lang="zh-CN" translate="no"><a href="https://aws.amazon.com/cn/?nc1=h_ls">中文 (简体)</a></li> 
+        <li data-language="tw" lang="zh-TW" translate="no"><a href="https://aws.amazon.com/tw/?nc1=h_ls">中文 (繁體)</a></li> 
+       </ul> 
+      </div> 
+     </div> 
+    </div> 
+    <div class="lb-none-pad lb-none-v-margin lb-xb-grid-wrap" style="background-color:#EAEDED; padding-top:5px;"> 
+     <div class="lb-xb-grid lb-row-max-large lb-snap lb-tiny-xb-1"> 
+      <div class="lb-xbcol"> 
+       <ul class="lb-txt-squid lb-none-v-margin lb-ul lb-list-style-none lb-li-none-v-margin lb-tiny-ul-iblock"> 
+        <li><a href="https://aws.amazon.com/privacy/?nc1=f_pr">Privacy</a></li> 
+        <li>|</li> 
+        <li><a href="https://aws.amazon.com/accessibility/?nc1=f_acc">Accessibility</a></li> 
+        <li>|</li> 
+        <li><a href="https://aws.amazon.com/terms/?nc1=f_pr">Site Terms</a></li> 
+        <li>|</li> 
+        <li data-cookie-consent-modal="1"><a href="#"> Cookie Preferences </a></li> 
+        <li>|</li> 
+        <li>© 2024, Amazon Web Services, Inc. or its affiliates. All rights reserved.</li> 
+       </ul> 
+      </div> 
+     </div> 
+    </div> 
+   </footer> 
+  </div> 
+  <script data-disqus-cookies-disabled-dialog type="text/html">
+  <div class="lb-alert lb-alert-info">
+    <h4 class="lb-title">Feature not available</h4>
+
+    <p>Visit <a href="#" data-shortbread-modal="true">cookie preferences</a> and allow all cookies to enable this feature.</p>
+  </div>
+</script> 
+  <div id="aws-page-end"></div> 
+  <div id="lb-page-end"></div> 
+  <script src="https://a0.awsstatic.com/da/js/1.0.50/aws-da.js" async></script> 
+  <script src="https://a0.awsstatic.com/aws-blog/1.0.76/js/vendor/prism.js" data-default-language="markup"></script>  
+ </body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+    <html xmlns="http://www.w3.org/1999/xhtml" lang="ko-KR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>AWS Direct Connect - Amazon Virtual Private Cloud 연결 옵션</title><meta name="viewport" content="width=device-width,initial-scale=1" /><meta name="assets_root" content="/assets" /><meta name="target_state" content="aws-direct-connect" /><meta name="default_state" content="aws-direct-connect" /><link rel="icon" type="image/ico" href="/assets/images/favicon.ico" /><link rel="shortcut icon" type="image/ico" href="/assets/images/favicon.ico" /><link rel="canonical" href="https://docs.aws.amazon.com/ko_kr/whitepapers/latest/aws-vpc-connectivity-options/aws-direct-connect.html" /><meta name="deployment_region" content="IAD" /><meta name="product" content="Amazon Virtual Private Cloud 연결 옵션" /><meta name="guide" content="AWS 백서" /><meta name="abstract" content="Amazon VPC (Virtual Private Cloud) 를 사용하면 고객이 Amazon Web Services (AWS) 클라우드의 격리된 프라이빗 섹션을 프로비저닝하여 고객이 정의한 IP 주소 범위를 사용하여 가상 네트워크에서 AWS 리소스를 시작할 수 있습니다. Amazon VPC는 고객에게 AWS 가상 네트워크를 다른 원격 네트워크에 연결할 수 있는 여러 옵션을 제공합니다. 이 문서에서는 고객이 사용할 수 있는 몇 가지 일반적인 네트워크 연결 옵션에 대해 설명합니다. 여기에는 원격 고객 네트워크를 Amazon VPC와 통합하고 여러 Amazon VPC를 인접한 가상 네트워크에 연결하는 연결 옵션이 포함됩니다." /><meta name="guide-locale" content="ko_kr" /><meta name="tocs" content="toc-contents.json" /><link rel="canonical" href="https://docs.aws.amazon.com/ko_kr/whitepapers/latest/aws-vpc-connectivity-options/aws-direct-connect.html" /><link rel="alternative" href="https://docs.aws.amazon.com/id_id/whitepapers/latest/aws-vpc-connectivity-options/aws-direct-connect.html" hreflang="id-id" /><link rel="alternative" href="https://docs.aws.amazon.com/id_id/whitepapers/latest/aws-vpc-connectivity-options/aws-direct-connect.html" hreflang="id" /><link rel="alternative" href="https://docs.aws.amazon.com/de_de/whitepapers/latest/aws-vpc-connectivity-options/aws-direct-connect.html" hreflang="de-de" /><link rel="alternative" href="https://docs.aws.amazon.com/de_de/whitepapers/latest/aws-vpc-connectivity-options/aws-direct-connect.html" hreflang="de" /><link rel="alternative" href="https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/aws-direct-connect.html" hreflang="en-us" /><link rel="alternative" href="https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/aws-direct-connect.html" hreflang="en" /><link rel="alternative" href="https://docs.aws.amazon.com/es_es/whitepapers/latest/aws-vpc-connectivity-options/aws-direct-connect.html" hreflang="es-es" /><link rel="alternative" href="https://docs.aws.amazon.com/es_es/whitepapers/latest/aws-vpc-connectivity-options/aws-direct-connect.html" hreflang="es" /><link rel="alternative" href="https://docs.aws.amazon.com/fr_fr/whitepapers/latest/aws-vpc-connectivity-options/aws-direct-connect.html" hreflang="fr-fr" /><link rel="alternative" href="https://docs.aws.amazon.com/fr_fr/whitepapers/latest/aws-vpc-connectivity-options/aws-direct-connect.html" hreflang="fr" /><link rel="alternative" href="https://docs.aws.amazon.com/it_it/whitepapers/latest/aws-vpc-connectivity-options/aws-direct-connect.html" hreflang="it-it" /><link rel="alternative" href="https://docs.aws.amazon.com/it_it/whitepapers/latest/aws-vpc-connectivity-options/aws-direct-connect.html" hreflang="it" /><link rel="alternative" href="https://docs.aws.amazon.com/ja_jp/whitepapers/latest/aws-vpc-connectivity-options/aws-direct-connect.html" hreflang="ja-jp" /><link rel="alternative" href="https://docs.aws.amazon.com/ja_jp/whitepapers/latest/aws-vpc-connectivity-options/aws-direct-connect.html" hreflang="ja" /><link rel="alternative" href="https://docs.aws.amazon.com/ko_kr/whitepapers/latest/aws-vpc-connectivity-options/aws-direct-connect.html" hreflang="ko-kr" /><link rel="alternative" href="https://docs.aws.amazon.com/ko_kr/whitepapers/latest/aws-vpc-connectivity-options/aws-direct-connect.html" hreflang="ko" /><link rel="alternative" href="https://docs.aws.amazon.com/pt_br/whitepapers/latest/aws-vpc-connectivity-options/aws-direct-connect.html" hreflang="pt-br" /><link rel="alternative" href="https://docs.aws.amazon.com/pt_br/whitepapers/latest/aws-vpc-connectivity-options/aws-direct-connect.html" hreflang="pt" /><link rel="alternative" href="https://docs.aws.amazon.com/zh_cn/whitepapers/latest/aws-vpc-connectivity-options/aws-direct-connect.html" hreflang="zh-cn" /><link rel="alternative" href="https://docs.aws.amazon.com/zh_tw/whitepapers/latest/aws-vpc-connectivity-options/aws-direct-connect.html" hreflang="zh-tw" /><link rel="alternative" href="https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/aws-direct-connect.html" hreflang="x-default" /><meta name="feedback-folder" content="a0d18259-7974-4e8f-8382-0a4be53f4374" /><meta name="this_doc_product" content="Amazon Virtual Private Cloud 연결 옵션" /><meta name="this_doc_guide" content="AWS 백서" /><script defer="" src="/assets/r/vendor4.js?version=2021.12.02"></script><script defer="" src="/assets/r/vendor3.js?version=2021.12.02"></script><script defer="" src="/assets/r/vendor1.js?version=2021.12.02"></script><script defer="" src="/assets/r/awsdocs-common.js?version=2021.12.02"></script><script defer="" src="/assets/r/awsdocs-doc-page.js?version=2021.12.02"></script><link href="/assets/r/vendor4.css?version=2021.12.02" rel="stylesheet" /><link href="/assets/r/awsdocs-common.css?version=2021.12.02" rel="stylesheet" /><link href="/assets/r/awsdocs-doc-page.css?version=2021.12.02" rel="stylesheet" /><script async="" id="awsc-panorama-bundle" type="text/javascript" src="https://prod.pa.cdn.uis.awsstatic.com/panorama-nav-init.js" data-config="{'appEntity':'aws-documentation','region':'us-east-1','service':'whitepapers'}"></script><meta id="panorama-serviceSubSection" value="AWS 백서" /><meta id="panorama-serviceConsolePage" value="AWS Direct Connect" /></head><body class="awsdocs awsui"><div class="awsdocs-container"><awsdocs-header></awsdocs-header><awsui-app-layout id="app-layout" class="awsui-util-no-gutters" ng-controller="ContentController as $ctrl" header-selector="awsdocs-header" navigation-hide="false" navigation-width="$ctrl.navWidth" navigation-open="$ctrl.navOpen" navigation-change="$ctrl.onNavChange($event)" tools-hide="$ctrl.hideTools" tools-width="$ctrl.toolsWidth" tools-open="$ctrl.toolsOpen" tools-change="$ctrl.onToolsChange($event)"><div id="guide-toc" dom-region="navigation"><awsdocs-toc></awsdocs-toc></div><div id="main-column" dom-region="content" tabindex="-1"><awsdocs-view class="awsdocs-view"><div id="awsdocs-content"><head><title>AWS Direct Connect - Amazon Virtual Private Cloud 연결 옵션</title><meta name="pdf" content="aws-vpc-connectivity-options.pdf#aws-direct-connect" /><meta name="rss" content="aws-vpc-connectivity-options.rss" /><meta name="feedback" content="https://docs.aws.amazon.com/forms/aws-doc-feedback?feedback_destination_id=a0d18259-7974-4e8f-8382-0a4be53f4374&amp;topic_url=https://docs.aws.amazon.com/ko_kr/whitepapers/latest/aws-vpc-connectivity-options/aws-direct-connect.html" /><meta name="feedback-yes" content="feedbackyes.html?topic_url=https://docs.aws.amazon.com/ko_kr/whitepapers/latest/aws-vpc-connectivity-options/aws-direct-connect.html" /><meta name="feedback-no" content="feedbackno.html?topic_url=https://docs.aws.amazon.com/ko_kr/whitepapers/latest/aws-vpc-connectivity-options/aws-direct-connect.html" /><script type="application/ld+json">
+{
+    "@context" : "https://schema.org",
+    "@type" : "BreadcrumbList",
+    "itemListElement" : [
+      {
+        "@type" : "ListItem",
+        "position" : 1,
+        "name" : "AWS",
+        "item" : "https://aws.amazon.com"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 2,
+        "name" : "AWS Whitepapers",
+        "item" : "https://aws.amazon.com/whitepapers/"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 3,
+        "name" : "AWS 백서",
+        "item" : "https://docs.aws.amazon.com/ko_kr/whitepapers/latest/aws-vpc-connectivity-options"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 4,
+        "name" : "네트워크와 아마존 VPC 연결 옵션",
+        "item" : "https://docs.aws.amazon.com/ko_kr/whitepapers/latest/aws-vpc-connectivity-options/network-to-amazon-vpc-connectivity-options.html"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 5,
+        "name" : "AWS Direct Connect",
+        "item" : "https://docs.aws.amazon.com/ko_kr/whitepapers/latest/aws-vpc-connectivity-options/network-to-amazon-vpc-connectivity-options.html"
+      }
+    ]
+}
+</script></head><body><div id="main"><div style="display: none"><a href="aws-vpc-connectivity-options.pdf#aws-direct-connect" target="_blank" rel="noopener noreferrer" title="pdf-tooltip"></a></div><div id="breadcrumbs" class="breadcrumb"><a href="https://aws.amazon.com">AWS</a><a href="/index.html">aws-documentation</a><a href="https://aws.amazon.com/whitepapers/">AWS Whitepapers</a><a href="welcome.html">AWS 백서</a></div><div id="page-toc-src"><a href="#additional-resources-2">추가 리소스</a></div><div id="main-content" class="awsui-util-container"><div id="main-col-body"><awsdocs-language-banner data-service="$ctrl.pageService"></awsdocs-language-banner><awsui-alert class="awsdocs-page-banner awsui-util-mb-l"><p>기계 번역으로 제공되는 번역입니다. 제공된 번역과 원본 영어의 내용이 상충하는 경우에는 영어 버전이 우선합니다.</p></awsui-alert><h1 class="topictitle" id="aws-direct-connect">AWS Direct Connect</h1><div class="awsdocs-page-header-container"><awsdocs-page-header></awsdocs-page-header><awsdocs-filter-selector id="awsdocs-filter-selector"></awsdocs-filter-selector></div><p>
+      <span id="_AWS_Direct_Connect"></span>
+    </p><p> <a href="https://aws.amazon.com/directconnect/" rel="noopener noreferrer" target="_blank"><span>AWS Direct Connect</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a>온프레미스 네트워크에서 하나 이상의 VPC로 전용 연결을 쉽게 설정할 수 있습니다. AWS Direct Connect 네트워크 비용을 줄이고, 대역폭 처리량을 늘리고, 인터넷 기반 연결보다 더 일관된 네트워크 경험을 제공할 수 있습니다. 업계 표준 802.1Q VLAN을 사용하여 사설 IP 주소를 사용하여 Amazon VPC에 연결합니다. VLAN은 <a href="https://docs.aws.amazon.com/directconnect/latest/UserGuide/WorkingWithVirtualInterfaces.html">가상 인터페이스</a> (VIF) 를 사용하여 구성되며 다음과 같은 세 가지 유형의 VIF를 구성할 수 있습니다.</p><div class="itemizedlist">
+       
+       
+       
+    <ul class="itemizedlist"><li class="listitem">
+        <p> <b>퍼블릭 가상 인터페이스</b> - AWS 퍼블릭 엔드포인트와 데이터 센터, 사무실 또는 코로케이션 환경 간의 연결을 설정합니다.</p>
+      </li><li class="listitem">
+        <p> <b>전송 가상 인터페이스</b> - 데이터 센터, 사무실 또는 코로케이션 환경 간에 AWS Transit Gateway 사설 연결을 설정합니다. 이 연결 옵션은 섹션에서 <a href="./aws-direct-connect-aws-transit-gateway.html">AWS Direct Connect + AWS Transit Gateway</a> 다룹니다.</p>
+      </li><li class="listitem">
+        <p> <b>프라이빗 가상 인터페이스</b> - Amazon VPC 리소스와 데이터 센터, 사무실 또는 코로케이션 환경 간에 프라이빗 연결을 설정합니다. 프라이빗 VIF의 사용은 다음 그림에 나와 있습니다.</p>
+        <div class="mediaobject">
+           
+            <img src="images/aws-direct-connect.png" class="aws-docs-img-whiteBg aws-docs-img-padding" alt="AWS Direct Connect를 보여주는 다이어그램" style="max-width:100%" />
+           
+           
+          <div class="caption"> AWS Direct Connect
+</div>
+        </div>
+      </li></ul></div><p> Direct Connect 위치에 있는 AWS 장치에 교차 연결을 AWS Direct Connect 설정하여 를 사용하여 AWS 백본에 대한 <a href="https://aws.amazon.com/directconnect/locations/" rel="noopener noreferrer" target="_blank"><span>연결을</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a> 설정할 수 있습니다. 모든 Direct Connect 위치 (중국 제외) 에서 모든 AWS 지역에 액세스할 수 있습니다. 특정 위치에 장비가 없는 경우 <a href="https://aws.amazon.com/directconnect/partners/" rel="noopener noreferrer" target="_blank"><span>WAN 서비스 제공업체</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a> 에코시스템 중에서 선택하여 특정 AWS Direct Connect 위치의 AWS Direct Connect 엔드포인트를 원격 네트워크와 통합할 수 있습니다.</p><p>에는 두 가지 유형의 연결이 있습니다. AWS Direct Connect</p><div class="itemizedlist">
+       
+       
+    <ul class="itemizedlist"><li class="listitem">
+        <p> <b>전용 연결</b>: 물리적 이더넷 연결이 단일 고객과 연결되는 경우 포트 속도는 1, 10 또는 100Gbps로 주문할 수 있습니다. AWS Direct Connect 파트너 프로그램의 파트너와 협력하여 AWS Direct Connect 연결과 데이터 센터, 사무실 또는 코로케이션 환경 간에 네트워크 회로를 설정하는 데 도움을 받아야 할 수도 있습니다.</p>
+      </li><li class="listitem">
+        <p> <b>호스트형 연결</b>: AWS Direct Connect 파트너가 물리적 이더넷 연결을 제공하고 사용자와 공유하는 방식. 포트 속도는 50Mbps에서 10Gbps 사이로 주문할 수 있습니다. 파트너가 설정한 연결과 AWS Direct Connect 연결과 데이터 센터, 사무실 또는 AWS Direct Connect 코로케이션 환경 간의 네트워크 회로에서 파트너와 협력합니다.</p>
+      </li></ul></div><p> 전용 연결의 경우 LAG (링크 어그리게이션 그룹) 를 사용하여 단일 엔드포인트에서 여러 연결을 집계할 수도 있습니다. AWS Direct Connect 이들을 단일 관리형 연결로 취급합니다. 최대 4개의 1Gbps 또는 10Gbps 연결과 최대 2개의 100Gbps 연결을 집계할 수 있습니다.</p><p> 에서 고가용성을 논할 때는 추가 연결을 사용하는 것이 AWS Direct Connect좋습니다. AWS Direct Connect <a href="https://docs.aws.amazon.com/directconnect/latest/UserGuide/resiliency_toolkit.html">AWS Direct Connect Resiliency Toolkit은</a> 데이터 센터, 사무실 또는 코로케이션 환경 간에 AWS 복원력이 뛰어난 네트워크 연결을 구축하는 데 필요한 지침을 제공합니다. 다음 그림은 서로 다른 두 위치에서 두 AWS Direct Connect 개의 연결이 종료되는 고복원력 연결 옵션의 예를 보여줍니다. AWS Direct Connect </p><div class="mediaobject">
+         
+          <img src="images/redundant-aws-direct-connect.png" class="aws-docs-img-whiteBg aws-docs-img-padding" alt="복원력이 뛰어난 연결 옵션을 보여주는 다이어그램 예제입니다." style="max-width:100%" />
+         
+         
+        <div class="caption">
+          <b>리던던트 AWS Direct Connect</b>
+        </div>
+      </div><p> AWS Direct Connect 기본적으로 암호화되지 않습니다. 10Gbps 또는 100Gbps 전용 연결의 경우 MAC 보안 (MACsec) 을 암호화 옵션으로 사용할 수 있습니다. 1Gbps 이하 연결의 경우 연결 위에 VPN 터널을 만들 수 있습니다. 이 옵션은 및 섹션에서 다룹니다. <a href="./aws-direct-connect-site-to-site-vpn.html">AWS Direct Connect + AWS 사이트 간 VPN</a> <a href="./aws-direct-connect-aws-transit-gateway-vpn.html">AWS Direct ConnectAWS Transit Gateway + AWS 사이트 간 VPN</a> </p><p> 에서 AWS Direct Connect 중요한 리소스 중 하나는 Direct Connect 게이트웨이입니다. Direct Connect 게이트웨이는 전 세계에서 사용할 수 있는 리소스로서 여러 지역 또는 계정에 걸쳐 여러 Amazon VPC 또는 트랜짓 게이트웨이에 연결할 수 있습니다. AWS 또한 이 리소스를 사용하면 다음 그림과 같이 하나의 프라이빗 VIF 또는 트랜짓 VIF에서 참여 VPC 또는 Transit Gateway에 연결할 수 있으므로 AWS Direct Connect
+관리 작업이 줄어듭니다.</p><div class="mediaobject">
+       
+        <img src="images/aws-direct-connect-gateway.png" class="aws-docs-img-whiteBg aws-docs-img-padding" alt="하나의 프라이빗 VIF 또는 트랜짓 VIF에서 참여 VPC 또는 Transit Gateway에 연결하는 모습을 보여 주는 다이어그램입니다." style="max-width:100%" />
+       
+       
+      <div class="caption"> AWS Direct Connect Gateway
+      </div>
+    </div><p>IP 주소 지정과 관련하여 AWS Direct Connect 가상 인터페이스는 이중 스택 작업을 위해 IPv4 및 IPv6 BGP 세션을 모두 지원합니다.</p><div class="itemizedlist">
+       
+       
+    <ul class="itemizedlist"><li class="listitem">
+        <p> 프라이빗 및 트랜짓 VIF IPv4 구성은 AWS에서 생성한 IPv4 주소 또는 사용자가 구성한 주소를 사용합니다. 퍼블릭 VIF IPv4 BGP 피어링의 경우 소유하고 있는 고유한 퍼블릭 /31 IPv4 CIDR을 지정하거나 CIDR 블록을 할당하도록 요청을 제출해야 합니다.</p>
+      </li><li class="listitem">
+        <p> 모든 유형의 VIF IPv6 BGP 피어링에 대해 AWS는 /125 CIDR을 할당하며, 이는 구성할 수 없습니다.</p>
+      </li></ul></div>
+
+  <h2 id="additional-resources-2">추가적인  리소스</h2>
+
+      
+      <div class="itemizedlist">
+         
+         
+         
+         
+         
+         
+         
+      <ul class="itemizedlist"><li class="listitem">
+          <p> <a href="https://docs.aws.amazon.com/directconnect/latest/UserGuide/Welcome.html">AWS Direct Connect 사용 설명서</a> </p>
+        </li><li class="listitem">
+          <p> <a href="https://docs.aws.amazon.com/directconnect/latest/UserGuide/WorkingWithVirtualInterfaces.html">AWS Direct Connect 가상 인터페이스</a> </p>
+        </li><li class="listitem">
+          <p> <a href="https://docs.aws.amazon.com/directconnect/latest/UserGuide/direct-connect-gateways-intro.html">AWS Direct Connect 게이트웨이</a> </p>
+        </li><li class="listitem">
+          <p> <a href="https://docs.aws.amazon.com/directconnect/latest/UserGuide/resiliency_toolkit.html">AWS Direct Connect 레질리언스 툴킷</a> </p>
+        </li><li class="listitem">
+          <p> <a href="https://docs.aws.amazon.com/directconnect/latest/UserGuide/MACsec.html">AWS Direct Connect MAC 보안</a> </p>
+        </li><li class="listitem">
+          <p> <a href="https://aws.amazon.com/directconnect/locations/" rel="noopener noreferrer" target="_blank"><span>AWS Direct Connect 위치</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a> </p>
+        </li><li class="listitem">
+          <p> <a href="https://aws.amazon.com/directconnect/partners/" rel="noopener noreferrer" target="_blank"><span>AWS Direct Connect 배송 파트너</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a> </p>
+        </li></ul></div>
+    <awsdocs-copyright class="copyright-print"></awsdocs-copyright><awsdocs-thumb-feedback right-edge="{{$ctrl.thumbFeedbackRightEdge}}"></awsdocs-thumb-feedback></div><noscript><div><div><div><div id="js_error_message"><p><img src="https://d1ge0kk1l5kms0.cloudfront.net/images/G/01/webservices/console/warning.png" alt="주의" /> <strong>javascript가 브라우저에서 비활성화되거나 사용이 불가합니다.</strong></p><p>AWS 설명서를 사용하려면 Javascript가 활성화되어야 합니다. 지침을 보려면 브라우저의 도움말 페이지를 참조하십시오.</p></div></div></div></div></noscript><div id="main-col-footer" class="awsui-util-font-size-0"><div id="doc-conventions"><a target="_top" href="/general/latest/gr/docconventions.html">문서 규칙</a></div><div class="prev-next"><div id="previous" class="prev-link" accesskey="p" href="./aws-transit-gateway-vpn.html">AWS Transit Gateway + 사이트 간 VPN</div><div id="next" class="next-link" accesskey="n" href="./aws-direct-connect-aws-transit-gateway.html">AWS Direct Connect + AWS Transit Gateway</div></div></div><awsdocs-page-utilities></awsdocs-page-utilities></div><div id="quick-feedback-yes" style="display: none;"><div class="title">이 페이지의 내용이 도움이 되었습니까? - 예</div><div class="content"><p>칭찬해 주셔서 감사합니다!</p><p>잠깐 시간을 내어 좋았던 부분을 알려 주시면 더 열심히 만들어 보겠습니다.</p><p><awsui-button id="fblink" rel="noopener noreferrer" target="_blank" text="feedback-tell-us" click="linkClick($event)" href="https://docs.aws.amazon.com/forms/aws-doc-feedback?feedback_destination_id=a0d18259-7974-4e8f-8382-0a4be53f4374&amp;topic_url=https://docs.aws.amazon.com/ko_kr/whitepapers/latest/aws-vpc-connectivity-options/aws-direct-connect.html"></awsui-button></p></div></div><div id="quick-feedback-no" style="display: none;"><div class="title">이 페이지의 내용이 도움이 되었습니까? - 아니요</div><div class="content"><p>이 페이지에 작업이 필요하다는 점을 알려 주셔서 감사합니다. 실망시켜 드려 죄송합니다.</p><p>잠깐 시간을 내어 설명서를 향상시킬 수 있는 방법에 대해 말씀해 주십시오.</p><p><awsui-button id="fblink" rel="noopener noreferrer" target="_blank" text="feedback-tell-us" click="linkClick($event)" href="https://docs.aws.amazon.com/forms/aws-doc-feedback?feedback_destination_id=a0d18259-7974-4e8f-8382-0a4be53f4374&amp;topic_url=https://docs.aws.amazon.com/ko_kr/whitepapers/latest/aws-vpc-connectivity-options/aws-direct-connect.html"></awsui-button></p></div></div></div></body></div></awsdocs-view><div class="page-loading-indicator" id="page-loading-indicator"><awsui-spinner size="large"></awsui-spinner></div></div><div id="tools-panel" dom-region="tools"><awsdocs-tools-panel id="awsdocs-tools-panel"></awsdocs-tools-panel></div></awsui-app-layout><awsdocs-cookie-banner class="doc-cookie-banner"></awsdocs-cookie-banner></div></body></html>
