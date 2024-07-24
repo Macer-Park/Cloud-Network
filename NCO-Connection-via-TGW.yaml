@@ -1,0 +1,643 @@
+Parameters:
+  KeyName:
+    Description: Name of an existing EC2 KeyPair to enable SSH access to the instances. Linked to AWS Parameter
+    Type: AWS::EC2::KeyPair::KeyName
+    ConstraintDescription: must be the name of an existing EC2 KeyPair.
+  LatestAmiId:
+    Description: (DO NOT CHANGE)
+    Type: "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>"
+    Default: "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2"
+    AllowedValues:
+      - /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+
+Resources:
+  # VPC0 Resource
+  VPC0:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: TGW-VPC0
+  VPC0InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: TGW-VPC0-IGW
+  VPC0InternetGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      InternetGatewayId: !Ref VPC0InternetGateway
+      VpcId: !Ref VPC0
+
+  VPC0RouteTable1:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC0
+      Tags:
+        - Key: Name
+          Value: TGW-VPC0-PublicRT
+  VPC0RouteTable2:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC0
+      Tags:
+        - Key: Name
+          Value: TGW-VPC0-TGWAttachRT
+
+  VPC0Route1:
+    Type: AWS::EC2::Route
+    DependsOn: VPC0InternetGatewayAttachment
+    Properties:
+      RouteTableId: !Ref VPC0RouteTable1
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref VPC0InternetGateway
+
+  VPC0Subnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC0
+      AvailabilityZone: !Select [0, !GetAZs ""]
+      MapPublicIpOnLaunch: true
+      CidrBlock: 10.0.1.0/24
+      Tags:
+        - Key: Name
+          Value: TGW-VPC0-Subnet1
+  VPC0Subnet1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref VPC0RouteTable1
+      SubnetId: !Ref VPC0Subnet1
+  VPC0Subnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC0
+      AvailabilityZone: !Select [2, !GetAZs ""]
+      MapPublicIpOnLaunch: true
+      CidrBlock: 10.0.2.0/24
+      Tags:
+        - Key: Name
+          Value: TGW-VPC0-Subnet2
+  VPC0Subnet2RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref VPC0RouteTable1
+      SubnetId: !Ref VPC0Subnet2
+
+  VPC0Subnet3:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC0
+      AvailabilityZone: !Select [0, !GetAZs ""]
+      CidrBlock: 10.0.3.0/24
+      Tags:
+        - Key: Name
+          Value: TGW-VPC0-Subnet3
+  VPC0Subnet3RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref VPC0RouteTable2
+      SubnetId: !Ref VPC0Subnet3
+  VPC0Subnet4:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC0
+      AvailabilityZone: !Select [2, !GetAZs ""]
+      CidrBlock: 10.0.4.0/24
+      Tags:
+        - Key: Name
+          Value: TGW-VPC0-Subnet4
+  VPC0Subnet4RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref VPC0RouteTable2
+      SubnetId: !Ref VPC0Subnet4
+
+  VPC0Instance1:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref LatestAmiId
+      InstanceType: t2.micro
+      KeyName: !Ref KeyName
+      Tags:
+        - Key: Name
+          Value: VPC0-Instance1
+      NetworkInterfaces:
+        - DeviceIndex: 0
+          SubnetId: !Ref VPC0Subnet1
+          GroupSet:
+            - !Ref VPC0SG1
+          PrivateIpAddress: 10.0.1.10
+      UserData:
+        Fn::Base64: |
+          #!/bin/bash
+          hostnamectl --static set-hostname VPC0Instance1
+          yum install -y tcpdump squid
+          cat <<EOT> /etc/squid/squid.conf
+          http_port 3128
+          acl all src 0.0.0.0/0
+          http_access allow all
+          http_access deny all
+          EOT
+          systemctl start squid && systemctl enable squid
+          cat <<EOT> /home/ec2-user/list.txt
+          10.0.1.10
+          10.10.1.10
+          10.10.2.10
+          10.20.1.10
+          10.20.2.10
+          EOT
+          yum install httpd -y
+          systemctl start httpd && systemctl enable httpd
+          echo "<h1>TGW Lab - MgMt Server1</h1>" > /var/www/html/index.html
+          curl -o /home/ec2-user/pingall.sh https://raw.githubusercontent.com/Macer-Park/macer.github.io/main/pingall.sh --silent
+          cp /home/ec2-user/pingall.sh /var/www/html/pingall.sh
+          cp /home/ec2-user/list.txt /var/www/html/list.txt
+          chmod +x /home/ec2-user/pingall.sh
+
+  VPC0SG1:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      VpcId: !Ref VPC0
+      GroupDescription: VPC0SG1
+      Tags:
+        - Key: Name
+          Value: VPC0SG1
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: "22"
+          ToPort: "22"
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: "80"
+          ToPort: "80"
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: "443"
+          ToPort: "443"
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: "3128"
+          ToPort: "3128"
+          CidrIp: 10.0.0.0/8
+        - IpProtocol: icmp
+          FromPort: -1
+          ToPort: -1
+          CidrIp: 0.0.0.0/0
+
+  VPC0SG2:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      VpcId: !Ref VPC0
+      GroupDescription: VPC0SG2
+      Tags:
+        - Key: Name
+          Value: VPC0SG2
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: "80"
+          ToPort: "80"
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: "443"
+          ToPort: "443"
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: icmp
+          FromPort: -1
+          ToPort: -1
+          CidrIp: 0.0.0.0/0
+
+  VPC0Endpoint1:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      PrivateDnsEnabled: true
+      SecurityGroupIds:
+        - !Ref VPC0SG2
+      ServiceName: !Sub com.amazonaws.${AWS::Region}.cloudformation
+      SubnetIds:
+        - !Ref VPC0Subnet1
+        - !Ref VPC0Subnet2
+      VpcId: !Ref VPC0
+      VpcEndpointType: Interface
+
+  # VPC1 Resource
+  VPC1:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.10.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: TGW-VPC1
+
+  VPC1RouteTable1:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC1
+      Tags:
+        - Key: Name
+          Value: TGW-VPC1-PrivateRT
+  VPC1RouteTable2:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC1
+      Tags:
+        - Key: Name
+          Value: TGW-VPC1-TGWAttachRT
+
+  VPC1Subnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC1
+      AvailabilityZone: !Select [0, !GetAZs ""]
+      CidrBlock: 10.10.1.0/24
+      Tags:
+        - Key: Name
+          Value: TGW-VPC1-Subnet1
+  VPC1Subnet1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref VPC1RouteTable1
+      SubnetId: !Ref VPC1Subnet1
+  VPC1Subnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC1
+      AvailabilityZone: !Select [2, !GetAZs ""]
+      CidrBlock: 10.10.2.0/24
+      Tags:
+        - Key: Name
+          Value: TGW-VPC1-Subnet2
+  VPC1Subnet2RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref VPC1RouteTable1
+      SubnetId: !Ref VPC1Subnet2
+
+  VPC1Subnet3:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC1
+      AvailabilityZone: !Select [0, !GetAZs ""]
+      CidrBlock: 10.10.3.0/24
+      Tags:
+        - Key: Name
+          Value: TGW-VPC1-Subnet3
+  VPC1Subnet3RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref VPC1RouteTable2
+      SubnetId: !Ref VPC1Subnet3
+  VPC1Subnet4:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC1
+      AvailabilityZone: !Select [2, !GetAZs ""]
+      CidrBlock: 10.10.4.0/24
+      Tags:
+        - Key: Name
+          Value: TGW-VPC1-Subnet4
+  VPC1Subnet4RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref VPC1RouteTable2
+      SubnetId: !Ref VPC1Subnet4
+
+  VPC1Instance1:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref LatestAmiId
+      InstanceType: t2.micro
+      KeyName: !Ref KeyName
+      Tags:
+        - Key: Name
+          Value: VPC1-Instance1
+      NetworkInterfaces:
+        - DeviceIndex: 0
+          SubnetId: !Ref VPC1Subnet1
+          GroupSet:
+            - !Ref VPC1SG1
+          PrivateIpAddress: 10.10.1.10
+      UserData:
+        Fn::Base64: |
+          #!/bin/bash
+          (
+          echo "qwe123"
+          echo "qwe123"
+          ) | passwd --stdin root
+          sed -i "s/^PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
+          sed -i "s/^#PermitRootLogin yes/PermitRootLogin yes/g" /etc/ssh/sshd_config
+          service sshd restart
+          hostnamectl --static set-hostname VPC1Instance1
+          cat <<EOT>> /etc/bashrc
+          export http_proxy=http://10.0.1.10:3128
+          export https_proxy=http://10.0.1.10:3128
+          no_proxy=127.0.0.1,localhost,169.254.169.254,10.0.0.0/8,.internal
+          EOT
+
+  VPC1Instance2:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref LatestAmiId
+      InstanceType: t2.micro
+      KeyName: !Ref KeyName
+      Tags:
+        - Key: Name
+          Value: VPC1-Instance2
+      NetworkInterfaces:
+        - DeviceIndex: 0
+          SubnetId: !Ref VPC1Subnet2
+          GroupSet:
+            - !Ref VPC1SG1
+          PrivateIpAddress: 10.10.2.10
+      UserData:
+        Fn::Base64: |
+          #!/bin/bash
+          (
+          echo "qwe123"
+          echo "qwe123"
+          ) | passwd --stdin root
+          sed -i "s/^PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
+          sed -i "s/^#PermitRootLogin yes/PermitRootLogin yes/g" /etc/ssh/sshd_config
+          service sshd restart
+          hostnamectl --static set-hostname VPC1Instance2
+          cat <<EOT>> /etc/bashrc
+          export http_proxy=http://10.0.1.10:3128
+          export https_proxy=http://10.0.1.10:3128
+          no_proxy=127.0.0.1,localhost,169.254.169.254,10.0.0.0/8,.internal
+          EOT
+
+  VPC1SG1:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      VpcId: !Ref VPC1
+      GroupDescription: VPC1SG1
+      Tags:
+        - Key: Name
+          Value: VPC1SG1
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: "22"
+          ToPort: "22"
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: icmp
+          FromPort: -1
+          ToPort: -1
+          CidrIp: 0.0.0.0/0
+
+  # VPC2 Resource
+  VPC2:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.20.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: TGW-VPC2
+
+  VPC2RouteTable1:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC2
+      Tags:
+        - Key: Name
+          Value: TGW-VPC2-PrivateRT
+  VPC2RouteTable2:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC2
+      Tags:
+        - Key: Name
+          Value: TGW-VPC2-TGWAttachRT
+
+  VPC2Subnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC2
+      AvailabilityZone: !Select [0, !GetAZs ""]
+      CidrBlock: 10.20.1.0/24
+      Tags:
+        - Key: Name
+          Value: TGW-VPC2-Subnet1
+  VPC2Subnet1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref VPC2RouteTable1
+      SubnetId: !Ref VPC2Subnet1
+  VPC2Subnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC2
+      AvailabilityZone: !Select [2, !GetAZs ""]
+      CidrBlock: 10.20.2.0/24
+      Tags:
+        - Key: Name
+          Value: TGW-VPC2-Subnet2
+  VPC2Subnet2RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref VPC2RouteTable1
+      SubnetId: !Ref VPC2Subnet2
+
+  VPC2Subnet3:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC2
+      AvailabilityZone: !Select [0, !GetAZs ""]
+      CidrBlock: 10.20.3.0/24
+      Tags:
+        - Key: Name
+          Value: TGW-VPC2-Subnet3
+  VPC2Subnet3RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref VPC2RouteTable2
+      SubnetId: !Ref VPC2Subnet3
+  VPC2Subnet4:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC2
+      AvailabilityZone: !Select [2, !GetAZs ""]
+      CidrBlock: 10.20.4.0/24
+      Tags:
+        - Key: Name
+          Value: TGW-VPC2-Subnet4
+  VPC2Subnet4RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref VPC2RouteTable2
+      SubnetId: !Ref VPC2Subnet4
+
+  VPC2Instance1:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref LatestAmiId
+      InstanceType: t2.micro
+      KeyName: !Ref KeyName
+      Tags:
+        - Key: Name
+          Value: VPC2-Instance1
+      NetworkInterfaces:
+        - DeviceIndex: 0
+          SubnetId: !Ref VPC2Subnet1
+          GroupSet:
+            - !Ref VPC2SG1
+          PrivateIpAddress: 10.20.1.10
+      UserData:
+        Fn::Base64: |
+          #!/bin/bash
+          (
+          echo "qwe123"
+          echo "qwe123"
+          ) | passwd --stdin root
+          sed -i "s/^PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
+          sed -i "s/^#PermitRootLogin yes/PermitRootLogin yes/g" /etc/ssh/sshd_config
+          service sshd restart
+          hostnamectl --static set-hostname VPC2Instance1
+          cat <<EOT>> /etc/bashrc
+          export http_proxy=http://10.0.1.10:3128
+          export https_proxy=http://10.0.1.10:3128
+          no_proxy=127.0.0.1,localhost,169.254.169.254,10.0.0.0/8,.internal
+          EOT
+
+  VPC2Instance2:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref LatestAmiId
+      InstanceType: t2.micro
+      KeyName: !Ref KeyName
+      Tags:
+        - Key: Name
+          Value: VPC2-Instance2
+      NetworkInterfaces:
+        - DeviceIndex: 0
+          SubnetId: !Ref VPC2Subnet2
+          GroupSet:
+            - !Ref VPC2SG1
+          PrivateIpAddress: 10.20.2.10
+      UserData:
+        Fn::Base64: |
+          #!/bin/bash
+          (
+          echo "qwe123"
+          echo "qwe123"
+          ) | passwd --stdin root
+          sed -i "s/^PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
+          sed -i "s/^#PermitRootLogin yes/PermitRootLogin yes/g" /etc/ssh/sshd_config
+          service sshd restart
+          hostnamectl --static set-hostname VPC2Instance2
+          cat <<EOT>> /etc/bashrc
+          export http_proxy=http://10.0.1.10:3128
+          export https_proxy=http://10.0.1.10:3128
+          no_proxy=127.0.0.1,localhost,169.254.169.254,10.0.0.0/8,.internal
+          EOT
+
+  VPC2SG1:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      VpcId: !Ref VPC2
+      GroupDescription: VPC2SG1
+      Tags:
+        - Key: Name
+          Value: VPC2SG1
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: "22"
+          ToPort: "22"
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: icmp
+          FromPort: -1
+          ToPort: -1
+          CidrIp: 0.0.0.0/0
+
+  # TGW Resource
+  TransitGateway1:
+    Type: AWS::EC2::TransitGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: TGW1
+
+  TransitGatewayAtt1:
+    Type: AWS::EC2::TransitGatewayAttachment
+    DependsOn: VPC0
+    Properties:
+      VpcId: !Ref VPC0
+      SubnetIds:
+        - !Ref VPC0Subnet3
+        - !Ref VPC0Subnet4
+      TransitGatewayId: !Ref TransitGateway1
+      Tags:
+        - Key: Name
+          Value: TGW1-ATT1-VPC0
+
+  TransitGatewayAtt2:
+    Type: AWS::EC2::TransitGatewayAttachment
+    DependsOn: VPC1
+    Properties:
+      VpcId: !Ref VPC1
+      SubnetIds:
+        - !Ref VPC1Subnet3
+        - !Ref VPC1Subnet4
+      TransitGatewayId: !Ref TransitGateway1
+      Tags:
+        - Key: Name
+          Value: TGW1-ATT1-VPC1
+
+  TransitGatewayAtt3:
+    Type: AWS::EC2::TransitGatewayAttachment
+    DependsOn: VPC2
+    Properties:
+      VpcId: !Ref VPC2
+      SubnetIds:
+        - !Ref VPC2Subnet3
+        - !Ref VPC2Subnet4
+      TransitGatewayId: !Ref TransitGateway1
+      Tags:
+        - Key: Name
+          Value: TGW1-ATT1-VPC2
+
+  VPC0Route2:
+    Type: AWS::EC2::Route
+    DependsOn: TransitGatewayAtt1
+    Properties:
+      RouteTableId: !Ref VPC0RouteTable1
+      DestinationCidrBlock: 10.0.0.0/8
+      TransitGatewayId: !Ref TransitGateway1
+
+  VPC1Route2:
+    Type: AWS::EC2::Route
+    DependsOn: TransitGatewayAtt2
+    Properties:
+      RouteTableId: !Ref VPC1RouteTable1
+      DestinationCidrBlock: 10.0.0.0/8
+      TransitGatewayId: !Ref TransitGateway1
+
+  VPC2Route2:
+    Type: AWS::EC2::Route
+    DependsOn: TransitGatewayAtt3
+    Properties:
+      RouteTableId: !Ref VPC2RouteTable1
+      DestinationCidrBlock: 10.0.0.0/8
+      TransitGatewayId: !Ref TransitGateway1
+
+  TransitGatewayRT2:
+    Type: AWS::EC2::TransitGatewayRouteTable
+    Properties:
+      Tags:
+        - Key: Name
+          Value: TGW-Blue-RT
+      TransitGatewayId: !Ref TransitGateway1
+
+  TransitGatewayRT3:
+    Type: AWS::EC2::TransitGatewayRouteTable
+    Properties:
+      Tags:
+        - Key: Name
+          Value: TGW-Red-RT
+      TransitGatewayId: !Ref TransitGateway1
