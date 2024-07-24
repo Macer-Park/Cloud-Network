@@ -63,14 +63,14 @@ python scripts/sample_script.py
 File Descriptions
 This section provides a brief description of each file in the repository to help you understand their purpose and usage.
 
-CDN-CloudFront.yaml: AWS CloudFormation template for setting up Amazon CloudFront.
-GLN-GlobalAccelerator.yaml: AWS CloudFormation template for configuring AWS Global Accelerator.
-NCO-Connection-via-TGW.yaml: AWS CloudFormation template for establishing a connection via AWS Transit Gateway.
-NCO-S2S-VPN-config.sh: Shell script for configuring Site-to-Site VPN.
-NCO-S2S-VPN.yaml: AWS CloudFormation template for setting up Site-to-Site VPN.
-S2SVPN.pcap: Packet capture file for analyzing Site-to-Site VPN traffic.
-pingall.sh: Shell script for pinging all endpoints in a network setup.
-test.jpg: Example image file (purpose not specified).
+- CDN-CloudFront.yaml: AWS CloudFormation template for setting up Amazon CloudFront.
+- GLN-GlobalAccelerator.yaml: AWS CloudFormation template for configuring AWS Global Accelerator.
+- NCO-Connection-via-TGW.yaml: AWS CloudFormation template for establishing a connection via AWS Transit Gateway.
+- NCO-S2S-VPN-config.sh: Shell script for configuring Site-to-Site VPN.
+- NCO-S2S-VPN.yaml: AWS CloudFormation template for setting up Site-to-Site VPN.
+- S2SVPN.pcap: Packet capture file for analyzing Site-to-Site VPN traffic.
+- pingall.sh: Shell script for pinging all endpoints in a network setup.
+- test.jpg: Example image file (purpose not specified).
 
 Using CloudFormation Templates
 To deploy a CloudFormation template, use the AWS CLI as follows:
