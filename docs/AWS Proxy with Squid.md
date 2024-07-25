@@ -1,5 +1,9 @@
 # AWS Proxy Ref
 
-- [AWS Managed Microsoft AD](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_microsoft_ad.html) - Overview of AWS Managed Microsoft Active Directory.
-- [Application Load Balancer (ALB)](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html) - Introduction to ALB.
-- [Network Load Balancer (NLB)](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html) - Introduction to NLB.
+## Documents
+- [HowToUseSquid](https://github.com/Yongdae-Kim/HowToUseSquid)
+- [How to set up an outbound VPC Proxy with domain whitelisting and content filtering](https://aws.amazon.com/ko/blogs/security/how-to-set-up-an-outbound-vpc-proxy-with-domain-whitelisting-and-content-filtering/)
+- [How to add DNS filtering to your NAT instance with Squid](https://aws.amazon.com/ko/blogs/security/how-to-add-dns-filtering-to-your-nat-instance-with-squid/)
+
+## Video
+- [How to i automate HTTP Proxy config for EKS worker Nodes using UserData?](https://www.youtube.com/watch?v=gjbexUlnF4g)
