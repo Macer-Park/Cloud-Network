@@ -59,7 +59,7 @@ Resources:
       VpcId: !Ref VPC
       CidrBlock: 172.16.1.0/24
       MapPublicIpOnLaunch: true
-      AvailabilityZone: !Select [ 0, !GetAZs 'ap-northeast-2a' ]
+      AvailabilityZone: ap-northeast-2a
       Tags:
         - Key: Name
           Value: PublicSubnet1
@@ -70,7 +70,7 @@ Resources:
       VpcId: !Ref VPC
       CidrBlock: 172.16.2.0/24
       MapPublicIpOnLaunch: true
-      AvailabilityZone: !Select [ 1, !GetAZs 'ap-northeast-2c' ]
+      AvailabilityZone: ap-northeast-2c
       Tags:
         - Key: Name
           Value: PublicSubnet2
@@ -123,10 +123,9 @@ Resources:
           Value: WebServer1
       UserData: !Base64 |
         #!/bin/bash
-        yum update -y
-        yum install -y httpd
-        systemctl start httpd
-        systemctl enable httpd
+        sudo amazon-linux-extras install nginx1
+        systemctl start nginx
+        systemctl enable nginx
 
   Instance2:
     Type: AWS::EC2::Instance
@@ -142,10 +141,9 @@ Resources:
           Value: WebServer2
       UserData: !Base64 |
         #!/bin/bash
-        yum update -y
-        yum install -y httpd
-        systemctl start httpd
-        systemctl enable httpd
+        sudo amazon-linux-extras install nginx1
+        systemctl start nginx
+        systemctl enable nginx
 
 Outputs:
   Instance1PublicIP:
