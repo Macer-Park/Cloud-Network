@@ -13,7 +13,25 @@ terraform {
 
 # Provider configuration
 provider "aws" {
-  region = "us-east-1" # Change to your desired region
+  region = "sa-east-1" # Change to your desired region
+}
+
+# Variables
+variable "key_name" {
+  description = "The name of the SSH key pair to associate with the EC2 instance."
+  type        = string
+}
+
+variable "public_key_path" {
+  description = "Path to the public SSH key file."
+  type        = string
+  default     = "/Users/macerpark/Documents/Chungyun.pub" # Set a default path or input during apply
+}
+
+# AWS Key Pair
+resource "aws_key_pair" "deployer" {
+  key_name   = var.key_name
+  public_key = file(var.public_key_path)
 }
 
 # Data source to fetch the latest Amazon Linux 2 AMI ID from SSM Parameter Store
@@ -101,7 +119,7 @@ resource "aws_security_group" "WEBSG" {
     from_port        = 22
     to_port          = 22
     protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
+    cidr_blocks      = ["0.0.0.0/0"] # Consider restricting this for security
     ipv6_cidr_blocks = []
   }
 
@@ -124,7 +142,7 @@ resource "aws_instance" "SaEC2" {
   instance_type               = "t2.micro"
   subnet_id                   = aws_subnet.SaPublicSN1.id
   associate_public_ip_address = true
-  security_groups             = [aws_security_group.WEBSG.name]
+  vpc_security_group_ids      = [aws_security_group.WEBSG.id]
 
   tags = {
     Name = "SA-EC2"
@@ -132,11 +150,12 @@ resource "aws_instance" "SaEC2" {
 
   user_data = base64encode(templatefile("${path.module}/user_data.sh.tpl", {}))
 
-  # Optionally, specify key_name if SSH access is required
-  # key_name = var.key_name
+  # Associate the SSH Key Pair using the variable
+  # You must select the Key Pair with .pub properties
+  key_name = aws_key_pair.deployer.key_name
 }
 
-# Optionally, output the EC2 instance public IP
+# Output the EC2 instance public IP
 output "ec2_public_ip" {
   description = "Public IP of the EC2 instance"
   value       = aws_instance.SaEC2.public_ip

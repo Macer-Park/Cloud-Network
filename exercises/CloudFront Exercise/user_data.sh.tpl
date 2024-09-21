@@ -1,22 +1,10 @@
-# user_data.sh.tpl
-
 #!/bin/bash
-# Set root password
-echo "root:qwe123" | chpasswd
+# Download test.jpg (Ensure URLs are correct)
+sudo wget https://raw.githubusercontent.com/Macer-Park/macer.github.io/main/resources/test.jpg -O /home/ec2-user/test.jpg
+sudo wget https://raw.githubusercontent.com/Macer-Park/macer.github.io/main/resources/test.jpg -P /usr/share/nginx/html/
 
-# Enable Password Authentication and Permit Root Login
-sed -i "s/^PasswordAuthentication no/PasswordAuthentication yes/" /etc/ssh/sshd_config
-sed -i "s/^#PermitRootLogin yes/PermitRootLogin yes/" /etc/ssh/sshd_config
-
-# Restart SSH service
-systemctl restart sshd
-
-# Download test.jpg
-wget https://raw.githubusercontent.com/Macer-Park/macer.github.io/main/test.jpg -O /home/ec2-user/test.jpg
-wget https://raw.githubusercontent.com/Macer-Park/macer.github.io/main/test.jpg -P /usr/share/nginx/html/
-
-# Install Nginx
-amazon-linux-extras install -y nginx1.12
+# Install Nginx (Install latest available version)
+amazon-linux-extras install -y nginx1 > /var/log/nginx_install.log 2>&1
 
 # Create custom index.html
 cat <<EOF > /usr/share/nginx/html/index.html
@@ -28,5 +16,5 @@ cat <<EOF > /usr/share/nginx/html/index.html
 EOF
 
 # Start and enable Nginx
-systemctl start nginx
-systemctl enable nginx
+sudo systemctl start nginx
+sudo systemctl enable nginx
