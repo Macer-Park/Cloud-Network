@@ -1,4 +1,4 @@
-# Amazon Web Services Cloud Networking Exercise Repository
+# AWS Cloud Networking Exercise Repository
 
 ## Overview
 Welcome to the AWS Cloud Networking Repository. This repository contains all the resources, practice exercises, and reference materials I used while exercising for Cloud Networking.
