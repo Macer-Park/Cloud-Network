@@ -1,16 +1,13 @@
-# ANS-C01 Certification Preparation Repository
-
-# ![ANS-C01](https://img.shields.io/badge/ANS--C01-Preparation-blue)
+# Amazon Web Services Cloud Networking Exercise Repository
 
 ## Overview
-Welcome to the ANS-C01 Certification Preparation Repository. This repository contains all the resources, practice exercises, and reference materials I used while preparing for the ANS-C01 certification over the past year.
+Welcome to the AWS Cloud Networking Repository. This repository contains all the resources, practice exercises, and reference materials I used while exercising for Cloud Networking.
 
 ## Table of Contents
 - [Introduction](#introduction)
 - [Getting Started](#getting-started)
 - [Repository Structure](#repository-structure)
 - [Usage](#usage)
-- [File Descriptions](#file-descriptions)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -22,7 +19,7 @@ To get started with this repository, you will need to clone it to your local mac
 
 ### Prerequisites
 - Git
-- Python 3.x
+- Hashicorp Terraform
 - AWS CLI
 
 ### Installation
@@ -36,7 +33,7 @@ To get started with this repository, you will need to clone it to your local mac
     ```
 3. Install the required dependencies:
     ```bash
-    pip install -r requirements.txt
+    terraform plan or apply *.tf -parallelism=30
     ```
 
 ## Repository Structure
@@ -44,7 +41,6 @@ The repository is organized as follows:
 - `/docs`: Documentation and study guides.
 - `/exercises`: Hands-on lab exercises.
 - `/scripts`: Utility scripts and automation tools.
-- `/examples`: Example configurations and setups.
 - `/resources`: Additional reference materials.
 
 ## Usage
@@ -52,30 +48,12 @@ Each section of the repository contains detailed instructions and materials to a
 - **Docs**: Contains detailed study guides and notes on each topic.
 - **Exercises**: Practical exercises to reinforce your understanding.
 - **Scripts**: Helpful scripts to automate common tasks.
-- **Examples**: Real-world configurations to help understand best practices.
+- **resources**: Real-world configurations to help understand best practices.
 
-### Example Usage
-To run a sample script from the `scripts` directory:
+### Exercises Usage
+To run a sample script from the `HCL Code` directory:
 ```bash
-python scripts/sample_script.py
-```
-
-File Descriptions
-This section provides a brief description of each file in the repository to help you understand their purpose and usage.
-
-- CDN-CloudFront.yaml: AWS CloudFormation template for setting up Amazon CloudFront.
-- GLN-GlobalAccelerator.yaml: AWS CloudFormation template for configuring AWS Global Accelerator.
-- NCO-Connection-via-TGW.yaml: AWS CloudFormation template for establishing a connection via AWS Transit Gateway.
-- NCO-S2S-VPN-config.sh: Shell script for configuring Site-to-Site VPN.
-- NCO-S2S-VPN.yaml: AWS CloudFormation template for setting up Site-to-Site VPN.
-- S2SVPN.pcap: Packet capture file for analyzing Site-to-Site VPN traffic.
-- pingall.sh: Shell script for pinging all endpoints in a network setup.
-- test.jpg: Example image file (purpose not specified).
-
-Using CloudFormation Templates
-To deploy a CloudFormation template, use the AWS CLI as follows:
-```bash
-aws cloudformation create-stack --stack-name my-stack --template-body file://path/to/template.yaml
+terraform init && terraform apply -parallelism=30
 ```
 
 Contributing
@@ -90,3 +68,4 @@ Open a pull request.
 
 ## License
 This project is licensed under the MIT License. See the LICENSE file for details.
+
