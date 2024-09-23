@@ -12,7 +12,7 @@ Welcome to the AWS Cloud Networking Repository. This repository contains all the
 - [License](#license)
 
 ## Introduction
-This repository is designed to help individuals preparing for the ANS-C01 certification. It includes a variety of study materials, hands-on labs, and reference documents that cover the key topics required for the exam.
+This repository is designed to help individuals preparing for the AWS Cloud Networking Skill Set. It includes a variety of study materials, hands-on labs, and reference documents that cover the key topics required for the exam.
 
 ## Getting Started
 To get started with this repository, you will need to clone it to your local machine and ensure you have the necessary dependencies installed.
