@@ -15,5 +15,5 @@ net.ipv4.conf.default.rp_filter = 0
 net.ipv4.conf.all.rp_filter = 0
 EOF
 sysctl -p /etc/sysctl.conf
-curl -o /etc/ipsec.d/vpnconfig.sh https://raw.githubusercontent.com/Macer-Park/macer.github.io/main/NCO-S2S-VPN-config.sh
+curl -o /etc/ipsec.d/vpnconfig.sh https://raw.githubusercontent.com/Macer-Park/Cloud-Network/refs/heads/main/scripts/Site-to-Site-VPN_config.sh
 chmod +x /etc/ipsec.d/vpnconfig.sh
