@@ -1,5 +1,4 @@
-# Output the EC2 instance public IP
-output "ec2_public_ip" {
-  description = "Public IP of the EC2 instance"
-  value       = aws_instance.SaEC2.public_ip
+output "SA-EC2-IP" {
+  description = "Use this IP Address to exercise for CloudFront"
+  value       = module.terraform-public-ec2-module-set.public_ip
 }
