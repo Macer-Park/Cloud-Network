@@ -26,3 +26,16 @@ module "aws_sao_paulo_vpc" {
     Environment = "dev"
   }
 }
+
+module "aws_seoul_vpc" {
+  source         = "terraform-aws-modules/vpc/aws"
+  name           = "SEOUL-VPC"
+  cidr           = "10.0.0.0/16"
+  azs            = ["ap-northeast-2a"]
+  public_subnets = ["10.0.0.0/24"]
+
+  tags = {
+    Terraform   = "true"
+    Environment = "dev"
+  }
+}

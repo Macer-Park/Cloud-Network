@@ -52,3 +52,22 @@ module "sydney_EC2" {
     Environment = "dev"
   }
 }
+
+module "seoul_EC2" {
+  source = "terraform-aws-modules/ec2-instance/aws"
+
+  instance_type = "t2.micro"
+  key_name      = var.key_pair_C
+  monitoring    = true
+  vpc_security_group_ids = [
+    module.seoul_http_ssh_sg.security_group_id
+  ]
+  subnet_id  = module.aws_seoul_vpc.public_subnets[0] # ap-northeast-2a
+  create_eip = true
+  eip_domain = "vpc"
+
+  tags = {
+    Terraform   = "true"
+    Environment = "dev"
+  }
+}
