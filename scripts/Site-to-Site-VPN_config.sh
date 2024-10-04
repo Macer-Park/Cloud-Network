@@ -26,7 +26,7 @@ conn Tunnel1
 EOF
 
 cat <<EOF> /etc/ipsec.d/aws.secrets
-$word1 $word2 : PSK "Macer-Park"
+$word1 $word2 : PSK "terraform"
 EOF
 
 printf "Start VPN Service.\n"
