@@ -1,5 +1,6 @@
 #!/bin/bash
 hostnamectl --static set-hostname IDC-CGW
+yum -y update
 yum -y install tcpdump openswan
 cat <<EOF>> /etc/sysctl.conf
 net.ipv4.ip_forward=1
